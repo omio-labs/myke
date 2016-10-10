@@ -1,0 +1,9 @@
+---
+project: s2do
+desc: s2do uses s2do to test itself
+tasks:
+  test:
+    desc: run as s2do test (or) s2do s2do/test
+    cmd: python -m unittest discover -p *_test.py .
+includes:
+  - examples

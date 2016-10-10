@@ -1,0 +1,11 @@
+---
+project: env
+desc: usage of env vars, overrides needs to be re-thinked a bit, see README
+env:
+  KEY_1: env_yml_1
+  KEY_2: env_yml_2
+  KEY_3: env_yml_3
+tasks:
+  env:
+    cmd: env
+    desc: run as s2do env (or) env/env

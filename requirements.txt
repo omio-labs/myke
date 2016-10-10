@@ -1,0 +1,4 @@
+PyYAML==3.11
+Jinja2==2.8
+tabulate==0.7.5
+six

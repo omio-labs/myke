@@ -1,0 +1,10 @@
+---
+project: child
+desc: a simple child project
+tasks:
+  build:
+    cmd: echo child build
+    desc: run as s2do build (or) child/build
+  test:
+    cmd: echo child test
+    desc: run as s2do test (or) child/test

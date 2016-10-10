@@ -1,0 +1,4 @@
+s2do:
+  build: .
+  volumes:
+    - ".:/go/src/app"

@@ -1,0 +1,15 @@
+---
+project: example
+desc: example that includes all child projects
+tasks:
+  build:
+    cmd: echo example build
+    desc: run as `s2do build` or `s2do example/build`
+includes:
+  - child
+  - env
+  - tagging/tags1.yml
+  - tagging/tags2.yml
+  - depends
+  - params
+  - extends

@@ -1,0 +1,7 @@
+---
+project: params
+desc: demonstrates use of templates and parameters in command
+tasks:
+  render:
+    cmd: echo {{from | required}} {{to | default("something_to")}}
+    desc: run as s2do render (or) params/render with parameters --from=... --to=...

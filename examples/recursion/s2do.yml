@@ -1,0 +1,19 @@
+---
+project: depends
+desc: |
+  this project will load, but will fail to run
+  because the tasks have recursive dependencies
+  task1 > task2 > task3 > task1 > ...
+tasks:
+  task1:
+    cmd: echo task1
+    depends:
+      - task2
+  task2:
+    cmd: echo task2
+    depends:
+      - task3
+  task3:
+    cmd: echo task3
+    depends:
+      - task1
