@@ -1,10 +1,14 @@
 package main
 
 import (
-	"testing"
-	"fmt"
+    . "github.com/onsi/ginkgo"
+    . "github.com/onsi/gomega"
 )
 
-func TestParse(*testing.T) {
-	fmt.Println("Hello, World!")
-}
+var _ = Describe("Parser", func() {
+	It("should pass", func() {
+		res, err := Parse("/some/path")
+		Expect(res).To(BeNil())
+		Expect(err).ToNot(BeNil())
+	})
+})
