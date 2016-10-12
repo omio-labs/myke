@@ -1,9 +1,9 @@
 ---
-project: s2do
-desc: s2do uses s2do to test itself
+project: myke
+desc: myke uses myke to myke itself
 tasks:
   test:
-    desc: run as s2do test (or) s2do s2do/test
+    desc: run as myke test (or) myke myke/test
     cmd: python -m unittest discover -p *_test.py .
 includes:
   - examples

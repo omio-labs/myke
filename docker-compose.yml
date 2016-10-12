@@ -1,4 +1,4 @@
-s2do:
+myke:
   build: .
   volumes:
-    - ".:/go/src/app"
+    - ".:/go/src/myke"
