@@ -5,21 +5,19 @@ import (
   "os"
 )
 
-type Holder interface{}
-
-func Parse(path string) (*Project, error) {
+func Parse(path string) (map[interface{}]interface{}, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
   }
   defer file.Close()
 
-	doc := new(Holder)
+	var doc map[interface{}]interface{}
 	decoder := candiedyaml.NewDecoder(file)
-	err = decoder.Decode(doc)
+	err = decoder.Decode(&doc)
 	if err != nil {
 		return nil, err
   }
 
-  return nil, nil
+  return doc, nil
 }

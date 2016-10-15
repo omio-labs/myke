@@ -10,16 +10,6 @@ type Task struct {
 	Invoked bool
 }
 
-type Project struct {
-	Src string
-	Cwd string
-	Name string
-	Desc string
-	Env map[string]string
-	Tags []string
-	Tasks []Task
-}
-
 type Query struct {
 	Task string
 	Tags []string
