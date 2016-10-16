@@ -1,23 +1,52 @@
 package cli
 
 import (
-  "github.com/cloudfoundry-incubator/candiedyaml"
-  "os"
+	"path/filepath"
+	"io/ioutil"
+	"gopkg.in/yaml.v2"
 )
 
-func Parse(path string) (map[interface{}]interface{}, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-  }
-  defer file.Close()
+type Project struct {
+	Src string
+	Name string `yaml:"project"`
+	Desc string
+	Includes []string
+	Extends []string
+	Env map[string]string
+	EnvFiles []string
+	Tags []string
+	Tasks map[string]*Task
+}
 
-	var doc map[interface{}]interface{}
-	decoder := candiedyaml.NewDecoder(file)
-	err = decoder.Decode(&doc)
-	if err != nil {
-		return nil, err
-  }
+type Task struct {
+	Name string
+	Desc string
+	Cmd string
+	Before []string
+	After []string
+}
 
-  return doc, nil
+func ParseFile(src string, p *Project) (error) {
+	abssrc, err := filepath.Abs(src)
+	if err != nil {
+		return err
+	}
+	bytes, err := ioutil.ReadFile(src)
+	if err != nil {
+		return err
+	}
+	p.Src = abssrc
+	return Parse(bytes, p)
+}
+
+func Parse(in []byte, p *Project) (error) {
+	err := yaml.Unmarshal(in, &p)
+	if err != nil {
+		return err
+	}
+
+  for key, task := range p.Tasks {
+  	task.Name = key
+  }
+  return nil
 }
