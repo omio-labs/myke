@@ -1,6 +1,6 @@
 ---
 project: example
-desc: example that includes all child projects
+desc: example project suite
 tasks:
   build:
     cmd: echo example build

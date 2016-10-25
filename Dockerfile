@@ -1,10 +1,12 @@
 FROM golang:1.7
 
-RUN go get github.com/tools/godep && \
-		go get -v github.com/onsi/ginkgo/ginkgo && \
-    mkdir -p /go/src/myke
-CMD ["go", "run"]
-
 WORKDIR /go/src/myke
+COPY Godeps /go/src/myke/Godeps
+RUN go get github.com/tools/godep && \
+    godep restore && \
+    godep get github.com/onsi/ginkgo/ginkgo
+
 COPY . /go/src/myke
-RUN godep restore && ginkgo -r
+RUN ginkgo -r
+
+CMD ["go", "build"]
