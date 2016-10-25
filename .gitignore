@@ -160,5 +160,5 @@ vendor/
 ###
 ###
 
-/s2do/
-/bin/
+s2do/
+bin/
