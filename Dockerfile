@@ -7,6 +7,6 @@ CMD ["go", "run"]
 
 WORKDIR /go/src/myke
 COPY . /go/src/myke
-RUN go-wrapper download -t ./... && \
+RUN godep restore && \
 		ginkgo -r && \
 		go-wrapper install
