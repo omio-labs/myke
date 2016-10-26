@@ -7,6 +7,6 @@ RUN go get github.com/tools/godep && \
     godep get github.com/onsi/ginkgo/ginkgo
 
 COPY . /go/src/myke
-RUN ginkgo -r
+RUN ginkgo -r -v --trace --keepGoing
 
 CMD ["go", "build"]
