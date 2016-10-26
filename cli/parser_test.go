@@ -1,48 +1,119 @@
 package cli
 
 import (
-  "os"
-  "io/ioutil"
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
-  . "github.com/MakeNowJust/heredoc/dot"
+  "github.com/tidwall/gjson"
 )
 
 var _ = Describe("Parser", func() {
 
-  Describe("ParseYaml", func() {
-    It("parses yaml as object", func() {
-      yml := []byte(D(`
-        str: testString
-        arr:
-          - one
-          - two
-        map:
-          key1:
-            nest1: value1
-          key2:
-            nest2: value2
-        longtext: |-
-          foo
-            bar
-          baz
-      `))
+  Describe("ParseProject", func() {
+    It("Empty", func() {
+      p := ParseProject(gjson.Parse("{}"))
+      Expect(p.Name).To(BeEmpty())
+      Expect(p.Desc).To(BeEmpty())
+      Expect(p.Includes).To(BeEmpty())
+      Expect(p.Includes).To(BeEmpty())
+      Expect(p.Extends).To(BeEmpty())
+      Expect(p.Env).To(BeEmpty())
+      Expect(p.EnvFiles).To(BeEmpty())
+      Expect(p.Tags).To(BeEmpty())
+      Expect(p.Tasks).To(BeEmpty())
+    })
 
-      file, err := ioutil.TempFile(os.TempDir(), "myke")
-      defer os.Remove(file.Name())
-      Expect(err).NotTo(HaveOccurred())
-      
-      err = ioutil.WriteFile(file.Name(), yml, 0644)
-      Expect(err).NotTo(HaveOccurred())
+    It("Name", func() {
+      p := ParseProject(gjson.Parse(`{ "project": "example" }`))
+      Expect(p.Name).To(Equal("example"))
+    })
 
-      v, err := ParseYaml(file.Name())
-      Expect(err).NotTo(HaveOccurred())
-      Expect(v.Get("str").String()).To(Equal("testString"))
-      Expect(v.Get("arr").Array()[0].String()).To(Equal("one"))
-      Expect(v.Get("arr").Array()[1].String()).To(Equal("two"))
-      Expect(v.Get("map").Get("key1").Get("nest1").String()).To(Equal("value1"))
-      Expect(v.Get("map").Get("key2").Get("nest2").String()).To(Equal("value2"))
-      Expect(v.Get("longtext").String()).To(Equal("foo\n  bar\nbaz"))
+    It("Desc", func() {
+      p := ParseProject(gjson.Parse(`{ "desc": "example" }`))
+      Expect(p.Desc).To(Equal("example"))
+    })
+
+    It("Includes", func() {
+      p := ParseProject(gjson.Parse(`{ "includes": ["1", "2"] }`))
+      Expect(p.Includes).To(Equal([]string{"1", "2"}))
+    })
+
+    It("Extends", func() {
+      p := ParseProject(gjson.Parse(`{ "extends": ["1", "2"] }`))
+      Expect(p.Extends).To(Equal([]string{"1", "2"}))
+    })
+
+    It("Env", func() {
+      p := ParseProject(gjson.Parse(`{ "env": { "a": "1", "b": "2", "c": "3" } }`))
+      Expect(p.Env).To(HaveLen(3))
+      Expect(p.Env["a"]).To(Equal("1"))
+      Expect(p.Env["b"]).To(Equal("2"))
+      Expect(p.Env["c"]).To(Equal("3"))
+    })
+
+    It("EnvFiles", func() {
+      p := ParseProject(gjson.Parse(`{ "env_files": ["1", "2"] }`))
+      Expect(p.EnvFiles).To(Equal([]string{"1", "2"}))
+    })
+
+    It("Tags", func() {
+      p := ParseProject(gjson.Parse(`{ "tags": ["1", "2"] }`))
+      Expect(p.Tags).To(Equal([]string{"1", "2"}))
+    })
+
+    Describe("Tasks", func() {
+      It("None", func() {
+        p := ParseProject(gjson.Parse(`{ "tasks": {} }`))
+        Expect(p.Tasks).To(BeEmpty())
+      })
+      It("One", func() {
+        p := ParseProject(gjson.Parse(`{ "tasks": { "test": {} } }`))
+        Expect(p.Tasks).To(HaveLen(1))
+        Expect(p.Tasks[0].Name).To(Equal("test"))
+      })
+      It("Two", func() {
+        p := ParseProject(gjson.Parse(`{ "tasks": { "test1": {}, "test2": {} } }`))
+        var taskNames []string
+        for _, t := range p.Tasks {
+          taskNames = append(taskNames, t.Name)
+        }
+        Expect(taskNames).To(ConsistOf("test1", "test2"))
+      })
+    })
+  })
+
+  Describe("ParseTask", func() {
+    It("Empty", func() {
+      t := ParseTask("", gjson.Parse("{}"))
+      Expect(t.Name).To(BeEmpty())
+      Expect(t.Desc).To(BeEmpty())
+      Expect(t.Cmd).To(BeEmpty())
+      Expect(t.Before).To(BeEmpty())
+      Expect(t.After).To(BeEmpty())
+    })
+
+    It("Name", func() {
+      t := ParseTask("task", gjson.Parse(`{}`))
+      Expect(t.Name).To(Equal("task"))
+    })
+
+    It("Desc", func() {
+      t := ParseTask("", gjson.Parse(`{ "desc": "example" }`))
+      Expect(t.Desc).To(Equal("example"))
+    })
+
+    It("Cmd", func() {
+      t := ParseTask("", gjson.Parse(`{ "cmd": "echo" }`))
+      Expect(t.Cmd).To(Equal("echo"))
+    })
+
+    It("Before", func() {
+      t := ParseTask("", gjson.Parse(`{ "before": ["1", "2"] }`))
+      Expect(t.Before).To(Equal([]string{"1", "2"}))
+    })
+
+    It("After", func() {
+      t := ParseTask("", gjson.Parse(`{ "after": ["1", "2"] }`))
+      Expect(t.After).To(Equal([]string{"1", "2"}))
     })
   })
 
