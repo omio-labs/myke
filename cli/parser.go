@@ -1,9 +1,9 @@
 package cli
 
 import (
-	"io/ioutil"
 	"github.com/ghodss/yaml"
 	"github.com/tidwall/gjson"
+	"io/ioutil"
 )
 
 func ParseFile(path string) (Project, error) {
@@ -25,7 +25,7 @@ func ParseYaml(bytes []byte) (Project, error) {
 	return ParseProject(json), nil
 }
 
-func ParseProject(json gjson.Result) (Project) {
+func ParseProject(json gjson.Result) Project {
 	p := Project{}
 	if j := json.Get("project"); j.Exists() {
 		p.Name = j.String()
@@ -67,7 +67,7 @@ func ParseProject(json gjson.Result) (Project) {
 	return p
 }
 
-func ParseTask(name string, json gjson.Result) (Task) {
+func ParseTask(name string, json gjson.Result) Task {
 	t := Task{}
 	t.Name = name
 

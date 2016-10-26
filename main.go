@@ -1,11 +1,11 @@
 package main
 
 import (
-  "fmt"
-  "myke/cli"
+	"fmt"
+	"myke/cli"
 )
 
 func main() {
-  p := cli.Project{}
-  fmt.Println("Hello %v", p)
+	p := cli.Project{}
+	fmt.Println("Hello %v", p)
 }
