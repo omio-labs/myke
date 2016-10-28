@@ -2,6 +2,7 @@ package cli
 
 type Project struct {
 	Src      string
+	Cwd      string
 	Name     string
 	Desc     string
 	Includes []string
@@ -9,7 +10,7 @@ type Project struct {
 	Env      map[string]string
 	EnvFiles []string
 	Tags     []string
-	Tasks    []Task
+	Tasks    map[string]Task
 }
 
 type Task struct {

@@ -1,91 +1,77 @@
 package cli
 
 import (
-	"github.com/ghodss/yaml"
-	"github.com/tidwall/gjson"
-	"io/ioutil"
+	"os"
+	"path/filepath"
 )
 
 func ParseFile(path string) (Project, error) {
-	bytes, err := ioutil.ReadFile(path)
-	if err != nil {
-		return Project{}, err
-	} else {
-		return ParseYaml(bytes)
-	}
-}
-
-func ParseYaml(bytes []byte) (Project, error) {
-	jsonbytes, err := yaml.YAMLToJSON(bytes)
+	src, err := filepath.Abs(path)
 	if err != nil {
 		return Project{}, err
 	}
 
-	json := gjson.Parse(string(jsonbytes))
-	return ParseProject(json), nil
+	if info, err := os.Stat(src); err != nil {
+		return Project{}, err
+	} else if info.IsDir() {
+		src = filepath.Join(src, "myke.yml")
+	}
+
+	p, err := LoadFile(src)
+	if err != nil {
+		return Project{}, err
+	}
+
+	p.Src = src
+	p.Cwd = filepath.Dir(src)
+
+	for _, epath := range p.Extends {
+		if p, err = ExtendProject(p, epath); err != nil {
+			return Project{}, err
+		}
+	}
+
+	return p, nil
 }
 
-func ParseProject(json gjson.Result) Project {
-	p := Project{}
-	if j := json.Get("project"); j.Exists() {
-		p.Name = j.String()
+func ExtendProject(p Project, path string) (Project, error) {
+	o, err := LoadFile(filepath.Join(p.Cwd, path))
+	if err != nil {
+		return Project{}, err
 	}
-	if j := json.Get("desc"); j.Exists() {
-		p.Desc = j.String()
-	}
-	if j := json.Get("includes"); j.Exists() {
-		for _, s := range j.Array() {
-			p.Includes = append(p.Includes, s.String())
-		}
-	}
-	if j := json.Get("extends"); j.Exists() {
-		for _, s := range j.Array() {
-			p.Extends = append(p.Extends, s.String())
-		}
-	}
-	if j := json.Get("env"); j.Exists() {
-		p.Env = make(map[string]string)
-		for k, v := range j.Map() {
-			p.Env[k] = v.String()
-		}
-	}
-	if j := json.Get("env_files"); j.Exists() {
-		for _, s := range j.Array() {
-			p.EnvFiles = append(p.EnvFiles, s.String())
-		}
-	}
-	if j := json.Get("tags"); j.Exists() {
-		for _, s := range j.Array() {
-			p.Tags = append(p.Tags, s.String())
-		}
-	}
-	if j := json.Get("tasks"); j.Exists() {
-		for k, v := range j.Map() {
-			p.Tasks = append(p.Tasks, ParseTask(k, v))
-		}
-	}
-	return p
+
+	p.Tags = mergeTags(p.Tags, o.Tags)
+	p.Includes = mergeTags(p.Includes, o.Includes)
+	p.EnvFiles = mergeTags(p.EnvFiles, o.EnvFiles)
+
+	return p, nil
 }
 
-func ParseTask(name string, json gjson.Result) Task {
-	t := Task{}
-	t.Name = name
+func mergeTags(first []string, next []string) ([]string) {
+	for _, v := range next {
+		if !containsTag(first, v) {
+			first = append(first, v)
+		}
+	}
+	return first
+}
 
-	if j := json.Get("desc"); j.Exists() {
-		t.Desc = j.String()
-	}
-	if j := json.Get("cmd"); j.Exists() {
-		t.Cmd = j.String()
-	}
-	if j := json.Get("before"); j.Exists() {
-		for _, s := range j.Array() {
-			t.Before = append(t.Before, s.String())
+func mergeEnv(first map[string]string, next map[string]string) (map[string]string) {
+	for k, v := range next {
+		if k == "PATH" {
+			first[k] = first[k] + string(os.PathListSeparator) + v
+		} else if len(first[k]) == 0 {
+			first[k] = v
 		}
 	}
-	if j := json.Get("after"); j.Exists() {
-		for _, s := range j.Array() {
-			t.After = append(t.After, s.String())
+	return first
+}
+
+func containsTag(s []string, e string) bool {
+	for _, a := range s {
+		if a == e {
+			return true
 		}
 	}
-	return t
+	return false
 }
