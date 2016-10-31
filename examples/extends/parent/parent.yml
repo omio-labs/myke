@@ -4,6 +4,7 @@ desc: defines some shared tasks
 env:
   KEY_1: value_parent_1
   KEY_2: value_parent_2
+  PATH: path_parent
 tasks:
   task1:
     cmd: echo parent says $KEY_1

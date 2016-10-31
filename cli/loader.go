@@ -43,8 +43,8 @@ func LoadProject(json gjson.Result) Project {
 			p.Extends = append(p.Extends, s.String())
 		}
 	}
+	p.Env = make(map[string]string)
 	if j := json.Get("env"); j.Exists() {
-		p.Env = make(map[string]string)
 		for k, v := range j.Map() {
 			p.Env[k] = v.String()
 		}
@@ -59,8 +59,8 @@ func LoadProject(json gjson.Result) Project {
 			p.Tags = append(p.Tags, s.String())
 		}
 	}
+	p.Tasks = make(map[string]Task)
 	if j := json.Get("tasks"); j.Exists() {
-		p.Tasks = make(map[string]Task)
 		for k, v := range j.Map() {
 			p.Tasks[k] = LoadTask(k, v)
 		}

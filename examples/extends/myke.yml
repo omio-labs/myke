@@ -6,6 +6,7 @@ extends:
 env:
   KEY_2: value_child_2
   KEY_3: value_child_3
+  PATH: path_child
 tasks:
   task2:
     cmd: echo child says $KEY_2

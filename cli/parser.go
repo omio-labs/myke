@@ -2,10 +2,13 @@ package cli
 
 import (
 	"os"
+	"strings"
 	"path/filepath"
 )
 
-func ParseFile(path string) (Project, error) {
+const PathSep = string(os.PathListSeparator)
+
+func ParseProject(path string) (Project, error) {
 	src, err := filepath.Abs(path)
 	if err != nil {
 		return Project{}, err
@@ -24,6 +27,7 @@ func ParseFile(path string) (Project, error) {
 
 	p.Src = src
 	p.Cwd = filepath.Dir(src)
+	p.Env["PATH"] = normalizePaths(p.Cwd, p.Env["PATH"])
 
 	for _, epath := range p.Extends {
 		if p, err = ExtendProject(p, epath); err != nil {
@@ -35,7 +39,7 @@ func ParseFile(path string) (Project, error) {
 }
 
 func ExtendProject(p Project, path string) (Project, error) {
-	o, err := LoadFile(filepath.Join(p.Cwd, path))
+	o, err := ParseProject(filepath.Join(p.Cwd, path))
 	if err != nil {
 		return Project{}, err
 	}
@@ -43,6 +47,7 @@ func ExtendProject(p Project, path string) (Project, error) {
 	p.Tags = mergeTags(p.Tags, o.Tags)
 	p.Includes = mergeTags(p.Includes, o.Includes)
 	p.EnvFiles = mergeTags(p.EnvFiles, o.EnvFiles)
+	p.Env = mergeEnv(p.Env, o.Env)
 
 	return p, nil
 }
@@ -56,17 +61,6 @@ func mergeTags(first []string, next []string) ([]string) {
 	return first
 }
 
-func mergeEnv(first map[string]string, next map[string]string) (map[string]string) {
-	for k, v := range next {
-		if k == "PATH" {
-			first[k] = first[k] + string(os.PathListSeparator) + v
-		} else if len(first[k]) == 0 {
-			first[k] = v
-		}
-	}
-	return first
-}
-
 func containsTag(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {
@@ -74,4 +68,30 @@ func containsTag(s []string, e string) bool {
 		}
 	}
 	return false
+}
+
+func mergeEnv(first map[string]string, next map[string]string) (map[string]string) {
+	for k, v := range next {
+		if k == "PATH" {
+			first[k] = string(first[k]) + PathSep + v
+		} else if len(first[k]) == 0 {
+			first[k] = v
+		}
+	}
+	return first
+}
+
+func normalizePaths(cwd string, paths string) string {
+	newPaths := []string{}
+	for _, path := range strings.Split(strings.TrimSpace(paths), PathSep) {
+		if len(path) > 0 {
+			if !filepath.IsAbs(path) {
+				path = filepath.Clean(filepath.Join(cwd, path))
+			}
+			newPaths = append(newPaths, path)
+		}
+	}
+
+	newPaths = append(newPaths, filepath.Join(cwd, "bin"))
+	return strings.Trim(strings.Join(newPaths, PathSep), PathSep)
 }
