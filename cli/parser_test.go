@@ -23,7 +23,25 @@ var _ = Describe("Parser", func() {
 				"child", "env", "tagging/tags1.yml", "tagging/tags2.yml",
 				"depends", "params", "extends",
 			}))
-			Expect(p.Env["PATH"]).To(Equal(filepath.Join(p.Cwd, "bin")))
+			Expect(p.Env["PATH"]).To(HavePrefix(filepath.Join(p.Cwd, "bin")))
+		})
+
+		It("examples/env", func() {
+			path, err := filepath.Abs("../examples/env/myke.yml")
+			p, err := ParseProject("../examples/env")
+			Expect(err).ToNot(HaveOccurred())
+			Expect(p.Src).To(Equal(path))
+			Expect(p.Cwd).To(Equal(filepath.Dir(path)))
+			Expect(p.Name).To(Equal("env"))
+			Expect(p.Desc).To(Equal("usage of env vars"))
+
+			expectedPaths := strings.Join([]string{
+				filepath.Join(p.Cwd, "env_local_file_path"),
+				filepath.Join(p.Cwd, "env_file_path"),
+				filepath.Join(p.Cwd, "env_yml_path"),
+				filepath.Join(p.Cwd, "bin"),
+			}, string(os.PathListSeparator))
+			Expect(p.Env["PATH"]).To(HavePrefix(expectedPaths))
 		})
 
 		It("examples/extends", func() {
@@ -38,13 +56,13 @@ var _ = Describe("Parser", func() {
 			Expect(p.Env["KEY_2"]).To(Equal("value_child_2"))
 			Expect(p.Env["KEY_3"]).To(Equal("value_child_3"))
 
-			expectedPaths := []string{
+			expectedPaths := strings.Join([]string{
 				filepath.Join(p.Cwd, "path_child"),
 				filepath.Join(p.Cwd, "bin"),
 				filepath.Join(p.Cwd, "parent", "path_parent"),
 				filepath.Join(p.Cwd, "parent", "bin"),
-			}
-			Expect(p.Env["PATH"]).To(Equal(strings.Join(expectedPaths, string(os.PathListSeparator))))
+			}, string(os.PathListSeparator))
+			Expect(p.Env["PATH"]).To(HavePrefix(expectedPaths))
 		})
 	})
 

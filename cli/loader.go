@@ -1,31 +1,57 @@
+/*
+
+Loads a yml/env file *AS-IS* into a struct.
+Does not do any other processing on the structs.
+
+This behaves like a simple deserializer.
+Project struct is then parsed in parser.go.
+
+*/
+
 package cli
 
 import (
 	"github.com/ghodss/yaml"
 	"github.com/tidwall/gjson"
+	"github.com/joho/godotenv"
 	"io/ioutil"
+	"strings"
+	"os"
 )
 
-func LoadFile(path string) (Project, error) {
-	bytes, err := ioutil.ReadFile(path)
-	if err != nil {
-		return Project{}, err
+func LoadEnvFile(path string) (map[string]string) {
+	if env, err := godotenv.Read(path); err != nil {
+		return make(map[string]string)
 	} else {
-		return LoadYaml(bytes)
+		return env
 	}
 }
 
-func LoadYaml(bytes []byte) (Project, error) {
+func LoadEnvMap() (map[string]string) {
+	env := make(map[string]string)
+  for _, e := range os.Environ() {
+    pair := strings.SplitN(e, "=", 2)
+  	env[pair[0]] = pair[1]
+  }
+  return env
+}
+
+func LoadProjectYaml(path string) (Project, error) {
+	bytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		return Project{}, err
+	}
+
 	jsonbytes, err := yaml.YAMLToJSON(bytes)
 	if err != nil {
 		return Project{}, err
 	}
 
 	json := gjson.Parse(string(jsonbytes))
-	return LoadProject(json), nil
+	return LoadProjectJson(json), nil
 }
 
-func LoadProject(json gjson.Result) Project {
+func LoadProjectJson(json gjson.Result) Project {
 	p := Project{}
 	if j := json.Get("project"); j.Exists() {
 		p.Name = j.String()

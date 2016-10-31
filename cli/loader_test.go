@@ -8,9 +8,9 @@ import (
 
 var _ = Describe("Loader", func() {
 
-	Describe("LoadProject", func() {
+	Describe("LoadProjectJson", func() {
 		It("Empty", func() {
-			p := LoadProject(gjson.Parse("{}"))
+			p := LoadProjectJson(gjson.Parse("{}"))
 			Expect(p.Name).To(BeEmpty())
 			Expect(p.Desc).To(BeEmpty())
 			Expect(p.Includes).To(BeEmpty())
@@ -23,27 +23,27 @@ var _ = Describe("Loader", func() {
 		})
 
 		It("Name", func() {
-			p := LoadProject(gjson.Parse(`{ "project": "example" }`))
+			p := LoadProjectJson(gjson.Parse(`{ "project": "example" }`))
 			Expect(p.Name).To(Equal("example"))
 		})
 
 		It("Desc", func() {
-			p := LoadProject(gjson.Parse(`{ "desc": "example" }`))
+			p := LoadProjectJson(gjson.Parse(`{ "desc": "example" }`))
 			Expect(p.Desc).To(Equal("example"))
 		})
 
 		It("Includes", func() {
-			p := LoadProject(gjson.Parse(`{ "includes": ["1", "2"] }`))
+			p := LoadProjectJson(gjson.Parse(`{ "includes": ["1", "2"] }`))
 			Expect(p.Includes).To(Equal([]string{"1", "2"}))
 		})
 
 		It("Extends", func() {
-			p := LoadProject(gjson.Parse(`{ "extends": ["1", "2"] }`))
+			p := LoadProjectJson(gjson.Parse(`{ "extends": ["1", "2"] }`))
 			Expect(p.Extends).To(Equal([]string{"1", "2"}))
 		})
 
 		It("Env", func() {
-			p := LoadProject(gjson.Parse(`{ "env": { "a": "1", "b": "2", "c": "3" } }`))
+			p := LoadProjectJson(gjson.Parse(`{ "env": { "a": "1", "b": "2", "c": "3" } }`))
 			Expect(p.Env).To(HaveLen(3))
 			Expect(p.Env["a"]).To(Equal("1"))
 			Expect(p.Env["b"]).To(Equal("2"))
@@ -51,27 +51,27 @@ var _ = Describe("Loader", func() {
 		})
 
 		It("EnvFiles", func() {
-			p := LoadProject(gjson.Parse(`{ "env_files": ["1", "2"] }`))
+			p := LoadProjectJson(gjson.Parse(`{ "env_files": ["1", "2"] }`))
 			Expect(p.EnvFiles).To(Equal([]string{"1", "2"}))
 		})
 
 		It("Tags", func() {
-			p := LoadProject(gjson.Parse(`{ "tags": ["1", "2"] }`))
+			p := LoadProjectJson(gjson.Parse(`{ "tags": ["1", "2"] }`))
 			Expect(p.Tags).To(Equal([]string{"1", "2"}))
 		})
 
 		Describe("Tasks", func() {
 			It("None", func() {
-				p := LoadProject(gjson.Parse(`{ "tasks": {} }`))
+				p := LoadProjectJson(gjson.Parse(`{ "tasks": {} }`))
 				Expect(p.Tasks).To(BeEmpty())
 			})
 			It("One", func() {
-				p := LoadProject(gjson.Parse(`{ "tasks": { "test": {} } }`))
+				p := LoadProjectJson(gjson.Parse(`{ "tasks": { "test": {} } }`))
 				Expect(p.Tasks).To(HaveLen(1))
 				Expect(p.Tasks["test"].Name).To(Equal("test"))
 			})
 			It("Two", func() {
-				p := LoadProject(gjson.Parse(`{ "tasks": { "test1": {}, "test2": {} } }`))
+				p := LoadProjectJson(gjson.Parse(`{ "tasks": { "test1": {}, "test2": {} } }`))
 				var taskNames []string
 				for _, t := range p.Tasks {
 					taskNames = append(taskNames, t.Name)

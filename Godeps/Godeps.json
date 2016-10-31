@@ -7,16 +7,13 @@
 	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/MakeNowJust/heredoc",
-			"Rev": "1d91351acdc1cb2f2c995864674b754134b86ca7"
-		},
-		{
-			"ImportPath": "github.com/MakeNowJust/heredoc/dot",
-			"Rev": "1d91351acdc1cb2f2c995864674b754134b86ca7"
-		},
-		{
 			"ImportPath": "github.com/ghodss/yaml",
 			"Rev": "bea76d6a4713e18b7f5321a2b020738552def3ea"
+		},
+		{
+			"ImportPath": "github.com/joho/godotenv",
+			"Comment": "v1-10-g4ed1339",
+			"Rev": "4ed13390c0acd2ff4e371e64d8b97c8954138243"
 		},
 		{
 			"ImportPath": "github.com/onsi/ginkgo",

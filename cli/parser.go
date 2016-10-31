@@ -20,17 +20,21 @@ func ParseProject(path string) (Project, error) {
 		src = filepath.Join(src, "myke.yml")
 	}
 
-	p, err := LoadFile(src)
+	p, err := LoadProjectYaml(src)
 	if err != nil {
 		return Project{}, err
 	}
 
 	p.Src = src
 	p.Cwd = filepath.Dir(src)
+	p.EnvFiles = append(p.EnvFiles, filepath.Join(p.Cwd, "myke.env"), filepath.Join(p.Cwd, "myke.env.local"))
+	for _, epath := range p.EnvFiles {
+		p.Env = mergeEnv(p.Env, LoadEnvFile(epath))
+	}
 	p.Env["PATH"] = normalizePaths(p.Cwd, p.Env["PATH"])
 
 	for _, epath := range p.Extends {
-		if p, err = ExtendProject(p, epath); err != nil {
+		if p, err = extendProject(p, epath); err != nil {
 			return Project{}, err
 		}
 	}
@@ -38,16 +42,16 @@ func ParseProject(path string) (Project, error) {
 	return p, nil
 }
 
-func ExtendProject(p Project, path string) (Project, error) {
+func extendProject(p Project, path string) (Project, error) {
 	o, err := ParseProject(filepath.Join(p.Cwd, path))
 	if err != nil {
 		return Project{}, err
 	}
 
-	p.Tags = mergeTags(p.Tags, o.Tags)
-	p.Includes = mergeTags(p.Includes, o.Includes)
-	p.EnvFiles = mergeTags(p.EnvFiles, o.EnvFiles)
-	p.Env = mergeEnv(p.Env, o.Env)
+	p.Tags = mergeTags(o.Tags, p.Tags)
+	p.Includes = mergeTags(o.Includes, p.Includes)
+	p.EnvFiles = mergeTags(o.EnvFiles, p.EnvFiles)
+	p.Env = mergeEnv(o.Env, p.Env)
 
 	return p, nil
 }
@@ -73,8 +77,8 @@ func containsTag(s []string, e string) bool {
 func mergeEnv(first map[string]string, next map[string]string) (map[string]string) {
 	for k, v := range next {
 		if k == "PATH" {
-			first[k] = string(first[k]) + PathSep + v
-		} else if len(first[k]) == 0 {
+			first[k] = v + PathSep + string(first[k])
+		} else {
 			first[k] = v
 		}
 	}
