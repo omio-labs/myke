@@ -11,7 +11,10 @@ type Workspace struct {
 
 func ParseWorkspace(cwd string, path string) (Workspace) {
 	in := make(chan Project)
-	go parseWorkspace(cwd, path, in)
+	go func() {
+		parseWorkspaceNested(cwd, path, in)
+		close(in)
+	}()
 
 	w := Workspace{Cwd: cwd}
 	for p := range in {
@@ -19,11 +22,6 @@ func ParseWorkspace(cwd string, path string) (Workspace) {
 	}
 
 	return w
-}
-
-func parseWorkspace(cwd string, path string, in chan Project) {
-	parseWorkspaceNested(cwd, path, in)
-	close(in)
 }
 
 func parseWorkspaceNested(cwd string, path string, in chan Project) {
