@@ -1,3 +1,8 @@
+/*
+Parses a Project, including its semantics such as
+includes, extends, env, env_files, etc.
+*/
+
 package cli
 
 import (

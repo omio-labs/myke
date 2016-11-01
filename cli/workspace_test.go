@@ -5,15 +5,14 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Context", func() {
+var _ = Describe("Workspace", func() {
 
-	Describe("Discover", func() {
+	Describe("LoadWorkspace", func() {
 		It("examples", func() {
-			c := make(chan Project)
-			go Discover(".", "../examples", c)
-
+			w := LoadWorkspace(".", "../examples")
 			names := []string{}
-			for p := range c {
+
+			for _, p := range w.Projects {
 				names = append(names, p.Name)
 			}
 			Expect(names).To(ConsistOf([]string{

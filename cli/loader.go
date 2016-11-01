@@ -1,11 +1,9 @@
 /*
-
 Loads a yml/env file *AS-IS* into a struct.
 Does not do any other processing on the structs.
 
 This behaves like a simple deserializer.
 Project struct is then parsed in parser.go.
-
 */
 
 package cli

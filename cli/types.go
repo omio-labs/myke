@@ -1,5 +1,10 @@
 package cli
 
+type Workspace struct {
+	Cwd      string
+	Projects []Project
+}
+
 type Project struct {
 	Src      string
 	Cwd      string
