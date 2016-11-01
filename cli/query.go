@@ -32,3 +32,12 @@ func ParseQuery(q string) (Query, error) {
 
 	return Query{Task:task, Tags:tags, Params:params}, nil
 }
+
+func (q Query) Matches(p Project, t Task) bool {
+	for _, tag := range q.Tags {
+		if p.Name != tag && !containsTag(p.Tags, tag) {
+			return false
+		}
+	}
+	return t.Name == q.Task
+}

@@ -16,11 +16,11 @@ var _ = Describe("Query", func() {
 			Expect(q.Params).To(BeEmpty())
 		})
 
-		It("tag", func() {
-			q, err := ParseQuery("/tag1/task/[,]")
+		It("project", func() {
+			q, err := ParseQuery("/project/task/[,]")
 			Expect(err).ToNot(HaveOccurred())
 			Expect(q.Task).To(Equal("task"))
-			Expect(q.Tags).To(ConsistOf("tag1"))
+			Expect(q.Tags).To(ConsistOf("project"))
 			Expect(q.Params).To(BeEmpty())
 		})
 
@@ -50,6 +50,44 @@ var _ = Describe("Query", func() {
 			Expect(q.Params["a"]).To(Equal("1"))
 			Expect(q.Params["b"]).To(Equal("2"))
 			Expect(q.Params["c"]).To(Equal("3"))
+		})
+	})
+
+	Describe("Match", func() {
+		It("task name match", func() {
+			p := Project{}
+			t := Task{Name:"task1"}
+			q1 := Query{Task:"task1"}
+			q2 := Query{Task:"task2"}
+			Expect(q1.Matches(p, t)).To(BeTrue())
+			Expect(q2.Matches(p, t)).To(BeFalse())
+		})
+
+		It("project match", func() {
+			p := Project{Name:"project1"}
+			t := Task{Name:"task"}
+			q1 := Query{Task:"task", Tags:[]string{"project1"}}
+			q2 := Query{Task:"task", Tags:[]string{"project2"}}
+			Expect(q1.Matches(p, t)).To(BeTrue())
+			Expect(q2.Matches(p, t)).To(BeFalse())
+		})
+
+		It("tags match", func() {
+			p := Project{Name:"project", Tags:[]string{"tag1", "tag2", "tag3"}}
+			t := Task{Name:"task"}
+			q1 := Query{Task:"task", Tags:[]string{"tag1", "tag2"}}
+			q2 := Query{Task:"task", Tags:[]string{"tag3", "tag4"}}
+			Expect(q1.Matches(p, t)).To(BeTrue())
+			Expect(q2.Matches(p, t)).To(BeFalse())
+		})
+
+		It("tags and project match", func() {
+			p := Project{Name:"project", Tags:[]string{"tag1", "tag2", "tag3"}}
+			t := Task{Name:"task"}
+			q1 := Query{Task:"task", Tags:[]string{"tag1", "tag2", "project"}}
+			q2 := Query{Task:"task", Tags:[]string{"tag3", "tag4", "project"}}
+			Expect(q1.Matches(p, t)).To(BeTrue())
+			Expect(q2.Matches(p, t)).To(BeFalse())
 		})
 	})
 
