@@ -7,9 +7,9 @@ import (
 
 var _ = Describe("Workspace", func() {
 
-	Describe("LoadWorkspace", func() {
+	Describe("ParseWorkspace", func() {
 		It("examples", func() {
-			w := LoadWorkspace(".", "../examples")
+			w := ParseWorkspace(".", "../examples")
 			names := []string{}
 
 			for _, p := range w.Projects {

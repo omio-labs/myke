@@ -1,12 +1,16 @@
+/*
+Loads all projects in a given workspace
+*/
+
 package cli
 
 import (
 	"path/filepath"
 )
 
-func LoadWorkspace(cwd string, path string) (Workspace) {
+func ParseWorkspace(cwd string, path string) (Workspace) {
 	in := make(chan Project)
-	go loadWorkspaceChannel(cwd, path, in)
+	go parseWorkspace(cwd, path, in)
 
 	w := Workspace{Cwd: cwd}
 	for p := range in {
@@ -16,17 +20,15 @@ func LoadWorkspace(cwd string, path string) (Workspace) {
 	return w
 }
 
-
-
-func loadWorkspaceChannel(cwd string, path string, in chan Project) {
-	loadWorkspaceNested(cwd, path, in)
+func parseWorkspace(cwd string, path string, in chan Project) {
+	parseWorkspaceNested(cwd, path, in)
 	close(in)
 }
 
-func loadWorkspaceNested(cwd string, path string, in chan Project) {
+func parseWorkspaceNested(cwd string, path string, in chan Project) {
 	p, _ := ParseProject(filepath.Join(cwd, path))
 	in <- p
 	for _, includePath := range p.Includes {
-		loadWorkspaceNested(p.Cwd, includePath, in)
+		parseWorkspaceNested(p.Cwd, includePath, in)
 	}
 }

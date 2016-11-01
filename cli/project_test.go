@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var _ = Describe("Parser", func() {
+var _ = Describe("Project", func() {
 
 	Describe("ParseProject", func() {
 		It("examples", func() {

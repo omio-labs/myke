@@ -25,3 +25,9 @@ type Task struct {
 	Before []string
 	After  []string
 }
+
+type Query struct {
+	Task   string
+	Tags   []string
+	Params map[string]string
+}
