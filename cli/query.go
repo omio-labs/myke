@@ -1,13 +1,15 @@
-/*
-Parses task queries
-*/
-
 package cli
 
 import (
 	"strings"
 	"errors"
 )
+
+type Query struct {
+	Task   string
+	Tags   []string
+	Params map[string]string
+}
 
 func ParseQuery(q string) (Query, error) {
 	tokens := strings.SplitN(strings.Trim(q, " ],/"), "[", 2)

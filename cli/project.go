@@ -1,8 +1,3 @@
-/*
-Parses a Project, including its semantics such as
-includes, extends, env, env_files, etc.
-*/
-
 package cli
 
 import (
@@ -12,6 +7,19 @@ import (
 )
 
 const PathSep = string(os.PathListSeparator)
+
+type Project struct {
+	Src      string
+	Cwd      string
+	Name     string
+	Desc     string
+	Includes []string
+	Extends  []string
+	Env      map[string]string
+	EnvFiles []string
+	Tags     []string
+	Tasks    map[string]Task
+}
 
 func ParseProject(path string) (Project, error) {
 	src, err := filepath.Abs(path)

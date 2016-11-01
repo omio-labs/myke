@@ -1,11 +1,3 @@
-/*
-Loads a yml/env file *AS-IS* into a struct.
-Does not do any other processing on the structs.
-
-This behaves like a simple deserializer.
-Project struct is then parsed in parser.go.
-*/
-
 package cli
 
 import (
@@ -25,7 +17,7 @@ func LoadEnvFile(path string) (map[string]string) {
 	}
 }
 
-func OsEnv() (map[string]string) {
+func LoadOsEnv() (map[string]string) {
 	env := make(map[string]string)
   for _, e := range os.Environ() {
     pair := strings.SplitN(e, "=", 2)

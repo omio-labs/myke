@@ -1,12 +1,13 @@
-/*
-Loads all projects in a given workspace
-*/
-
 package cli
 
 import (
 	"path/filepath"
 )
+
+type Workspace struct {
+	Cwd      string
+	Projects []Project
+}
 
 func ParseWorkspace(cwd string, path string) (Workspace) {
 	in := make(chan Project)
