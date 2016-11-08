@@ -154,8 +154,8 @@ If multiple projects need to share the same scripts, then another way is to leve
 Use docker/docker-compose to develop. You don't need to have golang installed.
 
 * `docker-compose build`: Builds and runs tests
+* `docker-compose up`: Produces `bin` folder with executables
 * `docker-compose run --rm myke /bin/bash`: Gives you a terminal inside the container, from where you can run go commands like:
   * `ginkgo -r`: Runs all tests
   * `go run main.go`: Compiles and runs main
   * `go get <dependency> && godep save <dependency>`: Adds a new dependency
-  * `./cross-compile.sh`: Produces `bin` folder with executables
