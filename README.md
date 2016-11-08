@@ -149,9 +149,12 @@ If multiple projects need to share the same scripts, then another way is to leve
   * ...
   * ...
 
-### Roadmap
+### Development
 
-* New name
-* Small enhancements (parameters in dependencies, warn duplicate project names, dry run, etc)
-* CI (we already have many test cases, add linting)
-* Experiment with golang? Users only use yml files, so we can change anything here without breaking the yml file contract. This is purely optional
+Use docker/docker-compose to develop. You don't need to have golang installed.
+
+* `docker-compose build`: Builds and runs tests
+* `docker-compose run --rm myke /bin/bash`: Gives you a terminal inside the container, from where you can run go commands like:
+  * `ginkgo -r`: Runs all tests
+  * `go run main.go`: Compiles and runs main
+  * `go get <dependency> && godep save <dependency>`: Adds a new dependency
