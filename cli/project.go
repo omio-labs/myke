@@ -9,8 +9,6 @@ import (
 	"io/ioutil"
 )
 
-const PathSep = string(os.PathListSeparator)
-
 type Project struct {
 	Src      string
 	Cwd      string

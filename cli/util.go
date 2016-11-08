@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 )
 
+const PathSep = string(os.PathListSeparator)
+
 func mergeTags(first []string, next []string) ([]string) {
 	for _, v := range next {
 		if !containsTag(first, v) {

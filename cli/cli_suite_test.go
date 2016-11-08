@@ -8,5 +8,5 @@ import (
 
 func TestSuite(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Command Line Suite")
+	RunSpecs(t, "myke cli")
 }

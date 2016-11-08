@@ -59,8 +59,8 @@ var _ = Describe("Query", func() {
 			t := Task{Name:"task1"}
 			q1 := Query{Task:"task1"}
 			q2 := Query{Task:"task2"}
-			Expect(q1.Matches(p, t)).To(BeTrue())
-			Expect(q2.Matches(p, t)).To(BeFalse())
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})
 
 		It("project match", func() {
@@ -68,8 +68,8 @@ var _ = Describe("Query", func() {
 			t := Task{Name:"task"}
 			q1 := Query{Task:"task", Tags:[]string{"project1"}}
 			q2 := Query{Task:"task", Tags:[]string{"project2"}}
-			Expect(q1.Matches(p, t)).To(BeTrue())
-			Expect(q2.Matches(p, t)).To(BeFalse())
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})
 
 		It("tags match", func() {
@@ -77,8 +77,8 @@ var _ = Describe("Query", func() {
 			t := Task{Name:"task"}
 			q1 := Query{Task:"task", Tags:[]string{"tag1", "tag2"}}
 			q2 := Query{Task:"task", Tags:[]string{"tag3", "tag4"}}
-			Expect(q1.Matches(p, t)).To(BeTrue())
-			Expect(q2.Matches(p, t)).To(BeFalse())
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})
 
 		It("tags and project match", func() {
@@ -86,8 +86,8 @@ var _ = Describe("Query", func() {
 			t := Task{Name:"task"}
 			q1 := Query{Task:"task", Tags:[]string{"tag1", "tag2", "project"}}
 			q2 := Query{Task:"task", Tags:[]string{"tag3", "tag4", "project"}}
-			Expect(q1.Matches(p, t)).To(BeTrue())
-			Expect(q2.Matches(p, t)).To(BeFalse())
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})
 	})
 
