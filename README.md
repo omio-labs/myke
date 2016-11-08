@@ -158,3 +158,4 @@ Use docker/docker-compose to develop. You don't need to have golang installed.
   * `ginkgo -r`: Runs all tests
   * `go run main.go`: Compiles and runs main
   * `go get <dependency> && godep save <dependency>`: Adds a new dependency
+  * `./cross-compile.sh`: Produces `bin` folder with executables
