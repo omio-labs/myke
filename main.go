@@ -1,11 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"myke/cli"
+
+	"os"
 )
 
 func main() {
-	p := cli.Project{}
-	fmt.Println("Hello %v", p)
+	cwd, _ := os.Getwd()
+	w := cli.ParseWorkspace(cwd)
+	w.List()
 }

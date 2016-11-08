@@ -9,7 +9,7 @@ var _ = Describe("Workspace", func() {
 
 	Describe("ParseWorkspace", func() {
 		It("examples", func() {
-			w := ParseWorkspace(".", "../examples")
+			w := ParseWorkspace("../examples")
 			names := []string{}
 
 			for _, p := range w.Projects {

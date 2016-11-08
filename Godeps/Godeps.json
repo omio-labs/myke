@@ -16,6 +16,15 @@
 			"Rev": "4ed13390c0acd2ff4e371e64d8b97c8954138243"
 		},
 		{
+			"ImportPath": "github.com/mattn/go-runewidth",
+			"Comment": "v0.0.1-10-g737072b",
+			"Rev": "737072b4e32b7a5018b4a7125da8d12de90e8045"
+		},
+		{
+			"ImportPath": "github.com/olekukonko/tablewriter",
+			"Rev": "bdcc175572fd7abece6c831e643891b9331bc9e7"
+		},
+		{
 			"ImportPath": "github.com/onsi/ginkgo",
 			"Comment": "v1.2.0-75-gacfa16a",
 			"Rev": "acfa16ac8e9e0d2c6b11cfe78c79d8652c3ee3fd"

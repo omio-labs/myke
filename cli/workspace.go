@@ -1,6 +1,10 @@
 package cli
 
 import (
+	"github.com/olekukonko/tablewriter"
+
+	"os"
+	"strings"
 	"path/filepath"
 )
 
@@ -9,10 +13,23 @@ type Workspace struct {
 	Projects []Project
 }
 
-func ParseWorkspace(cwd string, path string) (Workspace) {
+func (w *Workspace) List() {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"project", "tags", "tasks"})
+	for _, p := range w.Projects {
+		tasks := []string{}
+		for t, _ := range p.Tasks {
+			tasks = append(tasks, t)
+		}
+		table.Append([]string{p.Name, strings.Join(p.Tags, ","), strings.Join(tasks, ",")})
+	}
+	table.Render()
+}
+
+func ParseWorkspace(cwd string) (Workspace) {
 	in := make(chan Project)
 	go func() {
-		parseWorkspaceNested(cwd, path, in)
+		parseWorkspaceNested(cwd, "", in)
 		close(in)
 	}()
 

@@ -126,10 +126,10 @@ myke tag-name/task-name
   * myke will by default load `<yml-file-name>.env` if it exists
   * for each `.env` file, myke will also try to load a corresponding `.env.local` if exists. Users can use these `.env.local` files to override the default files, and gitignore them
 * Additional project-specific environment variables that are set:
-  * `$MyKE_PROJECT`: Name of project being executed
-  * `$MyKE_TASK`: Name of task
-  * `$MyKE_CWD`: Full path to directory where the task is defined
-  * `$MyKE_CWD/bin` is prepended to path
+  * `$MYKE_PROJECT`: Name of project being executed
+  * `$MYKE_TASK`: Name of task
+  * `$MYKE_CWD`: Full path to directory where the task is defined
+  * `$MYKE_CWD/bin` is prepended to path
 * Same goes for every yml file that your project `extends`
   * So all the env variables naturally loaded by each `extends` file (`env`, `env_files`, `[extends-file].env`, `[extends-file].env.local`, `$PATH=EXTENDS_FILE_CWD/bin`, etc) are also made available to the child project
 * Any environment variables set in command line override the above
