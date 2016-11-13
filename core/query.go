@@ -8,9 +8,15 @@ import (
 )
 
 type Query struct {
+	Raw    string
 	Task   string
 	Tags   []string
 	Params map[string]string
+}
+
+type QueryMatch struct {
+	Project Project
+	Task    Task
 }
 
 func ParseQuery(q string) (Query, error) {
@@ -32,7 +38,7 @@ func ParseQuery(q string) (Query, error) {
 		}
 	}
 
-	return Query{Task:task, Tags:tags, Params:params}, nil
+	return Query{Raw: q, Task:task, Tags:tags, Params:params}, nil
 }
 
 func ParseQueries(qs []string) ([]Query, error) {
@@ -47,7 +53,20 @@ func ParseQueries(qs []string) ([]Query, error) {
 	return queries, nil
 }
 
-func (q *Query) Matches(p *Project, t *Task) bool {
+func (q *Query) Search(w *Workspace) ([]QueryMatch) {
+	matches := []QueryMatch{}
+	for _, p := range w.Projects {
+		for _, t := range p.Tasks {
+			if q.Match(&p, &t) {
+				match := QueryMatch{Project:p, Task:t}
+				matches = append(matches, match)
+			}
+		}
+	}
+	return matches
+}
+
+func (q *Query) Match(p *Project, t *Task) bool {
 	for _, tag := range q.Tags {
 		projectMatch, _ := filepath.Match(tag, p.Name)
 		for _, projectTag := range p.Tags {
