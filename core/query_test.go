@@ -58,7 +58,16 @@ var _ = Describe("Query", func() {
 			p := Project{}
 			t := Task{Name:"task1"}
 			q1 := Query{Task:"task1"}
-			q2 := Query{Task:"task2"}
+			q2 := Query{Task:"task"}
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
+		})
+
+		It("task name glob match", func() {
+			p := Project{}
+			t := Task{Name:"task1"}
+			q1 := Query{Task:"*task*"}
+			q2 := Query{Task:"*2*"}
 			Expect(q1.Matches(&p, &t)).To(BeTrue())
 			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})
@@ -72,6 +81,15 @@ var _ = Describe("Query", func() {
 			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})
 
+		It("project glob match", func() {
+			p := Project{Name:"project1"}
+			t := Task{Name:"task"}
+			q1 := Query{Task:"task", Tags:[]string{"*project*"}}
+			q2 := Query{Task:"task", Tags:[]string{"*2*"}}
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
+		})
+
 		It("tags match", func() {
 			p := Project{Name:"project", Tags:[]string{"tag1", "tag2", "tag3"}}
 			t := Task{Name:"task"}
@@ -81,11 +99,29 @@ var _ = Describe("Query", func() {
 			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})
 
+		It("tags glob match", func() {
+			p := Project{Name:"project", Tags:[]string{"tag1", "tag2", "tag3"}}
+			t := Task{Name:"task"}
+			q1 := Query{Task:"task", Tags:[]string{"*tag*"}}
+			q2 := Query{Task:"task", Tags:[]string{"*tag*", "tag4"}}
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
+		})
+
 		It("tags and project match", func() {
 			p := Project{Name:"project", Tags:[]string{"tag1", "tag2", "tag3"}}
 			t := Task{Name:"task"}
 			q1 := Query{Task:"task", Tags:[]string{"tag1", "tag2", "project"}}
 			q2 := Query{Task:"task", Tags:[]string{"tag3", "tag4", "project"}}
+			Expect(q1.Matches(&p, &t)).To(BeTrue())
+			Expect(q2.Matches(&p, &t)).To(BeFalse())
+		})
+
+		It("tags and project glob match", func() {
+			p := Project{Name:"project", Tags:[]string{"tag1", "tag2", "tag3"}}
+			t := Task{Name:"task"}
+			q1 := Query{Task:"*task*", Tags:[]string{"tag?", "project*"}}
+			q2 := Query{Task:"*task*", Tags:[]string{"tag4", "project*"}}
 			Expect(q1.Matches(&p, &t)).To(BeTrue())
 			Expect(q2.Matches(&p, &t)).To(BeFalse())
 		})

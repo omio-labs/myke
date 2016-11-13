@@ -3,6 +3,7 @@ package core
 import (
 	"strings"
 	"errors"
+	"path/filepath"
 )
 
 type Query struct {
@@ -35,9 +36,15 @@ func ParseQuery(q string) (Query, error) {
 
 func (q *Query) Matches(p *Project, t *Task) bool {
 	for _, tag := range q.Tags {
-		if p.Name != tag && !containsTag(p.Tags, tag) {
+		projectMatch, _ := filepath.Match(tag, p.Name)
+		for _, projectTag := range p.Tags {
+			tagMatch, _ := filepath.Match(tag, projectTag)
+			projectMatch = projectMatch || tagMatch
+		}
+		if !projectMatch {
 			return false
 		}
 	}
-	return t.Name == q.Task
+	taskMatch, _ := filepath.Match(q.Task, t.Name)
+	return taskMatch
 }
