@@ -1,30 +1,12 @@
 package core
 
 import (
-	"github.com/olekukonko/tablewriter"
-
-	"os"
-	"strings"
 	"path/filepath"
 )
 
 type Workspace struct {
 	Cwd      string
 	Projects []Project
-}
-
-func (w *Workspace) List() {
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"project", "tags", "tasks"})
-	for _, p := range w.Projects {
-		tasks := []string{}
-		for t, _ := range p.Tasks {
-			tasks = append(tasks, t)
-		}
-		table.Append([]string{p.Name, strings.Join(p.Tags, ", "), strings.Join(tasks, ", ")})
-	}
-	table.SetBorder(false)
-	table.Render()
 }
 
 func ParseWorkspace(cwd string) (Workspace) {

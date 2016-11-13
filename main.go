@@ -1,13 +1,9 @@
 package main
 
 import (
-	"myke/core"
-
-	"os"
+	"myke/cli"
 )
 
 func main() {
-	cwd, _ := os.Getwd()
-	w := core.ParseWorkspace(cwd)
-	w.List()
+	cli.List()
 }
