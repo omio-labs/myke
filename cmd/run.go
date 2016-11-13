@@ -9,7 +9,13 @@ func Run(qs []string) {
 	queries, err := core.ParseQueries(qs)
 	if err != nil {
 		log.Fatal(err)
-	} else {
-		log.Println(queries)
+	}
+
+	w := loadWorkspace()
+	for _, q := range queries {
+		ms := q.Search(&w)
+		for _, m := range ms {
+			core.Execute(&w, &m.Project, &m.Task)
+		}
 	}
 }

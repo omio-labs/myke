@@ -17,6 +17,10 @@ func main() {
 	case "list":
 		cmd.List()
 	case "run":
-		cmd.Run(*runQueries)
+		if len(*runQueries) == 0 {
+			cmd.List()
+		} else {
+			cmd.Run(*runQueries)
+		}
 	}
 }
