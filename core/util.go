@@ -1,4 +1,4 @@
-package cli
+package core
 
 import (
 	"github.com/joho/godotenv"

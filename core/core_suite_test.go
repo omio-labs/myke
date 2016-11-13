@@ -1,4 +1,4 @@
-package cli
+package core
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -8,5 +8,5 @@ import (
 
 func TestSuite(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "myke cli")
+	RunSpecs(t, "myke core")
 }
