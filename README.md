@@ -33,52 +33,7 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
 
 ### Usage
 
-For the alpha release, setup myke as follows:
-
-```
-git clone <this repo>
-pip install --user -r requirements.txt`
-export PATH=$(pwd)/bin:$PATH`
-```
-
-Create a `myke.yml` file in your project. Feel free to skip fields that are not required:
-
-```yml
----
-project: project_name
-desc: project description
-tags:
-  - tagA
-  - ...
-env:
-  key: value
-  ...
-env_files:
-  - # by default includes <this-yml-file-name>.env
-  - path/to/other/env/files
-  - ...
-includes:
-  - path/to/folder/or/yml
-  - ...
-extends:
-  - path/to/folder/or/yml
-  - ...
-tasks:
-  <task-name-1>:
-    desc: task description
-    cmd: command with {{jinja}} templating
-    before:
-      - other-tasks-to-be-run-before-this
-      - ...
-    after:
-      - other-tasks-to-be-run-after-this
-      - ...
-  <task-name-2>:
-    cmd: |-
-      multi-line
-      commands
-  ...
-```
+**WIP:** Binary instructions with golang. Scroll to the bottom of this post for current development instructions.
 
 And start using myke:
 
@@ -158,4 +113,3 @@ Use docker/docker-compose to develop. You don't need to have golang installed.
 * `docker-compose run --rm myke /bin/bash`: Gives you a terminal inside the container, from where you can run go commands like:
   * `ginkgo -r`: Runs all tests
   * `go run main.go`: Compiles and runs main
-  * `go get <dependency> && godep save <dependency>`: Adds a new dependency

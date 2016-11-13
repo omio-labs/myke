@@ -21,8 +21,9 @@ func (w *Workspace) List() {
 		for t, _ := range p.Tasks {
 			tasks = append(tasks, t)
 		}
-		table.Append([]string{p.Name, strings.Join(p.Tags, ","), strings.Join(tasks, ",")})
+		table.Append([]string{p.Name, strings.Join(p.Tags, ", "), strings.Join(tasks, ", ")})
 	}
+	table.SetBorder(false)
 	table.Render()
 }
 
