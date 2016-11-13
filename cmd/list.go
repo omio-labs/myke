@@ -1,19 +1,18 @@
-package cli
+package cmd
 
 import (
 	"github.com/olekukonko/tablewriter"
 
-	"myke/core"
 	"os"
 	"strings"
 )
 
 func List() {
+	w := loadWorkspace()
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetBorder(false)
 	table.SetHeader([]string{"project", "tags", "tasks"})
 
-	w := loadWorkspace()
 	for _, p := range w.Projects {
 		tasks := []string{}
 		for t, _ := range p.Tasks {
@@ -23,10 +22,4 @@ func List() {
 	}
 
 	table.Render()
-}
-
-func loadWorkspace() core.Workspace {
-	cwd, _ := os.Getwd()
-	w := core.ParseWorkspace(cwd)
-	return w
 }

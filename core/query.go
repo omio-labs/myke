@@ -3,6 +3,7 @@ package core
 import (
 	"strings"
 	"errors"
+	"fmt"
 	"path/filepath"
 )
 
@@ -15,7 +16,7 @@ type Query struct {
 func ParseQuery(q string) (Query, error) {
 	tokens := strings.SplitN(strings.Trim(q, " ],/"), "[", 2)
 	if len(tokens) == 0 || len(tokens) > 2 {
-		return Query{}, errors.New("bad task")
+		return Query{}, errors.New(fmt.Sprintf("Bad query: %s", q))
 	}
 
 	tasks := strings.Split(strings.Trim(tokens[0], " /"), "/")
@@ -32,6 +33,18 @@ func ParseQuery(q string) (Query, error) {
 	}
 
 	return Query{Task:task, Tags:tags, Params:params}, nil
+}
+
+func ParseQueries(qs []string) ([]Query, error) {
+	queries := make([]Query, len(qs))
+	for i, q := range qs {
+		if query, err := ParseQuery(q); err != nil {
+			return nil, err
+		} else {
+			queries[i] = query
+		}
+	}
+	return queries, nil
 }
 
 func (q *Query) Matches(p *Project, t *Task) bool {
