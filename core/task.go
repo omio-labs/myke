@@ -20,9 +20,13 @@ func loadTaskJson(name string, json gjson.Result) Task {
 
 	if j := json.Get("desc"); j.Exists() {
 		t.Desc = j.String()
+	} else {
+		t.Desc = ""
 	}
 	if j := json.Get("cmd"); j.Exists() {
 		t.Cmd = j.String()
+	} else {
+		t.Cmd = ""
 	}
 	if j := json.Get("before"); j.Exists() {
 		for _, s := range j.Array() {

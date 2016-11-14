@@ -31,7 +31,11 @@ func ParseProject(path string) (Project, error) {
 	if info, err := os.Stat(src); err != nil {
 		return Project{}, err
 	} else if info.IsDir() {
-		src = filepath.Join(src, "myke.yml")
+		if mp, err := ParseProject(filepath.Join(src, "myke.yml")); err != nil {
+			return ParseProject(filepath.Join(src, "s2do.yml"))
+		} else {
+			return mp, err
+		}
 	}
 
 	p, err := loadProjectYaml(src)
@@ -45,7 +49,8 @@ func ParseProject(path string) (Project, error) {
 	for _, epath := range p.EnvFiles {
 		p.Env = mergeEnv(p.Env, loadEnvFile(epath))
 	}
-	// TODO: Merge OsEnv()
+
+	p.Env = mergeEnv(p.Env, loadOsEnv())
 	p.Env["PATH"] = normalizePaths(p.Cwd, p.Env["PATH"])
 
 	for _, epath := range p.Extends {

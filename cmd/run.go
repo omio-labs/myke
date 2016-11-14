@@ -13,9 +13,9 @@ func Run(qs []string) {
 
 	w := loadWorkspace()
 	for _, q := range queries {
-		ms := q.Search(&w)
-		for _, m := range ms {
-			core.Execute(&w, &m.Project, &m.Task)
+		err := core.ExecuteQuery(&w, q)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 }

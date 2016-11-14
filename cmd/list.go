@@ -16,9 +16,13 @@ func List() {
 	for _, p := range w.Projects {
 		tasks := []string{}
 		for t, _ := range p.Tasks {
-			tasks = append(tasks, t)
+			if !strings.HasPrefix(t, "_") {
+				tasks = append(tasks, t)
+			}
 		}
-		table.Append([]string{p.Name, strings.Join(p.Tags, ", "), strings.Join(tasks, ", ")})
+		if len(tasks) > 0 {
+			table.Append([]string{p.Name, strings.Join(p.Tags, ", "), strings.Join(tasks, ", ")})
+		}
 	}
 
 	table.Render()

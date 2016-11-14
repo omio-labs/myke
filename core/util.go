@@ -40,7 +40,10 @@ func loadOsEnv() (map[string]string) {
 	env := make(map[string]string)
   for _, e := range os.Environ() {
     pair := strings.SplitN(e, "=", 2)
-  	env[pair[0]] = pair[1]
+    if pair[0] != "PATH" {
+    	// PATH is handled as a special case, so lets skip it
+			env[pair[0]] = pair[1]
+		}
   }
   return env
 }
