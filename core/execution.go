@@ -9,6 +9,7 @@ import (
 
 type Execution struct {
 	Workspace *Workspace
+	Query     *Query
 	Project   *Project
 	Task      *Task
 }
@@ -16,7 +17,12 @@ type Execution struct {
 func ExecuteQuery(w *Workspace, q Query) error {
 	matches := q.Search(w)
 	for _, match := range matches {
-		e := Execution{Workspace:w, Project:&match.Project, Task:&match.Task}
+		e := Execution{
+			Workspace:w,
+			Query: &q,
+			Project:&match.Project,
+			Task:&match.Task,
+		}
 		err := e.Execute()
 		if err != nil {
 			return err
@@ -48,7 +54,19 @@ func (e *Execution) Execute() error {
 }
 
 func (e *Execution) ExecuteSelf() error {
-	return e.Cmd().Run()
+	vars := mergeEnv(e.Project.Env, e.Query.Params)
+	cmd, err := commandTemplate(e.Task.Cmd, vars)
+	if err != nil {
+		return err
+	}
+
+	proc := exec.Command("sh", "-exc", cmd)
+	proc.Dir = e.Project.Cwd
+	proc.Env = envList(e.Project.Env)
+	proc.Stdin = os.Stdin
+	proc.Stdout = os.Stdout
+	proc.Stderr = os.Stderr
+	return proc.Run()
 }
 
 func (e *Execution) ExecuteDependent(qs []string) error {
@@ -68,16 +86,6 @@ func (e *Execution) ExecuteDependent(qs []string) error {
 		}
 	}
 	return nil
-}
-
-func (e *Execution) Cmd() *exec.Cmd {
-	cmd := exec.Command("sh", "-exc", e.Task.Cmd)
-	cmd.Dir = e.Project.Cwd
-	cmd.Env = envList(e.Project.Env)
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd
 }
 
 func envList(env map[string]string) []string {
