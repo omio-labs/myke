@@ -33,7 +33,8 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
 
 ### Installation
 
-TODO: One-liner wget
+* [Grab latest release](https://github.com/goeuro/myke/releases/latest)
+* TODO: One-liner wget
 
 ### Features
 
