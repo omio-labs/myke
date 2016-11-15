@@ -1,21 +1,32 @@
 package core
 
 import (
-	"text/template"
-	"bytes"
+	"github.com/flosch/pongo2"
+	"strings"
 )
 
-func commandTemplate(tmpl string, params map[string]string) (string, error) {
-	t, err := template.New("cmd").Parse(tmpl)
+func commandTemplate(tmpl string, env map[string]string, args map[string]string) (string, error) {
+	tpl, err := pongo2.FromString(tmpl)
 	if err != nil {
 		return "", err
 	}
 
-	var doc bytes.Buffer
-	err = t.Execute(&doc, params)
+	out, err := tpl.Execute(pongo2.Context{"env":env, "args":args})
 	if err != nil {
 		return "", err
 	} else {
-		return doc.String(), nil
+		return out, nil
 	}
+}
+
+func filterRequired(in *(pongo2.Value), param *(pongo2.Value)) (out *(pongo2.Value), err *(pongo2.Error)) {
+	if len(strings.TrimSpace(in.String())) == 0 {
+		return in, &(pongo2.Error{Sender:"filter:required", ErrorMsg:"required parameter missing"})
+	} else {
+		return in, nil
+	}
+}
+
+func init() {
+	pongo2.RegisterFilter("required", filterRequired)
 }

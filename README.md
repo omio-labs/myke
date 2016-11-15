@@ -58,7 +58,7 @@ myke tag-name/task-name
   * Environment files
     * Projects can define environment variables using multiple methods (see section below)
   * Runtime parameters
-    * If your build task command is: `echo {{.key1}} {{.key2}}`
+    * If your build task command is: `echo {{key1}} {{key2}}`
     * You can run it as: `myke build[key1=value1,key2=value2]`
     * Use runtime parameters to pass values that are dynamic each time you run `myke <project/task>`, otherwise prefer environment variables
 * Template inheritance
