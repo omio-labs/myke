@@ -17,7 +17,7 @@ var _ = Describe("Workspace", func() {
 			}
 			Expect(names).To(ConsistOf([]string{
 				"example", "child", "depends", "env",
-				"extends", "params", "tags1", "tags2",
+				"extends", "template", "tags1", "tags2",
 			}))
 		})
 	})

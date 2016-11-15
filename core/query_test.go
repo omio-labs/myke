@@ -42,7 +42,7 @@ var _ = Describe("Query", func() {
 			Expect(q.Params["a"]).To(Equal("1"))
 		})
 
-		It("params", func() {
+		It("template", func() {
 			q, err := ParseQuery("/tag1/task/[,a=1,,b=2,,c=3,]")
 			Expect(err).ToNot(HaveOccurred())
 			Expect(q.Task).To(Equal("task"))

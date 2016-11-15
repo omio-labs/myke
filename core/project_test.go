@@ -95,8 +95,8 @@ var _ = Describe("Project", func() {
 			Expect(p.Name).To(Equal("example"))
 			Expect(p.Desc).To(Equal("example project suite"))
 			Expect(p.Includes).To(Equal([]string{
-				"child", "env", "tagging/tags1.yml", "tagging/tags2.yml",
-				"depends", "params", "extends",
+				"child", "env", "tags/tags1.yml", "tags/tags2.yml",
+				"depends", "template", "extends",
 			}))
 			Expect(p.Env["PATH"]).To(HavePrefix(filepath.Join(p.Cwd, "bin")))
 		})

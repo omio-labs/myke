@@ -19,6 +19,11 @@
 			"Rev": "2efee857e7cfd4f3d0138cc3cbb1b4966962b93a"
 		},
 		{
+			"ImportPath": "github.com/flosch/pongo2",
+			"Comment": "v1.0-rc1-211-g22499f9",
+			"Rev": "22499f94d3d56c7238591344a6902715d0b8fbbf"
+		},
+		{
 			"ImportPath": "github.com/ghodss/yaml",
 			"Rev": "bea76d6a4713e18b7f5321a2b020738552def3ea"
 		},
