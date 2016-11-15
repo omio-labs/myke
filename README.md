@@ -31,20 +31,9 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
 * `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
 * `ansible` `salt` `...` myke is not a configuration management tool, its a task runner. Its like `ansible-local` but with a clear way to aggregate and run individual tasks
 
-### Usage
+### Installation
 
-**WIP:** Binary instructions with golang. Scroll to the bottom of this post for current development instructions.
-
-And start using myke:
-
-```
-# list all tasks
-myke
-# run task in project
-myke project-name/task-name
-# run task by tags
-myke tag-name/task-name
-```
+TODO: One-liner wget
 
 ### Features
 
