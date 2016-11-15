@@ -2,9 +2,9 @@ package core
 
 import (
 	"fmt"
-	"time"
 	"os"
 	"os/exec"
+	"time"
 )
 
 type Execution struct {
@@ -18,10 +18,10 @@ func ExecuteQuery(w *Workspace, q Query) error {
 	matches := q.Search(w)
 	for _, match := range matches {
 		e := Execution{
-			Workspace:w,
-			Query: &q,
-			Project:&match.Project,
-			Task:&match.Task,
+			Workspace: w,
+			Query:     &q,
+			Project:   &match.Project,
+			Task:      &match.Task,
 		}
 		err := e.Execute()
 		if err != nil {

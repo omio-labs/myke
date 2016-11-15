@@ -11,7 +11,7 @@ func commandTemplate(tmpl string, env map[string]string, args map[string]string)
 		return "", err
 	}
 
-	out, err := tpl.Execute(pongo2.Context{"env":env, "args":args})
+	out, err := tpl.Execute(pongo2.Context{"env": env, "args": args})
 	if err != nil {
 		return "", err
 	} else {
@@ -21,7 +21,7 @@ func commandTemplate(tmpl string, env map[string]string, args map[string]string)
 
 func filterRequired(in *(pongo2.Value), param *(pongo2.Value)) (out *(pongo2.Value), err *(pongo2.Error)) {
 	if len(strings.TrimSpace(in.String())) == 0 {
-		return in, &(pongo2.Error{Sender:"filter:required", ErrorMsg:"required parameter missing"})
+		return in, &(pongo2.Error{Sender: "filter:required", ErrorMsg: "required parameter missing"})
 	} else {
 		return in, nil
 	}

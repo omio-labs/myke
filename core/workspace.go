@@ -9,7 +9,7 @@ type Workspace struct {
 	Projects []Project
 }
 
-func ParseWorkspace(cwd string) (Workspace) {
+func ParseWorkspace(cwd string) Workspace {
 	in := make(chan Project)
 	go func() {
 		parseWorkspaceNested(cwd, "", in)

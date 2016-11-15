@@ -1,10 +1,10 @@
 package core
 
 import (
-	"strings"
 	"errors"
 	"fmt"
 	"path/filepath"
+	"strings"
 )
 
 type Query struct {
@@ -26,7 +26,7 @@ func ParseQuery(q string) (Query, error) {
 	}
 
 	tasks := strings.Split(strings.Trim(tokens[0], " /"), "/")
-	task, tags := tasks[len(tasks) - 1], tasks[:len(tasks) - 1]
+	task, tags := tasks[len(tasks)-1], tasks[:len(tasks)-1]
 
 	params := make(map[string]string)
 	if len(tokens) > 1 {
@@ -38,7 +38,7 @@ func ParseQuery(q string) (Query, error) {
 		}
 	}
 
-	return Query{Raw: q, Task:task, Tags:tags, Params:params}, nil
+	return Query{Raw: q, Task: task, Tags: tags, Params: params}, nil
 }
 
 func ParseQueries(qs []string) ([]Query, error) {
@@ -53,12 +53,12 @@ func ParseQueries(qs []string) ([]Query, error) {
 	return queries, nil
 }
 
-func (q *Query) Search(w *Workspace) ([]QueryMatch) {
+func (q *Query) Search(w *Workspace) []QueryMatch {
 	matches := []QueryMatch{}
 	for _, p := range w.Projects {
 		for _, t := range p.Tasks {
 			if q.Match(&p, &t) {
-				match := QueryMatch{Project:p, Task:t}
+				match := QueryMatch{Project: p, Task: t}
 				matches = append(matches, match)
 			}
 		}

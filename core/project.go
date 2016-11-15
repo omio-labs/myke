@@ -1,12 +1,12 @@
 package core
 
 import (
-	"github.com/tidwall/gjson"
 	"github.com/ghodss/yaml"
+	"github.com/tidwall/gjson"
 
+	"io/ioutil"
 	"os"
 	"path/filepath"
-	"io/ioutil"
 )
 
 type Project struct {

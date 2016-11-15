@@ -15,7 +15,7 @@ func List() {
 
 	for _, p := range w.Projects {
 		tasks := []string{}
-		for t, _ := range p.Tasks {
+		for t := range p.Tasks {
 			if !strings.HasPrefix(t, "_") {
 				tasks = append(tasks, t)
 			}

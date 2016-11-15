@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"myke/core"
 	"log"
+	"myke/core"
 )
 
 func Run(qs []string) {
