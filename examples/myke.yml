@@ -8,8 +8,8 @@ tasks:
 includes:
   - child
   - env
-  - tags/tags1.yml
-  - tags/tags2.yml
+  - tag/tags1.yml
+  - tag/tags2.yml
   - depends
   - template
   - extends
