@@ -134,7 +134,7 @@ var _ = Describe("Query", func() {
 		It("Match All", func() {
 			q, _ := ParseQuery("*")
 			ms := q.Search(&w)
-			Expect(ms).To(HaveLen(14))
+			Expect(ms).To(HaveLen(15))
 		})
 
 		It("example/build", func() {

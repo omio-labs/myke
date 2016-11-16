@@ -10,6 +10,9 @@ var (
 	runQueries = runCommand.Arg("query", "Query to execute of the format tag1/tag2/project/task[arg1, arg2, ...]").Strings()
 
 	listCommand = kingpin.Command("list", "List available tasks")
+
+	templateCommand = kingpin.Command("template", "Render a template file with environment variables")
+	templateFile = templateCommand.Arg("file", "Template file").Required().String()
 )
 
 func main() {
@@ -22,5 +25,7 @@ func main() {
 		} else {
 			cmd.Run(*runQueries)
 		}
+	case "template":
+		cmd.Template(*templateFile)
 	}
 }

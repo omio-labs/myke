@@ -50,7 +50,7 @@ func ParseProject(path string) (Project, error) {
 		p.Env = mergeEnv(p.Env, loadEnvFile(epath))
 	}
 
-	p.Env = mergeEnv(p.Env, loadOsEnv())
+	p.Env = mergeEnv(p.Env, OsEnv())
 	p.Env["PATH"] = normalizePaths(p.Cwd, p.Env["PATH"])
 
 	for _, epath := range p.Extends {

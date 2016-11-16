@@ -36,7 +36,7 @@ func loadEnvFile(path string) map[string]string {
 	}
 }
 
-func loadOsEnv() map[string]string {
+func OsEnv() map[string]string {
 	env := make(map[string]string)
 	for _, e := range os.Environ() {
 		pair := strings.SplitN(e, "=", 2)

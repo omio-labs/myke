@@ -3,5 +3,9 @@ project: template
 desc: demonstrates use of templates and parameters in command
 tasks:
   params:
-    cmd: echo {{args.from|required}} {{args.to|default:"something_to"}}
+    cmd: echo {{vars.from|required}} {{vars.to|default:"something_to"}}
     desc: run as s2do template/params[from=...,to=...]
+  file:
+    cmd: |
+      myke render kube.tpl.yml | kubectl apply
+    desc: run as s2do template/file

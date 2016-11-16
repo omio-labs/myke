@@ -54,7 +54,8 @@ func (e *Execution) Execute() error {
 }
 
 func (e *Execution) ExecuteSelf() error {
-	cmd, err := commandTemplate(e.Task.Cmd, e.Project.Env, e.Query.Params)
+	vars := mergeEnv(e.Project.Env, e.Query.Params)
+	cmd, err := RenderTemplate(e.Task.Cmd, vars)
 	if err != nil {
 		return err
 	}

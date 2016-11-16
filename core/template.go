@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-func commandTemplate(tmpl string, env map[string]string, args map[string]string) (string, error) {
+func RenderTemplate(tmpl string, vars map[string]string) (string, error) {
 	tpl, err := pongo2.FromString(tmpl)
 	if err != nil {
 		return "", err
 	}
 
-	out, err := tpl.Execute(pongo2.Context{"env": env, "args": args})
+	out, err := tpl.Execute(pongo2.Context{"vars": vars})
 	if err != nil {
 		return "", err
 	} else {
