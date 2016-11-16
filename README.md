@@ -24,10 +24,10 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
 
 ### vs
 
-* `maven` does too many things (scm/release/lifecycle/build/etc). myke has only one purpose of task aggregation
-* `bazel` `buck` `pants` `gradle` `...` These tools *replace* your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
-* `grunt` `rake` `gulp` `pyinvoke` `...` myke allows aggregation of tasks through hierarchies, templates and tags, which these tools dont. myke is also language agnostic - you don't need to know python to use myke because you only deal with simple yml files
-* `make` `scons` `ninja` `...` All these are very low-level tools with crux of local file change tracking (run compile only if src folder is changed, etc). Most buildchains today (maven/docker/etc) are already intelligent enough to process only changed files, so myke completely bypasses file tracking. Secondly, these tools struggle dealing with remote artifacts (docker/nexus/gcloud/etc)
+* `maven` does a lot of things (compilation/scm/release/lifecycle/build/etc), but its very hard to create and execute simple custom tasks. myke only focuses on the latter
+* `bazel` `buck` `pants` `gradle` `...` they replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
+* `grunt` `rake` `gulp` `pyinvoke` `...` myke allows aggregation of tasks through hierarchies, templates and tags. myke is also language agnostic - you don't need to know python to use myke because you only deal with simple yml files
+* `make` `scons` `ninja` `...` they are low-level build tools with a crux of file-based dependencies. Most buildchains today (maven/docker/etc) are already intelligent enough to process only changed files, so myke completely bypasses file tracking, and only focuses on task aggregation and management
 * `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
 * `ansible` `salt` `...` myke is not a configuration management tool, its a task runner
 * `robo` [robo](https://github.com/tj/robo) is the closest relative to myke
