@@ -7,18 +7,6 @@
 	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/alecthomas/template",
-			"Rev": "a0175ee3bccc567396460bf5acd36800cb10c49c"
-		},
-		{
-			"ImportPath": "github.com/alecthomas/template/parse",
-			"Rev": "a0175ee3bccc567396460bf5acd36800cb10c49c"
-		},
-		{
-			"ImportPath": "github.com/alecthomas/units",
-			"Rev": "2efee857e7cfd4f3d0138cc3cbb1b4966962b93a"
-		},
-		{
 			"ImportPath": "github.com/flosch/pongo2",
 			"Comment": "v1.0-rc1-211-g22499f9",
 			"Rev": "22499f94d3d56c7238591344a6902715d0b8fbbf"
@@ -189,9 +177,9 @@
 			"Rev": "c200b10b5d5e122be351b67af224adc6128af5bf"
 		},
 		{
-			"ImportPath": "gopkg.in/alecthomas/kingpin.v2",
-			"Comment": "v2.2.3",
-			"Rev": "e9044be3ab2a8e11d4e1f418d12f0790d57e8d70"
+			"ImportPath": "gopkg.in/urfave/cli.v1",
+			"Comment": "v1.18.1",
+			"Rev": "a14d7d367bc02b1f57d88de97926727f2d936387"
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v2",

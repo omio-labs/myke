@@ -1,11 +1,25 @@
 package cmd
 
 import (
+	"gopkg.in/urfave/cli.v1"
 	"log"
 	"myke/core"
 )
 
-func Run(qs []string) {
+func RunOrList(c *cli.Context) error {
+	if c.NArg() > 0 {
+		return Run(c)
+	} else {
+		return List(c)
+	}
+}
+
+func Run(c *cli.Context) error {
+	qs := make([]string, len(c.Args()))
+	for i, v := range c.Args() {
+		qs[i] = v
+	}
+
 	queries, err := core.ParseQueries(qs)
 	if err != nil {
 		log.Fatal(err)
@@ -18,4 +32,6 @@ func Run(qs []string) {
 			log.Fatal(err)
 		}
 	}
+
+	return nil
 }

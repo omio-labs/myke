@@ -1,14 +1,15 @@
 package cmd
 
 import (
+	"gopkg.in/urfave/cli.v1"
 	"log"
 	"fmt"
 	"io/ioutil"
 	"myke/core"
 )
 
-func Template(path string) {
-	bytes, err := ioutil.ReadFile(path)
+func Template(c *cli.Context) error {
+	bytes, err := ioutil.ReadFile(c.Args().First())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,4 +20,5 @@ func Template(path string) {
 	}
 
 	fmt.Println(rendered)
+	return nil
 }

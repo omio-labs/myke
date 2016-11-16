@@ -1,31 +1,31 @@
 package main
 
 import (
-	"gopkg.in/alecthomas/kingpin.v2"
+	"gopkg.in/urfave/cli.v1"
 	"myke/cmd"
 )
 
-var (
-	runCommand = kingpin.Command("run", "Run tasks").Default()
-	runQueries = runCommand.Arg("query", "Query to execute of the format tag1/tag2/project/task[arg1, arg2, ...]").Strings()
-
-	listCommand = kingpin.Command("list", "List available tasks")
-
-	templateCommand = kingpin.Command("template", "Render a template file with environment variables")
-	templateFile = templateCommand.Arg("file", "Template file").Required().String()
-)
-
 func main() {
-	switch kingpin.Parse() {
-	case "list":
-		cmd.List()
-	case "run":
-		if len(*runQueries) == 0 {
-			cmd.List()
-		} else {
-			cmd.Run(*runQueries)
-		}
-	case "template":
-		cmd.Template(*templateFile)
+	app := cli.NewApp()
+	app.Name = "myke"
+	app.Usage = "make with yml"
+	app.Action = cmd.RunOrList
+	app.Commands = []cli.Command{
+		{
+			Name: "list",
+			Usage: "list available tasks",
+			Action: cmd.List,
+		},
+		{
+			Name: "run",
+			Usage: "query to execute of format tag1/tag2/project/task[arg1=val1,arg2=val2,...]",
+			Action: cmd.Run,
+		},
+		{
+			Name: "template",
+			Usage: "render a template file with environment variables",
+			Action: cmd.Template,
+		},
 	}
+	app.RunAndExitOnError()
 }

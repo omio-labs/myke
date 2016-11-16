@@ -1,13 +1,14 @@
 package cmd
 
 import (
+	"gopkg.in/urfave/cli.v1"
 	"github.com/olekukonko/tablewriter"
 
 	"os"
 	"strings"
 )
 
-func List() {
+func List(c *cli.Context) error {
 	w := loadWorkspace()
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetBorder(false)
@@ -26,4 +27,5 @@ func List() {
 	}
 
 	table.Render()
+	return nil
 }
