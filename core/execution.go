@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"time"
+	"strings"
 )
 
 type Execution struct {
@@ -54,15 +55,14 @@ func (e *Execution) Execute() error {
 }
 
 func (e *Execution) ExecuteSelf() error {
-	vars := mergeEnv(e.Project.Env, e.Query.Params)
-	cmd, err := RenderTemplate(e.Task.Cmd, vars)
+	cmd, err := RenderTemplate(e.Task.Cmd, e.Project.Env, e.Query.Params)
 	if err != nil {
 		return err
 	}
 
 	proc := exec.Command("sh", "-exc", cmd)
 	proc.Dir = e.Project.Cwd
-	proc.Env = envList(e.Project.Env)
+	proc.Env = e.EnvList()
 	proc.Stdin = os.Stdin
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
@@ -88,8 +88,19 @@ func (e *Execution) ExecuteDependent(qs []string) error {
 	return nil
 }
 
-func envList(env map[string]string) []string {
-	env["PATH"] = env["PATH"] + string(os.PathListSeparator) + os.Getenv("PATH")
+func (e *Execution) Env() map[string]string {
+	extraEnv := map[string]string{
+		"MYKE_PROJECT": e.Project.Name,
+		"MYKE_TASK": e.Task.Name,
+		"MYKE_CWD": e.Project.Cwd,
+	}
+	env := mergeEnv(mergeEnv(e.Project.Env, extraEnv), OsEnv())
+	env["PATH"] = strings.Join([]string{ env["PATH"], os.Getenv("PATH") }, PathSep)
+	return env
+}
+
+func (e *Execution) EnvList() []string {
+	env := e.Env()
 	envList := make([]string, len(env))
 	for k, v := range env {
 		envList = append(envList, fmt.Sprintf("%v=%v", k, v))

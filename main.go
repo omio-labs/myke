@@ -3,11 +3,14 @@ package main
 import (
 	"gopkg.in/urfave/cli.v1"
 	"myke/cmd"
+	"log"
+	"os"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "myke"
+	app.Version = "0.2.0"
 	app.Usage = "make with yml"
 	app.Action = cmd.RunOrList
 	app.Commands = []cli.Command{
@@ -27,5 +30,7 @@ func main() {
 			Action: cmd.Template,
 		},
 	}
-	app.RunAndExitOnError()
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
+	}
 }

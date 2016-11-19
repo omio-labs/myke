@@ -4,6 +4,6 @@ desc: myke uses myke to myke itself
 tasks:
   test:
     desc: run as myke test (or) myke myke/test
-    cmd: python -m unittest discover -p *_test.py .
+    cmd: ginkgo -r
 includes:
   - examples

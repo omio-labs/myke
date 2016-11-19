@@ -14,11 +14,11 @@ func Template(c *cli.Context) error {
 		log.Fatal(err)
 	}
 
-	rendered, err := core.RenderTemplate(string(bytes), core.OsEnv())
+	rendered, err := core.RenderTemplate(string(bytes), core.OsEnv(), map[string]string{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(rendered)
+	fmt.Print(rendered)
 	return nil
 }
