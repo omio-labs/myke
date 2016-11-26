@@ -29,6 +29,11 @@ func main() {
 			Usage: "render a template file with environment variables",
 			Action: cmd.Template,
 		},
+		{
+			Name: "license",
+			Usage: "prints licenses",
+			Action: cmd.License,
+		},
 	}
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)

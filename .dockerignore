@@ -10,3 +10,4 @@ Dockerfile
 *.log
 vendor/
 bin/
+tmp/

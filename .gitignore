@@ -160,6 +160,5 @@ vendor/
 ###
 ###
 
-s2do/
-bin/
-/myke
+tmp/
+bin/myke*
