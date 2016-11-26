@@ -31,7 +31,7 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
 * `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
 * `ansible` `salt` `...` myke is not a configuration management tool, its a task runner
 * [`robo`](https://github.com/tj/robo) is the closest relative to myke, you should check it out as well
-* *whatever other build tool I'm using* - We found that adding complex logic to build tools (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) slowly degrades development over time. Restricting build tools to only do simple source builds, deferring higher-order build logic to a meta-build tool, and having a shared task nomenclature across teams helps for a better development experience.
+* `whatever other build tool you're using` - we found that adding complex logic to build tools (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) slowly degrades development over time. Restricting build tools to only do simple source builds, deferring higher-order build logic to a meta-build tool, and having a shared build vocabulary across teams helps for a better development experience.
 
 ### Installation
 
