@@ -24,8 +24,8 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
 
 ### Alternatives
 
-* `maven` does a lot of things (compilation/scm/release/lifecycle/build/etc), but its cumbersome to execute simple custom tasks. myke only focuses on the latter
-* `bazel` `buck` `pants` `gradle` `...` they replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
+* `maven` is a lifecycle reactor that does a lot of things (compilation/scm/release/lifecycle/build/etc). myke only focuses on simple tasks
+* `bazel` `buck` `pants` `gradle` `...` replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
 * `grunt` `rake` `gulp` `pyinvoke` `...` myke allows aggregation of tasks through hierarchies, templates and tags. myke is also language agnostic - you don't need to know python to use myke because you only deal with simple yml files
 * `make` `scons` `ninja` `...` they are low-level build tools with a crux of file-based dependencies. Most buildchains today (maven/docker/etc) are already intelligent enough to process only changed files, so myke completely bypasses file tracking, and only focuses on task aggregation and management
 * `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
