@@ -7,3 +7,7 @@ tasks:
   test:
     desc: run as myke test (or) myke myke/test
     cmd: ginkgo -r
+  package:
+    cmd: cross-compile.sh
+    before:
+      - test

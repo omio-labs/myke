@@ -83,7 +83,7 @@ func tmpLicenses() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "tmp/LICENSES", size: 13348, mode: os.FileMode(420), modTime: time.Unix(1480268181, 0)}
+	info := bindataFileInfo{name: "tmp/LICENSES", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

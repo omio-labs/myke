@@ -21,7 +21,7 @@ for dep in $deps; do
 done
 
 # Compile bindata
-go-bindata -o core/bindata.go -pkg core tmp/
+go-bindata -o core/bindata.go -nometadata -pkg core tmp/
 
 # Cross compile
 gox \
