@@ -2,97 +2,88 @@
 
 > A higher order task aggregator with cascading configuration, suitable as a wrapper over existing task runners.
 
-## What does it do?
-
-Running `myke` on this folder prints:
-
-```
-project    tags       tasks
----------  ---------  ------------------
-child                 build test
-depends               before after before_after itself
-env                   env
-example               build
-extends               task1 task2 task3
-params                render
-myke                  test
-tags1      tagA tagB  tag
-tags2      tagB tagC  tag
-```
-
 myke allows you to define tasks in `.yml` files and aggregates all of them. This helps you to manage multiple components in multiple projects in multiple repositories.
+
+## Usage
+
+Create `myke.yml` with tasks. For example, running `myke` on this folder prints:
+
+```
+  PROJECT  |    TAGS    |             TASKS
++----------+------------+-------------------------------------+
+  myke     |            | test
+  example  |            | build
+  env      |            | env
+  tags1    | tagA, tagB | tag
+  tags2    | tagB, tagC | tag
+  depends  |            | after, before, before_after, itself
+  template |            | args, file
+  mixin    |            | task2, task3, task1
+```
+
+Using the above definition, you can invoke tasks like:
+
+* `myke build` runs build in all projects
+* `myke <project>/build` runs build in that specific `<project>`
+* `myke <tag>/build` runs build in all projects tagged `<tag>`
+* `myke <tagA>/<tagB>/.../build` can match tasks by many tags (AND)
+
+You can pass task parameters like:
+
+* `myke template/arg[from=1,to=2]`
+* `myke template/file`
+
+## Features
+
+* Define tasks in language-agnostic `.yml` files
+* Environment variables can be defined in the yml or included from dotenv files, and can be overridden from the shell
+* Runtime parameters like `myke ...task[key1=val1, key2=val2, ...]`
+* One YML can mixin another YML, acquiring all tasks, env, env files, PATH defaults, etc, and can override all of them
+* Built-in templating using [Pongo2](https://github.com/flosch/pongo2) for tasks as well as custom files, because templating is a basic necessity
+* Tasks can run other tasks in `before/after` hooks
 
 ## Installation
 
 * TODO: One-liner wget
 
-## Features
-
-* Define tasks in language-agnostic `.yml` files
-* Run tasks with project/tag filtering
-  * `myke build` runs build in all projects
-  * `myke <project>/build` runs build in that specific `<project>`
-  * `myke <tag>/build` runs build in all projects tagged `<tag>`
-  * `myke <tagA>/<tagB>/.../build` can match tasks by many tags (AND)
-* Many ways to configure
-  * Environment files
-    * Projects can define environment variables using multiple methods (see section below)
-  * Runtime parameters
-    * If your build task command is: `echo {{key1}} {{key2}}`
-    * You can run it as: `myke build[key1=value1,key2=value2]`
-    * Use runtime parameters to pass values that are dynamic each time you run `myke <project/task>`, otherwise prefer environment variables
-* Template inheritance
-  * Projects can extend other template(s) using `extends` keyword
-  * Allows reuse of shared tasks, but still remain different using environment variables or parameters
-
 ## Examples
 
-* Run `myke` to list all the tasks
-* Run `myke test` to use myke to test itself
-* Explore the self documenting `examples` folder
+Explore the self documenting `examples` folder.
 
-## Environment variables
+## Task Execution Environment
 
-`myke` should execute a given task with the same environment, irrespective of whether you invoke from a child folder or a parent folder. For this reason, parent project's environment variables are **not cascaded down** to child projects. Rather, a child project must **explicitly reference** shared environment variables using `env_files` or `extends` in the yml to avoid ambiguous behavior.
-
-* Many ways to load environment variables:
-  * Use `env` property in the project's yaml
-  * Use `env_files` property to load custom .env files
-  * myke will by default load `<yml-file-name>.env` if it exists
-  * for each `.env` file, myke will also try to load a corresponding `.env.local` if exists. Users can use these `.env.local` files to override the default files, and gitignore them
-* Additional project-specific environment variables that are set:
-  * `$MYKE_PROJECT`: Name of project being executed
-  * `$MYKE_TASK`: Name of task
-  * `$MYKE_CWD`: Full path to directory where the task is defined
-  * `$MYKE_CWD/bin` is prepended to path
-* Same goes for every yml file that your project `extends`
-  * So all the env variables naturally loaded by each `extends` file (`env`, `env_files`, `[extends-file].env`, `[extends-file].env.local`, `$PATH=EXTENDS_FILE_CWD/bin`, etc) are also made available to the child project
-* Any environment variables set in command line override the above
-
-## Development
-
-Use docker/docker-compose to develop. You don't need to have golang installed.
-
-* `docker-compose build` Builds and runs tests
-* `docker-compose up` Produces `bin` folder with executables
-* `docker-compose run --rm myke /bin/bash` Gives you a terminal inside the container, from where you can run go commands like:
-  * `ginkgo -r` Runs all tests
-  * `go run main.go` Compiles and runs main
+* `cwd` is set to the YML file base folder
+* `cwd/bin` is added to `PATH`
+* environment variables are loaded from:
+  * `env` property in yml
+  * dotenv files from `env_files`
+  * for every dotenv file, the corresponding dotenv `.local` file is also loaded
+* same is done for every mixin that the yml uses
+  * So, if you mixin `<some-other-folder>/myke.yml`, then that yml's `cwd/bin` is also added to the PATH, that yml's env/env_files/env_files.local are also loaded, and so on
+* shell exported environment variables take precedence
+* additional variables: `MYKE_PROJECT`, `MYKE_TASK`, `MYKE_CWD` are set
+* command is templated using [pongo2](https://github.com/flosch/pongo2)
+  * `env` and `args` are passed as variables
+* command is run using `sh -exc`
 
 ## FAQs
 
 ### How do I share common logic in tasks?
 
-Firstly, use single-purpose shared scripts, like the Unix philosophy. If the scripts are complex, make them as standalone scripts in language of your choice (python/etc). Put these scripts under `bin` folder inside your project. From the above Environment Variables section, you can find that `PROJECT_CWD/bin` is always added to the `PATH`, so you can start using these scripts straight away in your tasks.
+There are multiple ways including:
 
-If multiple projects need to share the same scripts, then another way is to leverage the behavior of `extends` templates. Remember that when your project `extends` another yml file, it **also** extends the environment variables and `bin` folder of that extended project. So you can model a template as a folder:
+* Place shared scripts in `bin` folder (remember that `CWD/bin` is always added to the `PATH`)
+* If the scripts are complex, you can write them in python or other languages of your choice
+* If multiple projects need to share the same scripts, then use a common mixin folder (remember that for mixin ymls - the same `CWD/bin` is added to PATH, same env files are loaded, etc, refer [[Task Execution Environment]])
 
-* `java-template`
-  * `template.yml` - project template with tasks
-  * `template.env` - environment vars, can be overridden by extending projects
+For example,
+
+* `java-mixin`
+  * `myke.yml` - project template with tasks
+  * `myke.env` - environment vars, can be overridden by extending projects
   * `bin` - gets added to the PATH of extending projects
     * any shared scripts that you want
-* `kubernetes-template`
+* `kubernetes-mixin`
   * ...
   * ...
 
@@ -107,3 +98,13 @@ If multiple projects need to share the same scripts, then another way is to leve
 * [`robo`](https://github.com/tj/robo) is the closest relative to myke, you should check it out as well
 
 Deferring higher-order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like a task runner or aggregator), restricting build tools to do only simple source builds, and having a shared build vocabulary across projects is a generally good idea. There are millions of such meta-build tools or task aggregators out there, we just wanted something fast, zero-dependency and language-agnostic while still helping us manage multiple components across repositories with ease.
+
+## Development
+
+Use docker/docker-compose to develop. You don't need to have golang installed.
+
+* `docker-compose build` Builds and runs tests
+* `docker-compose up` Produces `bin` folder with executables
+* `docker-compose run --rm myke /bin/bash` Gives you a terminal inside the container, from where you can run go commands like:
+  * `ginkgo -r` Runs all tests
+  * `go run main.go` Compiles and runs main

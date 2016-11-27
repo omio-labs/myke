@@ -1,6 +1,12 @@
 ---
 project: env
-desc: usage of env vars
+desc: |-
+  Usage of environment variables.
+  You can define environment variables using:
+    env map in the yml file
+    env_files in the yml file
+    myke.env is always added to env_files
+    for every env_file a corresponding .env.local file is loaded if present
 env:
   KEY_1: env_yml_1
   KEY_2: env_yml_2
@@ -9,4 +15,4 @@ env:
 tasks:
   env:
     cmd: env
-    desc: run as s2do env (or) env/env
+    desc: run as myke env (or) env/env

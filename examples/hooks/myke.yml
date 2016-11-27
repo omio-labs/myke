@@ -1,22 +1,22 @@
 ---
-project: depends
+project: hooks
 desc: |-
   tasks can run other tasks before and after.
   these before/after dependencies get passed the full arguments of this task.
 tasks:
   before:
-    cmd: echo depend before
+    cmd: echo hook before
   after:
-    cmd: echo depend after
+    cmd: echo hook after
   before_after:
-    cmd: echo depend run_before
+    cmd: echo hook run_before
     desc: depends on before and after
     before:
       - before
     after:
       - after
   itself:
-    cmd: echo depend itself
+    cmd: echo hook itself
     desc: depends on itself but will not cause recursion
     before:
       - itself

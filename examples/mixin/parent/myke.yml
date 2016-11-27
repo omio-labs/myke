@@ -1,5 +1,4 @@
 ---
-project: extends_parent
 desc: defines some shared tasks
 env:
   KEY_1: value_parent_1
@@ -8,7 +7,7 @@ env:
 tasks:
   task1:
     cmd: echo parent says $KEY_1
-    desc: run as s2do task1 (or) extends/task1
+    desc: run as myke task1 (or) extends/task1
   task2:
     cmd: echo parent says $KEY_2
-    desc: run as s2do task2 (or) extends/task2
+    desc: run as myke task2 (or) extends/task2

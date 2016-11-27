@@ -7,7 +7,7 @@ env:
 tasks:
   args:
     cmd: echo {{args.from|required}} {{args.to|default:"something_to"}}
-    desc: run as s2do template/args[from=...,to=...]
+    desc: run as myke template/args[from=...,to=...]
   file:
     cmd: myke template template.tpl
-    desc: run as s2do template/file
+    desc: run as myke template/file

@@ -17,9 +17,9 @@ var _ = Describe("Project", func() {
 			p := loadProjectJson(gjson.Parse("{}"))
 			Expect(p.Name).To(BeEmpty())
 			Expect(p.Desc).To(BeEmpty())
-			Expect(p.Includes).To(BeEmpty())
-			Expect(p.Includes).To(BeEmpty())
-			Expect(p.Extends).To(BeEmpty())
+			Expect(p.Discover).To(BeEmpty())
+			Expect(p.Discover).To(BeEmpty())
+			Expect(p.Mixin).To(BeEmpty())
 			Expect(p.Env).To(BeEmpty())
 			Expect(p.EnvFiles).To(BeEmpty())
 			Expect(p.Tags).To(BeEmpty())
@@ -36,14 +36,14 @@ var _ = Describe("Project", func() {
 			Expect(p.Desc).To(Equal("example"))
 		})
 
-		It("Includes", func() {
-			p := loadProjectJson(gjson.Parse(`{ "includes": ["1", "2"] }`))
-			Expect(p.Includes).To(Equal([]string{"1", "2"}))
+		It("Discover", func() {
+			p := loadProjectJson(gjson.Parse(`{ "discover": ["1", "2"] }`))
+			Expect(p.Discover).To(Equal([]string{"1", "2"}))
 		})
 
-		It("Extends", func() {
-			p := loadProjectJson(gjson.Parse(`{ "extends": ["1", "2"] }`))
-			Expect(p.Extends).To(Equal([]string{"1", "2"}))
+		It("Mixin", func() {
+			p := loadProjectJson(gjson.Parse(`{ "mixin": ["1", "2"] }`))
+			Expect(p.Mixin).To(Equal([]string{"1", "2"}))
 		})
 
 		It("Env", func() {
@@ -94,9 +94,9 @@ var _ = Describe("Project", func() {
 			Expect(p.Cwd).To(Equal(filepath.Dir(path)))
 			Expect(p.Name).To(Equal("example"))
 			Expect(p.Desc).To(Equal("example project suite"))
-			Expect(p.Includes).To(Equal([]string{
-				"child", "env", "tag/tags1.yml", "tag/tags2.yml",
-				"depends", "template", "extends",
+			Expect(p.Discover).To(Equal([]string{
+				"env", "tag/tags1.yml", "tag/tags2.yml",
+				"hooks", "template", "mixin",
 			}))
 			Expect(p.Env["PATH"]).To(HavePrefix(filepath.Join(p.Cwd, "bin")))
 		})
@@ -108,7 +108,6 @@ var _ = Describe("Project", func() {
 			Expect(p.Src).To(Equal(path))
 			Expect(p.Cwd).To(Equal(filepath.Dir(path)))
 			Expect(p.Name).To(Equal("env"))
-			Expect(p.Desc).To(Equal("usage of env vars"))
 
 			expectedPaths := strings.Join([]string{
 				filepath.Join(p.Cwd, "env_local_file_path"),
@@ -119,14 +118,13 @@ var _ = Describe("Project", func() {
 			Expect(p.Env["PATH"]).To(HavePrefix(expectedPaths))
 		})
 
-		It("examples/extends", func() {
-			path, err := filepath.Abs("../examples/extends/myke.yml")
-			p, err := ParseProject("../examples/extends")
+		It("examples/mixin", func() {
+			path, err := filepath.Abs("../examples/mixin/myke.yml")
+			p, err := ParseProject("../examples/mixin")
 			Expect(err).ToNot(HaveOccurred())
 			Expect(p.Src).To(Equal(path))
 			Expect(p.Cwd).To(Equal(filepath.Dir(path)))
-			Expect(p.Name).To(Equal("extends"))
-			Expect(p.Desc).To(Equal("demonstrates how one yml file can extend another"))
+			Expect(p.Name).To(Equal("mixin"))
 
 			Expect(p.Env["KEY_1"]).To(Equal("value_parent_1"))
 			Expect(p.Env["KEY_2"]).To(Equal("value_child_2"))

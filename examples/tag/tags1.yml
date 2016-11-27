@@ -7,4 +7,4 @@ desc: this project is tagged with tagA,tagB
 tasks:
   tag:
     cmd: echo tags1 tag
-    desc: run as s2do tag (or) tags1/tag (or) tagA/tag (or) tagB/tag
+    desc: run as myke tag (or) tags1/tag (or) tagA/tag (or) tagB/tag

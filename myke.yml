@@ -1,9 +1,9 @@
 ---
 project: myke
-desc: myke uses myke to myke itself
+desc: make with yml
+discover:
+  - examples
 tasks:
   test:
     desc: run as myke test (or) myke myke/test
     cmd: ginkgo -r
-includes:
-  - examples

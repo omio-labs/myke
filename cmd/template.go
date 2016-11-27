@@ -14,7 +14,6 @@ var TemplateCmd = cli.Command{
 	Action: Template,
 }
 
-
 func Template(c *cli.Context) error {
 	bytes, err := ioutil.ReadFile(c.Args().First())
 	if err != nil {

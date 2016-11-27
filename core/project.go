@@ -14,11 +14,11 @@ type Project struct {
 	Cwd      string
 	Name     string
 	Desc     string
-	Includes []string
-	Extends  []string
+	Tags     []string
+	Discover []string
+	Mixin    []string
 	Env      map[string]string
 	EnvFiles []string
-	Tags     []string
 	Tasks    map[string]Task
 }
 
@@ -31,11 +31,7 @@ func ParseProject(path string) (Project, error) {
 	if info, err := os.Stat(src); err != nil {
 		return Project{}, err
 	} else if info.IsDir() {
-		if mp, err := ParseProject(filepath.Join(src, "myke.yml")); err != nil {
-			return ParseProject(filepath.Join(src, "s2do.yml"))
-		} else {
-			return mp, err
-		}
+		return ParseProject(filepath.Join(src, "myke.yml"))
 	}
 
 	p, err := loadProjectYaml(src)
@@ -53,8 +49,8 @@ func ParseProject(path string) (Project, error) {
 	p.Env = mergeEnv(p.Env, OsEnv())
 	p.Env["PATH"] = normalizePaths(p.Cwd, p.Env["PATH"])
 
-	for _, epath := range p.Extends {
-		if p, err = extendProject(p, epath); err != nil {
+	for _, epath := range p.Mixin {
+		if p, err = mixinProject(p, epath); err != nil {
 			return Project{}, err
 		}
 	}
@@ -85,14 +81,14 @@ func loadProjectJson(json gjson.Result) Project {
 	if j := json.Get("desc"); j.Exists() {
 		p.Desc = j.String()
 	}
-	if j := json.Get("includes"); j.Exists() {
+	if j := json.Get("discover"); j.Exists() {
 		for _, s := range j.Array() {
-			p.Includes = append(p.Includes, s.String())
+			p.Discover = append(p.Discover, s.String())
 		}
 	}
-	if j := json.Get("extends"); j.Exists() {
+	if j := json.Get("mixin"); j.Exists() {
 		for _, s := range j.Array() {
-			p.Extends = append(p.Extends, s.String())
+			p.Mixin = append(p.Mixin, s.String())
 		}
 	}
 	p.Env = make(map[string]string)
@@ -120,19 +116,19 @@ func loadProjectJson(json gjson.Result) Project {
 	return p
 }
 
-func extendProject(child Project, path string) (Project, error) {
+func mixinProject(child Project, path string) (Project, error) {
 	parent, err := ParseProject(filepath.Join(child.Cwd, path))
 	if err != nil {
 		return Project{}, err
 	}
 
 	child.Tags = mergeTags(parent.Tags, child.Tags)
-	child.Includes = mergeTags(parent.Includes, child.Includes)
+	child.Discover = mergeTags(parent.Discover, child.Discover)
 	child.EnvFiles = mergeTags(parent.EnvFiles, child.EnvFiles)
 	child.Env = mergeEnv(parent.Env, child.Env)
 
 	for taskName, parentTask := range parent.Tasks {
-		child.Tasks[taskName] = extendTask(taskName, child.Tasks[taskName], parentTask)
+		child.Tasks[taskName] = mixinTask(taskName, child.Tasks[taskName], parentTask)
 	}
 
 	return child, nil

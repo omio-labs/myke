@@ -1,15 +1,14 @@
 ---
 project: example
 desc: example project suite
-tasks:
-  build:
-    cmd: echo example build
-    desc: run as `s2do build` or `s2do example/build`
-includes:
-  - child
+discover:
   - env
   - tag/tags1.yml
   - tag/tags2.yml
-  - depends
+  - hooks
   - template
-  - extends
+  - mixin
+tasks:
+  build:
+    cmd: echo example build
+    desc: run as `myke build` or `myke example/build`

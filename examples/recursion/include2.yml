@@ -1,7 +1,0 @@
----
-project: include2
-desc: |
-  this project will fail to load because
-  it includes include1 which in turn includes include2
-includes:
-  - include1.yml

@@ -1,0 +1,17 @@
+---
+project: mixin
+desc: |-
+  One YML file can mixin another YML file.
+  This will make it inherit all properties from the other YML file,
+  including tasks, tags, env, env_files, PATH directories, etc.
+mixin:
+  - parent/
+env:
+  KEY_2: value_child_2
+  KEY_3: value_child_3
+  PATH: path_child
+tasks:
+  task2:
+    cmd: echo child says $KEY_2
+  task3:
+    cmd: echo child says $KEY_3

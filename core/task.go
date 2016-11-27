@@ -41,7 +41,7 @@ func loadTaskJson(name string, json gjson.Result) Task {
 	return t
 }
 
-func extendTask(taskName string, child Task, parent Task) Task {
+func mixinTask(taskName string, child Task, parent Task) Task {
 	child.Name = taskName
 	if len(strings.TrimSpace(child.Cmd)) == 0 {
 		child.Cmd = parent.Cmd

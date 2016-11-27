@@ -27,7 +27,7 @@ func ParseWorkspace(cwd string) Workspace {
 func parseWorkspaceNested(cwd string, path string, in chan Project) {
 	p, _ := ParseProject(filepath.Join(cwd, path))
 	in <- p
-	for _, includePath := range p.Includes {
+	for _, includePath := range p.Discover {
 		parseWorkspaceNested(p.Cwd, includePath, in)
 	}
 }

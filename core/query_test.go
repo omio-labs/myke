@@ -134,7 +134,7 @@ var _ = Describe("Query", func() {
 		It("Match All", func() {
 			q, _ := ParseQuery("*")
 			ms := q.Search(&w)
-			Expect(ms).To(HaveLen(15))
+			Expect(ms).To(HaveLen(13))
 		})
 
 		It("example/build", func() {
@@ -142,13 +142,6 @@ var _ = Describe("Query", func() {
 			ms := q.Search(&w)
 			Expect(ms).To(HaveLen(1))
 			Expect(fullNames(ms)).To(ConsistOf("example/build"))
-		})
-
-		It("child/build", func() {
-			q, _ := ParseQuery("child/build")
-			ms := q.Search(&w)
-			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("child/build"))
 		})
 
 		It("env/env", func() {
@@ -172,20 +165,6 @@ var _ = Describe("Query", func() {
 			Expect(fullNames(ms)).To(ConsistOf("tags2/tag"))
 		})
 
-		It("build", func() {
-			q, _ := ParseQuery("build")
-			ms := q.Search(&w)
-			Expect(ms).To(HaveLen(2))
-			Expect(fullNames(ms)).To(ConsistOf("example/build", "child/build"))
-		})
-
-		It("test", func() {
-			q, _ := ParseQuery("test")
-			ms := q.Search(&w)
-			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("child/test"))
-		})
-
 		It("tagA/tag", func() {
 			q, _ := ParseQuery("tagA/tag")
 			ms := q.Search(&w)
@@ -207,53 +186,60 @@ var _ = Describe("Query", func() {
 			Expect(fullNames(ms)).To(ConsistOf("tags2/tag"))
 		})
 
-		It("depends/itself", func() {
-			q, _ := ParseQuery("depends/itself")
+		It("tag", func() {
+			q, _ := ParseQuery("tag")
 			ms := q.Search(&w)
-			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("depends/itself"))
+			Expect(ms).To(HaveLen(2))
+			Expect(fullNames(ms)).To(ConsistOf("tags1/tag", "tags2/tag"))
 		})
 
-		It("depends/before", func() {
-			q, _ := ParseQuery("depends/before")
+		It("hooks/itself", func() {
+			q, _ := ParseQuery("hooks/itself")
 			ms := q.Search(&w)
 			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("depends/before"))
+			Expect(fullNames(ms)).To(ConsistOf("hooks/itself"))
 		})
 
-		It("depends/after", func() {
-			q, _ := ParseQuery("depends/after")
+		It("hooks/before", func() {
+			q, _ := ParseQuery("hooks/before")
 			ms := q.Search(&w)
 			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("depends/after"))
+			Expect(fullNames(ms)).To(ConsistOf("hooks/before"))
 		})
 
-		It("depends/before_after", func() {
-			q, _ := ParseQuery("depends/before_after")
+		It("hooks/after", func() {
+			q, _ := ParseQuery("hooks/after")
 			ms := q.Search(&w)
 			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("depends/before_after"))
+			Expect(fullNames(ms)).To(ConsistOf("hooks/after"))
 		})
 
-		It("extends/task1", func() {
-			q, _ := ParseQuery("extends/task1")
+		It("hooks/before_after", func() {
+			q, _ := ParseQuery("hooks/before_after")
 			ms := q.Search(&w)
 			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("extends/task1"))
+			Expect(fullNames(ms)).To(ConsistOf("hooks/before_after"))
 		})
 
-		It("extends/task2", func() {
-			q, _ := ParseQuery("extends/task2")
+		It("mixin/task1", func() {
+			q, _ := ParseQuery("mixin/task1")
 			ms := q.Search(&w)
 			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("extends/task2"))
+			Expect(fullNames(ms)).To(ConsistOf("mixin/task1"))
 		})
 
-		It("extends/task3", func() {
-			q, _ := ParseQuery("extends/task3")
+		It("mixin/task2", func() {
+			q, _ := ParseQuery("mixin/task2")
 			ms := q.Search(&w)
 			Expect(ms).To(HaveLen(1))
-			Expect(fullNames(ms)).To(ConsistOf("extends/task3"))
+			Expect(fullNames(ms)).To(ConsistOf("mixin/task2"))
+		})
+
+		It("mixin/task3", func() {
+			q, _ := ParseQuery("mixin/task3")
+			ms := q.Search(&w)
+			Expect(ms).To(HaveLen(1))
+			Expect(fullNames(ms)).To(ConsistOf("mixin/task3"))
 		})
 	})
 
