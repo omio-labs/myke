@@ -1,8 +1,8 @@
-## myke
+# myke
 
 > A higher order task aggregator with cascading configuration, suitable as a wrapper over existing task runners.
 
-### What does it do?
+## What does it do?
 
 Running `myke` on this folder prints:
 
@@ -22,23 +22,11 @@ tags2      tagB tagC  tag
 
 myke allows you to define tasks in `.yml` files and aggregates all of them. This helps you to manage multiple components in multiple projects in multiple repositories.
 
-### Why use myke instead of...
+## Installation
 
-* `maven` is a lifecycle reactor that does a lot of things (compilation/scm/release/lifecycle/build/etc). myke only focuses on simple tasks
-* `bazel` `buck` `pants` `gradle` `...` replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
-* `grunt` `rake` `gulp` `pyinvoke` `...` myke allows aggregation of tasks through hierarchies, templates and tags. myke is also language agnostic and zero-dependency
-* `make` `scons` `ninja` `...` they are low-level build tools with a crux of file-based dependencies. Most buildchains today are already intelligent enough to process only changed files, so myke completely bypasses file tracking and only focuses on task aggregation and discoverability
-* `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
-* `ansible` `salt` `...` myke is not a configuration management tool, its a task runner
-* [`robo`](https://github.com/tj/robo) is the closest relative to myke, you should check it out as well
-* `whatever other build tool you're using` - deferring higher-order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like `myke`), restricting build tools to do only simple source builds, and having a shared build vocabulary across teams is a generally good idea
-
-### Installation
-
-* [Grab latest release](https://github.com/goeuro/myke/releases/latest)
 * TODO: One-liner wget
 
-### Features
+## Features
 
 * Define tasks in language-agnostic `.yml` files
 * Run tasks with project/tag filtering
@@ -57,13 +45,13 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
   * Projects can extend other template(s) using `extends` keyword
   * Allows reuse of shared tasks, but still remain different using environment variables or parameters
 
-### Examples
+## Examples
 
-* Run `./myke` to list all the tasks
-* Run `./myke test` to use myke to test itself
+* Run `myke` to list all the tasks
+* Run `myke test` to use myke to test itself
 * Explore the self documenting `examples` folder
 
-### Environment variables
+## Environment variables
 
 `myke` should execute a given task with the same environment, irrespective of whether you invoke from a child folder or a parent folder. For this reason, parent project's environment variables are **not cascaded down** to child projects. Rather, a child project must **explicitly reference** shared environment variables using `env_files` or `extends` in the yml to avoid ambiguous behavior.
 
@@ -81,6 +69,18 @@ myke allows you to define tasks in `.yml` files and aggregates all of them. This
   * So all the env variables naturally loaded by each `extends` file (`env`, `env_files`, `[extends-file].env`, `[extends-file].env.local`, `$PATH=EXTENDS_FILE_CWD/bin`, etc) are also made available to the child project
 * Any environment variables set in command line override the above
 
+## Development
+
+Use docker/docker-compose to develop. You don't need to have golang installed.
+
+* `docker-compose build` Builds and runs tests
+* `docker-compose up` Produces `bin` folder with executables
+* `docker-compose run --rm myke /bin/bash` Gives you a terminal inside the container, from where you can run go commands like:
+  * `ginkgo -r` Runs all tests
+  * `go run main.go` Compiles and runs main
+
+## FAQs
+
 ### How do I share common logic in tasks?
 
 Firstly, use single-purpose shared scripts, like the Unix philosophy. If the scripts are complex, make them as standalone scripts in language of your choice (python/etc). Put these scripts under `bin` folder inside your project. From the above Environment Variables section, you can find that `PROJECT_CWD/bin` is always added to the `PATH`, so you can start using these scripts straight away in your tasks.
@@ -96,12 +96,13 @@ If multiple projects need to share the same scripts, then another way is to leve
   * ...
   * ...
 
-### Development
+### Why use myke instead of...
 
-Use docker/docker-compose to develop. You don't need to have golang installed.
-
-* `docker-compose build`: Builds and runs tests
-* `docker-compose up`: Produces `bin` folder with executables
-* `docker-compose run --rm myke /bin/bash`: Gives you a terminal inside the container, from where you can run go commands like:
-  * `ginkgo -r`: Runs all tests
-  * `go run main.go`: Compiles and runs main
+* `maven` is a lifecycle reactor that does a lot of things (compilation/scm/release/lifecycle/build/etc). myke only focuses on being a simple task runner
+* `bazel` `buck` `pants` `gradle` `...` replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
+* `grunt` `rake` `gulp` `pyinvoke` `...` myke allows aggregation of tasks through hierarchies, templates and tags. myke is also language agnostic and zero-dependency
+* `make` `scons` `ninja` `...` they are low-level build tools with a crux of file-based dependencies. Most buildchains today are already intelligent enough to process only changed files, so myke completely bypasses file tracking and only focuses on task aggregation and discoverability
+* `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
+* `ansible` `salt` `...` myke is not a configuration management tool, its a task runner
+* [`robo`](https://github.com/tj/robo) is the closest relative to myke, you should check it out as well
+* `<insert build tool here>` - deferring higher-order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like `myke`), restricting build tools to do only simple source builds, and having a shared build vocabulary across projects is a generally good idea
