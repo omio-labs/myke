@@ -100,9 +100,10 @@ If multiple projects need to share the same scripts, then another way is to leve
 
 * `maven` is a lifecycle reactor that does a lot of things (compilation/scm/release/lifecycle/build/etc). myke only focuses on being a simple task runner
 * `bazel` `buck` `pants` `gradle` `...` replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
-* `grunt` `rake` `gulp` `pyinvoke` `...` myke allows aggregation of tasks through hierarchies, templates and tags. myke is also language agnostic and zero-dependency
+* `grunt` `gulp` `pyinvoke` `rake` `sake` `thor` `...` myke is zero-dependency, language agnostic, uses simple yml and allows aggregation of tasks through hierarchies, templates and tags
 * `make` `scons` `ninja` `...` they are low-level build tools with a crux of file-based dependencies. Most buildchains today are already intelligent enough to process only changed files, so myke completely bypasses file tracking and only focuses on task aggregation and discoverability
 * `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
 * `ansible` `salt` `...` myke is not a configuration management tool, its a task runner
 * [`robo`](https://github.com/tj/robo) is the closest relative to myke, you should check it out as well
-* `<insert build tool here>` - deferring higher-order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like `myke`), restricting build tools to do only simple source builds, and having a shared build vocabulary across projects is a generally good idea
+
+Deferring higher-order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like a task runner or aggregator), restricting build tools to do only simple source builds, and having a shared build vocabulary across projects is a generally good idea. There are millions of such meta-build tools or task aggregators out there, we just wanted something fast, zero-dependency and language-agnostic while still helping us manage multiple components across repositories with ease.
