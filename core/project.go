@@ -5,8 +5,8 @@ import (
 	"github.com/tidwall/gjson"
 
 	"io/ioutil"
-	"os"
 	"path/filepath"
+	"strings"
 )
 
 type Project struct {
@@ -28,9 +28,7 @@ func ParseProject(path string) (Project, error) {
 		return Project{}, err
 	}
 
-	if info, err := os.Stat(src); err != nil {
-		return Project{}, err
-	} else if info.IsDir() {
+	if filepath.Ext(src) != ".yml" {
 		return ParseProject(filepath.Join(src, "myke.yml"))
 	}
 
@@ -39,9 +37,10 @@ func ParseProject(path string) (Project, error) {
 		return Project{}, err
 	}
 
+	baseName := strings.TrimSuffix(src, ".yml")
 	p.Src = src
 	p.Cwd = filepath.Dir(src)
-	p.EnvFiles = append(p.EnvFiles, filepath.Join(p.Cwd, "myke.env"), filepath.Join(p.Cwd, "myke.env.local"))
+	p.EnvFiles = append(p.EnvFiles, baseName + ".env", baseName + ".env.local")
 	for _, epath := range p.EnvFiles {
 		p.Env = mergeEnv(p.Env, loadEnvFile(epath))
 	}

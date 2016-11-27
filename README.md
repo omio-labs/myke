@@ -72,9 +72,8 @@ Explore the self documenting `examples` folder.
 
 There are multiple ways including:
 
-* Place shared scripts in `bin` folder (remember that `CWD/bin` is always added to the `PATH`)
-* If the scripts are complex, you can write them in python or other languages of your choice
-* If multiple projects need to share the same scripts, then use a common mixin folder (remember that for mixin ymls - the same `CWD/bin` is added to PATH, same env files are loaded, etc, refer [[Task Execution Environment]])
+* Place shared scripts in `bin` folder (remember that `CWD/bin` is always added to the `PATH`). If the scripts are complex, you can write them in any scripting language of your choice
+* If multiple projects need to share the same scripts, then use a common mixin folder (remember that for mixin ymls - the same `CWD/bin` is added to PATH, same env files are loaded, etc, refer Task Execution Environment above)
 
 For example,
 
@@ -89,15 +88,17 @@ For example,
 
 ### Why use myke instead of...
 
-* `maven` is a lifecycle reactor that does a lot of things (compilation/scm/release/lifecycle/build/etc). myke only focuses on being a simple task runner
+Deferring higher order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like a task runner or aggregator), restricting build tools to do only simple source builds, and having a shared build vocabulary across projects is a generally good idea. There are millions of such meta-build tools or task aggregators out there, we just wanted something fast, zero-dependency and language-agnostic while still helping us manage multiple components across repositories with ease.
+
+In that sense, `myke` is never a build tool, its just a task aggregator. So its not designed to be an alternative for source build tools, rather it just augments them. The comparison below is on that same perspective.
+
+* `maven` is a lifecycle reactor and/or project management tool that does a lot of things (compilation/scm/release/lifecycle/build/etc), except its hard to use it as a simple task runner. myke focuses only on the latter
 * `bazel` `buck` `pants` `gradle` `...` replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
 * `grunt` `gulp` `pyinvoke` `rake` `sake` `thor` `...` myke is zero-dependency, language agnostic, uses simple yml and allows aggregation of tasks through hierarchies, templates and tags
 * `make` `scons` `ninja` `...` they are low-level build tools with a crux of file-based dependencies. Most buildchains today are already intelligent enough to process only changed files, so myke completely bypasses file tracking and only focuses on task aggregation and discoverability
 * `capistrano` `fabric` `...` myke is not a deployment tool for remote machines, and does not do anything over SSH
 * `ansible` `salt` `...` myke is not a configuration management tool, its a task runner
 * [`robo`](https://github.com/tj/robo) is the closest relative to myke, you should check it out as well
-
-Deferring higher-order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like a task runner or aggregator), restricting build tools to do only simple source builds, and having a shared build vocabulary across projects is a generally good idea. There are millions of such meta-build tools or task aggregators out there, we just wanted something fast, zero-dependency and language-agnostic while still helping us manage multiple components across repositories with ease.
 
 ## Development
 
