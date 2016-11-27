@@ -6,12 +6,10 @@ import (
 	"myke/core"
 )
 
-func RunOrList(c *cli.Context) error {
-	if c.NArg() > 0 {
-		return Run(c)
-	} else {
-		return List(c)
-	}
+var RunCmd = cli.Command{
+	Name: "run",
+	Usage: "query to execute of format tag1/tag2/project/task[arg1=val1,arg2=val2,...]",
+	Action: Run,
 }
 
 func Run(c *cli.Context) error {

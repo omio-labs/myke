@@ -8,6 +8,12 @@ import (
 	"strings"
 )
 
+var ListCmd = cli.Command{
+	Name: "list",
+	Usage: "list available tasks",
+	Action: List,
+}
+
 func List(c *cli.Context) error {
 	w := loadWorkspace()
 	table := tablewriter.NewWriter(os.Stdout)

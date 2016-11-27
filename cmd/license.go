@@ -7,6 +7,12 @@ import (
 	"myke/core"
 )
 
+var LicenseCmd = cli.Command{
+	Name: "license",
+	Usage: "prints licenses",
+	Action: License,
+}
+
 func License(c *cli.Context) error {
 	data, err := core.Asset("tmp/LICENSES")
 	if err != nil {

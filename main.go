@@ -14,26 +14,10 @@ func main() {
 	app.Usage = "make with yml"
 	app.Action = cmd.RunOrList
 	app.Commands = []cli.Command{
-		{
-			Name: "list",
-			Usage: "list available tasks",
-			Action: cmd.List,
-		},
-		{
-			Name: "run",
-			Usage: "query to execute of format tag1/tag2/project/task[arg1=val1,arg2=val2,...]",
-			Action: cmd.Run,
-		},
-		{
-			Name: "template",
-			Usage: "render a template file with environment variables",
-			Action: cmd.Template,
-		},
-		{
-			Name: "license",
-			Usage: "prints licenses",
-			Action: cmd.License,
-		},
+		cmd.ListCmd,
+		cmd.RunCmd,
+		cmd.TemplateCmd,
+		cmd.LicenseCmd,
 	}
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
