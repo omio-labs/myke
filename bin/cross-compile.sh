@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Run tests
+ginkgo -r -v --trace --keepGoing
+
 # Generate license notices
 deps="github.com/goeuro/myke $(go list -f '{{ join .Deps "\n"}}' . | grep -v 'goeuro/myke')"
 rm -rf tmp

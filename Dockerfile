@@ -9,7 +9,4 @@ RUN go get -u -v github.com/tools/godep && \
     godep get -v github.com/onsi/ginkgo/ginkgo
 
 COPY . /go/src/github.com/goeuro/myke
-RUN ginkgo -r -v --trace --keepGoing && \
-		gofmt -l .
-
 CMD ["bin/cross-compile.sh"]

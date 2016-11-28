@@ -9,7 +9,6 @@ install:
 - godep restore -v
 - godep get -v github.com/onsi/ginkgo/ginkgo
 script:
-- ginkgo -r -v --trace --keepGoing
 - bin/cross-compile.sh
 deploy:
   provider: releases

@@ -1,4 +1,4 @@
 myke:
   build: .
   volumes:
-    - ".:/go/src/myke"
+    - ".:/go/src/github.com/goeuro/myke"
