@@ -86,11 +86,11 @@ For example,
   * ...
   * ...
 
-### Why use myke instead of...
+### Why use myke?
 
 Deferring higher order build logic (like reading scm history for changelogs, updating scm tags/branches, generating version numbers, etc) to a meta-build tool (like a task runner or aggregator), restricting build tools to do only simple source builds, and having a shared build vocabulary across projects is a generally good idea. There are millions of such meta-build tools or task aggregators out there, we just wanted something fast, zero-dependency and language-agnostic while still helping us manage multiple components across repositories with ease.
 
-In that sense, `myke` is never a build tool, its just a task aggregator. So its not designed to be an alternative for source build tools, rather it just augments them. The comparison below is on that same perspective.
+In that sense, `myke` is never a build or deployment tool, its just a task aggregator. Its not designed to be an alternative for source build tools, rather it just augments them. The comparison below is on that same perspective.
 
 * `maven` is a lifecycle reactor and/or project management tool that does a lot of things (compilation/scm/release/lifecycle/build/etc), except its hard to use it as a simple task runner. myke focuses only on the latter
 * `bazel` `buck` `pants` `gradle` `...` replace your current buildchain by giving you a totally new DSL to compile your programs (`java_binary`, etc). myke simply acts as a yml-based interface to your existing tools and workflows, thereby not needing to change your project and IDE setup
