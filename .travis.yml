@@ -1,0 +1,27 @@
+language: go
+go_import_path: github.com/goeuro/myke
+go:
+- 1.7
+install:
+- go get -u -v github.com/tools/godep
+- go get -u -v github.com/mitchellh/gox
+- go get -u -v github.com/jteeuwen/go-bindata/...
+- godep restore -v
+- godep get -v github.com/onsi/ginkgo/ginkgo
+script:
+- ginkgo -r -v --trace --keepGoing
+- bin/cross-compile.sh
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: jrQutAMgQgtFNRe1Y/MuONPL0zK0X3uPPywmBuzBrbstbOwOrmKgo0ypogp9wi/1zFbLwe3d7iK22J7m6KOEZaI4iP/53NMvpez/1zylkxEegxIXe6AeHfeMnqrxAcjgNpxun4xuhTjkWmCLP9T5Cn1gQnznIthOS7yGESolO8x1TQ3wTcTwMs/WOPYVtXe66984AOyubT76RtfOag0EKhm5S/h+iMwqj1g5pDeCl8+tNNp9grOOAkSHu/HSx3BtQziMXEhLj2lJZHLAXDYm0NX+A5s+N+Kkgb7awoS5nYHKEzvF4WBMzC9Y5PK0XHv4k8bKb/u3gJXOOCOP9jTKQ45XS7w/xSCUa1k6cIZlGAPdJ/ZL3i5a3RQoeyto/i4+7z3w81jeWNsdWYvGUuJey/w6/I/0nebdj1P1zZsfHjg/B9YFz3O810Vrd1QCjQOIwxmKELp/MRkbmGiutauDxUbdp8jLBITYj2hMoChOowfciM3AAlt9+BgTR02jnXe46MmVO6cQQduDcoFetheNJLPN9qABLauUuto8LrAIkL/QhZ/SFPh2EaWrWx//+PIaquIF4DfIOrg9AfSE1zFr1fvmwOR7GtY7K7kxitu27NL751Bc99RiekJOb+Lk5Uda/wSp9O0hAiRrlPbeNsktqFgov7pxmgE78iEuRbhI7IY=
+  file:
+    - bin/myke_darwin_amd64
+    - bin/myke_linux_amd64
+    - bin/myke_windows_amd64.exe
+  on:
+    repo: goeuro/myke
+    tags: true
+notifications:
+  email: false

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Generate license notices
-deps="myke $(go list -f '{{ join .Deps "\n"}}' . | grep -v myke)"
+deps="github.com/goeuro/myke $(go list -f '{{ join .Deps "\n"}}' . | grep -v 'goeuro/myke')"
 rm -rf tmp
 mkdir -p tmp
 out="tmp/LICENSES"

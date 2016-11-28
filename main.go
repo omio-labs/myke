@@ -2,7 +2,7 @@ package main
 
 import (
 	"gopkg.in/urfave/cli.v1"
-	"myke/cmd"
+	"github.com/goeuro/myke/cmd"
 	"log"
 	"os"
 )

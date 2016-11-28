@@ -1,4 +1,4 @@
-# myke
+# myke [![Build Status](https://travis-ci.org/goeuro/myke.svg?branch=travis-ci)](https://travis-ci.org/goeuro/myke) [![Latest Release](https://img.shields.io/github/tag/goeuro/myke.svg)](https://github.com/goeuro/myke/releases/latest)
 
 > A higher order task aggregator with cascading configuration, suitable as a wrapper over existing task runners.
 

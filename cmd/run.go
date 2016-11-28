@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"gopkg.in/urfave/cli.v1"
+	"github.com/goeuro/myke/core"
 	"log"
-	"myke/core"
 )
 
 var RunCmd = cli.Command{

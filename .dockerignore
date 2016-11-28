@@ -9,5 +9,4 @@ Dockerfile
 *.pyc
 *.log
 vendor/
-bin/
 tmp/

@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"gopkg.in/urfave/cli.v1"
+	"github.com/goeuro/myke/core"
 	"log"
 	"fmt"
 	"io/ioutil"
-	"myke/core"
 )
 
 var TemplateCmd = cli.Command{

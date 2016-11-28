@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"gopkg.in/urfave/cli.v1"
+	"github.com/goeuro/myke/core"
 	"log"
 	"fmt"
-	"myke/core"
 )
 
 var LicenseCmd = cli.Command{
