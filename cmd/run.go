@@ -23,7 +23,7 @@ func Run(c *cli.Context) error {
 		log.Fatal(err)
 	}
 
-	w := loadWorkspace()
+	w := loadWorkspace(c.String("file"))
 	for _, q := range queries {
 		err := core.ExecuteQuery(&w, q)
 		if err != nil {

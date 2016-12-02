@@ -15,7 +15,7 @@ var ListCmd = cli.Command{
 }
 
 func List(c *cli.Context) error {
-	w := loadWorkspace()
+	w := loadWorkspace(c.String("file"))
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetBorder(false)
 	table.SetHeader([]string{"project", "tags", "tasks"})
