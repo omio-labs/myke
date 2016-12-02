@@ -37,16 +37,16 @@ func ParseProject(path string) (Project, error) {
 		return Project{}, err
 	}
 
-	baseName := strings.TrimSuffix(src, ".yml")
 	p.Src = src
 	p.Cwd = filepath.Dir(src)
-	p.EnvFiles = append(p.EnvFiles, baseName + ".env", baseName + ".env.local")
+	p.EnvFiles = append(p.EnvFiles, strings.TrimSuffix(src, ".yml") + ".env")
 	for _, epath := range p.EnvFiles {
-		p.Env = mergeEnv(p.Env, loadEnvFile(epath))
+		p.Env = mergeEnv(p.Env, loadEnvFile(normalizeFilePath(p.Cwd, epath)))
+		p.Env = mergeEnv(p.Env, loadEnvFile(normalizeFilePath(p.Cwd, epath + ".local")))
 	}
 
 	p.Env = mergeEnv(p.Env, OsEnv())
-	p.Env["PATH"] = normalizePaths(p.Cwd, p.Env["PATH"])
+	p.Env["PATH"] = normalizeEnvPaths(p.Cwd, p.Env["PATH"])
 
 	for _, epath := range p.Mixin {
 		if p, err = mixinProject(p, epath); err != nil {
@@ -116,7 +116,7 @@ func loadProjectJson(json gjson.Result) Project {
 }
 
 func mixinProject(child Project, path string) (Project, error) {
-	parent, err := ParseProject(filepath.Join(child.Cwd, path))
+	parent, err := ParseProject(normalizeFilePath(child.Cwd, path))
 	if err != nil {
 		return Project{}, err
 	}

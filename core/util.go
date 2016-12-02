@@ -59,7 +59,7 @@ func mergeEnv(first map[string]string, next map[string]string) map[string]string
 	return first
 }
 
-func normalizePaths(cwd string, paths string) string {
+func normalizeEnvPaths(cwd string, paths string) string {
 	newPaths := []string{}
 	for _, path := range strings.Split(strings.TrimSpace(paths), PathSep) {
 		if len(path) > 0 {
@@ -72,4 +72,13 @@ func normalizePaths(cwd string, paths string) string {
 
 	newPaths = append(newPaths, filepath.Join(cwd, "bin"))
 	return strings.Trim(strings.Join(newPaths, PathSep), PathSep)
+}
+
+// Feature TODO: envvar interpolation
+func normalizeFilePath(cwd string, path string) string {
+	if filepath.IsAbs(path) {
+		return path
+	} else {
+		return filepath.Join(cwd, path)
+	}
 }

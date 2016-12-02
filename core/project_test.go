@@ -109,10 +109,18 @@ var _ = Describe("Project", func() {
 			Expect(p.Cwd).To(Equal(filepath.Dir(path)))
 			Expect(p.Name).To(Equal("env"))
 
+			Expect(p.Env["KEY_YML"]).To(Equal("value_from_yml"))
+			Expect(p.Env["KEY_ENVFILE"]).To(Equal("value_from_test.env"))
+			Expect(p.Env["KEY_ENVFILE_LOCAL"]).To(Equal("value_from_test.env.local"))
+			Expect(p.Env["KEY_MYKE"]).To(Equal("value_from_myke.env"))
+			Expect(p.Env["KEY_MYKE_LOCAL"]).To(Equal("value_from_myke.env.local"))
+
 			expectedPaths := strings.Join([]string{
-				filepath.Join(p.Cwd, "env_local_file_path"),
-				filepath.Join(p.Cwd, "env_file_path"),
-				filepath.Join(p.Cwd, "env_yml_path"),
+				filepath.Join(p.Cwd, "path_from_myke.env.local"),
+				filepath.Join(p.Cwd, "path_from_myke.env"),
+				filepath.Join(p.Cwd, "path_from_test.env.local"),
+				filepath.Join(p.Cwd, "path_from_test.env"),
+				filepath.Join(p.Cwd, "path_from_yml"),
 				filepath.Join(p.Cwd, "bin"),
 			}, string(os.PathListSeparator))
 			Expect(p.Env["PATH"]).To(HavePrefix(expectedPaths))

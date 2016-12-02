@@ -1,17 +1,23 @@
 ---
 project: env
-desc: |-
-  Usage of environment variables.
-  You can define environment variables using:
-    env map in the yml file
-    env_files in the yml file
-    myke.env is always added to env_files
-    for every env_file a corresponding .env.local file is loaded if present
+desc: Usage of environment variables.
+env_files:
+  # dotenv files can be loaded from env_files property
+  - test.env
 env:
-  KEY_1: env_yml_1
-  KEY_2: env_yml_2
-  KEY_3: env_yml_3
-  PATH: env_yml_path
+  # env values can be defined in yml
+  KEY_YML: value_from_yml
+
+  # dotenv files will override properties defined in yml
+  KEY_ENVFILE: will be loaded from test.env
+  KEY_ENVFILE_LOCAL: will be overridden from test.env.local
+
+  # <this-yml-file-name>.env is always loaded by default
+  KEY_MYKE: will be loaded from myke.env
+  KEY_MYKE_LOCAL: will be overridden from myke.env.local
+
+  # PATH is always prepended, not overwritten
+  PATH: path_from_yml
 tasks:
   env:
     cmd: env
