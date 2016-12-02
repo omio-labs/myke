@@ -5,18 +5,15 @@ desc: |-
   these before/after dependencies get passed the full arguments of this task.
 tasks:
   before:
-    cmd: echo hook before
+    cmd: echo running before
   after:
-    cmd: echo hook after
+    cmd: echo running after
   before_after:
-    cmd: echo hook run_before
+    cmd: echo running cmd
     desc: depends on before and after
-    before:
-      - before
-    after:
-      - after
+    before: myke before
+    after: myke after
   itself:
     cmd: echo hook itself
-    desc: depends on itself but will not cause recursion
-    before:
-      - itself
+    desc: depends on itself and will cause recursion
+    before: myke itself

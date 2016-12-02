@@ -9,5 +9,4 @@ tasks:
     cmd: ginkgo -r
   package:
     cmd: cross-compile.sh
-    before:
-      - test
+    before: myke test

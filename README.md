@@ -40,7 +40,7 @@ You can pass task parameters like:
 * Runtime parameters like `myke ...task[key1=val1, key2=val2, ...]`
 * One YML can mixin another YML, acquiring all tasks, env, env files, PATH defaults, etc, and can override all of them
 * Built-in templating using [Pongo2](https://github.com/flosch/pongo2) for tasks as well as custom files, because templating is a basic necessity
-* Tasks can run other tasks in `before/after` hooks
+* Other commands can run other tasks in `before/after` hooks, and they are chained with mixins
 
 ## Installation
 

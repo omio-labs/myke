@@ -35,13 +35,13 @@ var _ = Describe("Task", func() {
 		})
 
 		It("Before", func() {
-			t := loadTaskJson("", gjson.Parse(`{ "before": ["1", "2"] }`))
-			Expect(t.Before).To(Equal([]string{"1", "2"}))
+			t := loadTaskJson("", gjson.Parse(`{ "before": "1 2" }`))
+			Expect(t.Before).To(Equal("1 2"))
 		})
 
 		It("After", func() {
-			t := loadTaskJson("", gjson.Parse(`{ "after": ["1", "2"] }`))
-			Expect(t.After).To(Equal([]string{"1", "2"}))
+			t := loadTaskJson("", gjson.Parse(`{ "after": "1 2" }`))
+			Expect(t.After).To(Equal("1 2"))
 		})
 	})
 

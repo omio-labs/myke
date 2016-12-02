@@ -36,11 +36,11 @@ func (e *Execution) Execute() error {
 	start := time.Now()
 	fmt.Printf("%v/%v: Running\n", e.Project.Name, e.Task.Name)
 
-	err := e.ExecuteDependent(e.Task.Before)
+	err := e.ExecuteCmd(e.Task.Before)
 	if err == nil {
-		err = e.ExecuteSelf()
+		err = e.ExecuteCmd(e.Task.Cmd)
 		if err == nil {
-			err = e.ExecuteDependent(e.Task.After)
+			err = e.ExecuteCmd(e.Task.After)
 		}
 	}
 
@@ -54,8 +54,12 @@ func (e *Execution) Execute() error {
 	return err
 }
 
-func (e *Execution) ExecuteSelf() error {
-	cmd, err := RenderTemplate(e.Task.Cmd, e.Project.Env, e.Query.Params)
+func (e *Execution) ExecuteCmd(cmd string) error {
+	if len(strings.TrimSpace(cmd)) == 0 {
+		return nil
+	}
+
+	cmd, err := RenderTemplate(cmd, e.Project.Env, e.Query.Params)
 	if err != nil {
 		return err
 	}
@@ -67,25 +71,6 @@ func (e *Execution) ExecuteSelf() error {
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
 	return proc.Run()
-}
-
-func (e *Execution) ExecuteDependent(qs []string) error {
-	for _, q := range qs {
-		query, err := ParseQuery(q)
-		if err != nil {
-			return err
-		}
-		if len(query.Tags) == 0 {
-			query.Tags = []string{e.Project.Name}
-		}
-		if !query.Match(e.Project, e.Task) {
-			err = ExecuteQuery(e.Workspace, query)
-			if err != nil {
-				return err
-			}
-		}
-	}
-	return nil
 }
 
 func (e *Execution) Env() map[string]string {
