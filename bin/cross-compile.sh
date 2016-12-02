@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 
 # Run tests
 ginkgo -r -v --trace --keepGoing
