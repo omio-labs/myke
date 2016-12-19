@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"time"
 	"strings"
+	"errors"
 )
 
 type Execution struct {
@@ -17,6 +18,9 @@ type Execution struct {
 
 func ExecuteQuery(w *Workspace, q Query) error {
 	matches := q.Search(w)
+	if len(matches) == 0 {
+		return errors.New("no task matched: " + q.Raw)
+	}
 	for _, match := range matches {
 		e := Execution{
 			Workspace: w,

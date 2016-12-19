@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #Usage: build.sh <version>
-set -ex
+set -e
 
 # Prepare tmp folder
 rm -rf tmp
@@ -21,6 +21,7 @@ for dep in $deps; do
 		if [ ! -z "$notices" ]; then
 			echo -e "$dep\n\n" >> $out
 			for notice in $notices; do
+				echo "Adding license: $notice"
 				cat $notice >> $out
 			done
 			echo -e "\n\n" >> $out
