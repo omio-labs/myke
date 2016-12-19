@@ -38,7 +38,7 @@ func ExecuteQuery(w *Workspace, q Query) error {
 
 func (e *Execution) Execute() error {
 	start := time.Now()
-	log.Infof("%v/%v: Running\n", e.Project.Name, e.Task.Name)
+	log.Infof("%v/%v: Running", e.Project.Name, e.Task.Name)
 
 	err := e.ExecuteCmd(e.Task.Before)
 	if err == nil {
@@ -50,9 +50,9 @@ func (e *Execution) Execute() error {
 
 	elapsed := time.Since(start)
 	if err != nil {
-		log.WithError(err).Fatalf("%v/%v: Failed, Took: %v\n", e.Project.Name, e.Task.Name, elapsed)
+		log.WithError(err).Fatalf("%v/%v: Failed, Took: %v", e.Project.Name, e.Task.Name, elapsed)
 	} else {
-		log.Infof("%v/%v: Completed, Took: %v\n", e.Project.Name, e.Task.Name, elapsed)
+		log.Infof("%v/%v: Completed, Took: %v", e.Project.Name, e.Task.Name, elapsed)
 	}
 
 	return err
