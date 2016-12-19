@@ -3,7 +3,7 @@ package cmd
 import (
 	"gopkg.in/urfave/cli.v1"
 	"github.com/goeuro/myke/core"
-	"log"
+	"github.com/apex/log"
 )
 
 func Run(c *cli.Context) error {
@@ -14,14 +14,14 @@ func Run(c *cli.Context) error {
 
 	queries, err := core.ParseQueries(qs)
 	if err != nil {
-		log.Fatal(err)
+		log.WithError(err).Fatal("error parsing command")
 	}
 
 	w := loadWorkspace(c.String("file"))
 	for _, q := range queries {
 		err := core.ExecuteQuery(&w, q)
 		if err != nil {
-			log.Fatal(err)
+			log.WithError(err).Fatal("error executing command")
 		}
 	}
 

@@ -3,7 +3,7 @@ package main
 import (
 	"gopkg.in/urfave/cli.v1"
 	"github.com/goeuro/myke/cmd"
-	"log"
+	"github.com/apex/log"
 	"os"
 )
 
@@ -27,8 +27,13 @@ func main() {
 			 Name: "license",
 			 Usage: "show license",
 		},
+		cli.StringFlag{
+			Name: "loglevel",
+			Value: "info",
+			Usage: "log level, one of debug|`info`|warn|error|fatal",
+		},
 	}
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err)
+		log.WithError(err).Fatal("error")
 	}
 }

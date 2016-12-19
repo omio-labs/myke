@@ -3,12 +3,19 @@ package cmd
 import (
 	"gopkg.in/urfave/cli.v1"
 	"github.com/goeuro/myke/core"
+	"github.com/apex/log"
+	logcli "github.com/apex/log/handlers/cli"
 	"path/filepath"
 	"strings"
 	"os"
 )
 
 func Action(c *cli.Context) error {
+	log.SetHandler(&logcli.Handler{Writer: os.Stderr, Padding: 0})
+	if level, err := log.ParseLevel(c.String("loglevel")); err == nil {
+		log.SetLevel(level)
+	}
+
 	if len(c.String("template")) > 0 {
 		return Template(c)
 	} else if c.Bool("license") {

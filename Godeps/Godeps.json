@@ -17,6 +17,14 @@
 			"Rev": "9c37978a95bd5c709a15883b6242714ea6709e64"
 		},
 		{
+			"ImportPath": "github.com/apex/log",
+			"Rev": "994011249d68d2b3ca735641c1f03686c5c794de"
+		},
+		{
+			"ImportPath": "github.com/apex/log/handlers/cli",
+			"Rev": "994011249d68d2b3ca735641c1f03686c5c794de"
+		},
+		{
 			"ImportPath": "github.com/ghodss/yaml",
 			"Rev": "bea76d6a4713e18b7f5321a2b020738552def3ea"
 		},

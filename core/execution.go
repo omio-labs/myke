@@ -1,7 +1,7 @@
 package core
 
 import (
-	"fmt"
+	"github.com/apex/log"
 	"os"
 	"os/exec"
 	"time"
@@ -34,7 +34,7 @@ func ExecuteQuery(w *Workspace, q Query) error {
 
 func (e *Execution) Execute() error {
 	start := time.Now()
-	fmt.Printf("%v/%v: Running\n", e.Project.Name, e.Task.Name)
+	log.Infof("%v/%v: Running\n", e.Project.Name, e.Task.Name)
 
 	err := e.ExecuteCmd(e.Task.Before)
 	if err == nil {
@@ -46,9 +46,9 @@ func (e *Execution) Execute() error {
 
 	elapsed := time.Since(start)
 	if err != nil {
-		fmt.Printf("%v/%v: Failed, Took: %v\n", e.Project.Name, e.Task.Name, elapsed)
+		log.WithError(err).Fatalf("%v/%v: Failed, Took: %v\n", e.Project.Name, e.Task.Name, elapsed)
 	} else {
-		fmt.Printf("%v/%v: Completed, Took: %v\n", e.Project.Name, e.Task.Name, elapsed)
+		log.Infof("%v/%v: Completed, Took: %v\n", e.Project.Name, e.Task.Name, elapsed)
 	}
 
 	return err
@@ -88,7 +88,7 @@ func (e *Execution) EnvList() []string {
 	env := e.Env()
 	envList := make([]string, len(env))
 	for k, v := range env {
-		envList = append(envList, fmt.Sprintf("%v=%v", k, v))
+		envList = append(envList, k+"="+v)
 	}
 	return envList
 }
