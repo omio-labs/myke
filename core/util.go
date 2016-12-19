@@ -59,6 +59,17 @@ func mergeEnv(first map[string]string, next map[string]string) map[string]string
 	return first
 }
 
+func union(first map[string]string, next map[string]string) map[string]string {
+	res := make(map[string]string)
+	for k, v := range first {
+		res[k] = v
+	}
+	for k, v := range next {
+		res[k] = v
+	}
+	return res
+}
+
 func normalizeEnvPaths(cwd string, paths string) string {
 	newPaths := []string{}
 	for _, path := range strings.Split(strings.TrimSpace(paths), PathSep) {

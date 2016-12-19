@@ -1,32 +1,37 @@
 package core
 
 import (
-	"github.com/flosch/pongo2"
-	"strings"
+	"github.com/Masterminds/sprig"
+	"text/template"
+	"errors"
+	"bytes"
+	"fmt"
 )
 
 func RenderTemplate(tmpl string, env map[string]string, args map[string]string) (string, error) {
-	tpl, err := pongo2.FromString(tmpl)
+	w := new(bytes.Buffer)
+	params := union(env, args)
+	funcs := template.FuncMap{
+		"required": templateRequired,
+	}
+
+	tpl, err := template.New("test").
+		Funcs(sprig.TxtFuncMap()).
+		Funcs(funcs).
+		Option("missingkey=zero").
+		Parse(tmpl)
 	if err != nil {
 		return "", err
 	}
 
-	out, err := tpl.Execute(pongo2.Context{"env":env, "args":args})
-	if err != nil {
-		return "", err
-	} else {
-		return out, nil
-	}
+	err = tpl.Execute(w, params)
+	return w.String(), err
 }
 
-func filterRequired(in *pongo2.Value, param *pongo2.Value) (out *pongo2.Value, err *pongo2.Error) {
-	if len(strings.TrimSpace(in.String())) == 0 {
-		return in, &(pongo2.Error{Sender: "filter:required", ErrorMsg: "required parameter missing"})
+func templateRequired(s string) (interface{}, error) {
+	if len(s) > 0 {
+		return s, nil
 	} else {
-		return in, nil
+		return s, errors.New(fmt.Sprintf("variable not provided to template"))
 	}
-}
-
-func init() {
-	pongo2.RegisterFilter("required", filterRequired)
 }

@@ -1,3 +1,3 @@
 I am a template.
-PARAM1={{env.PARAM1}}
-PARAM2={{env.PARAM2}}
+PARAM1={{.PARAM1}}
+PARAM2={{.PARAM2}}

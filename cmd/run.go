@@ -6,12 +6,6 @@ import (
 	"log"
 )
 
-var RunCmd = cli.Command{
-	Name: "run",
-	Usage: "query to execute of format tag1/tag2/project/task[arg1=val1,arg2=val2,...]",
-	Action: Run,
-}
-
 func Run(c *cli.Context) error {
 	qs := make([]string, len(c.Args()))
 	for i, v := range c.Args() {

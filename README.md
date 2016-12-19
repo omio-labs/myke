@@ -39,7 +39,7 @@ You can pass task parameters like:
 * Environment variables can be defined in the yml or included from dotenv files, and can be overridden from the shell
 * Runtime parameters like `myke ...task[key1=val1, key2=val2, ...]`
 * One YML can mixin another YML, acquiring all tasks, env, env files, PATH defaults, etc, and can override all of them
-* Built-in templating using [Pongo2](https://github.com/flosch/pongo2) for tasks as well as custom files, because templating is a basic necessity
+* Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
 * Other commands can run other tasks in `before/after` hooks, and they are chained with mixins
 
 ## Installation
@@ -62,8 +62,8 @@ Explore the self documenting `examples` folder.
   * So, if you mixin `<some-other-folder>/myke.yml`, then that yml's `cwd/bin` is also added to the PATH, that yml's env/env_files/env_files.local are also loaded, and so on
 * shell exported environment variables take precedence
 * additional variables: `MYKE_PROJECT`, `MYKE_TASK`, `MYKE_CWD` are set
-* command is templated using [pongo2](https://github.com/flosch/pongo2)
-  * `env` and `args` are passed as variables
+* command is templated using golang text/template and sprig
+  * environment and task arguments are passed in as variables
 * command is run using `sh -exc`
 
 ## FAQs

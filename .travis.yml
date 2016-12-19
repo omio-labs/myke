@@ -9,7 +9,8 @@ install:
 - godep restore -v
 - godep get -v github.com/onsi/ginkgo/ginkgo
 script:
-- bin/cross-compile.sh
+- ginkgo -r -v --trace --keepGoing
+- bin/cross-compile.sh "$TRAVIS_TAG-$TRAVIS_COMMIT"
 deploy:
   provider: releases
   skip_cleanup: true

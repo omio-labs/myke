@@ -8,14 +8,8 @@ import (
 	"io/ioutil"
 )
 
-var TemplateCmd = cli.Command{
-	Name: "template",
-	Usage: "render a template file with environment variables",
-	Action: Template,
-}
-
 func Template(c *cli.Context) error {
-	bytes, err := ioutil.ReadFile(c.Args().First())
+	bytes, err := ioutil.ReadFile(c.String("template"))
 	if err != nil {
 		log.Fatal(err)
 	}

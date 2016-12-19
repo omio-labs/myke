@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
+#Usage: build.sh <version>
 set -ex
 
-# Run tests
-ginkgo -r -v --trace --keepGoing
+# Prepare tmp folder
+rm -rf tmp
+mkdir -p tmp
+
+# Insert version
+version=${1?"version is required"}
+echo $version >> "tmp/version"
 
 # Generate license notices
 deps="github.com/goeuro/myke $(go list -f '{{ join .Deps "\n"}}' . | grep -v 'goeuro/myke')"
-rm -rf tmp
-mkdir -p tmp
 out="tmp/LICENSES"
 echo -e "OPEN SOURCE LICENSES\n" > $out
 

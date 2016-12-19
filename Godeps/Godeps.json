@@ -1,5 +1,5 @@
 {
-	"ImportPath": "myke",
+	"ImportPath": "github.com/goeuro/myke",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v75",
 	"Packages": [
@@ -7,9 +7,14 @@
 	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/flosch/pongo2",
-			"Comment": "v1.0-rc1-211-g22499f9",
-			"Rev": "22499f94d3d56c7238591344a6902715d0b8fbbf"
+			"ImportPath": "github.com/Masterminds/sprig",
+			"Comment": "2.7.0-4-g69011c0",
+			"Rev": "69011c0cd9b4d2e0733c4d9e2c8e2a5a0d0a2f2f"
+		},
+		{
+			"ImportPath": "github.com/aokoli/goutils",
+			"Comment": "1.0.0-1-g9c37978",
+			"Rev": "9c37978a95bd5c709a15883b6242714ea6709e64"
 		},
 		{
 			"ImportPath": "github.com/ghodss/yaml",
@@ -163,6 +168,11 @@
 			"ImportPath": "github.com/onsi/gomega/types",
 			"Comment": "v1.0-133-g16f4cfd",
 			"Rev": "16f4cfdc64db0987ed3e7baf813c13bdc253b24b"
+		},
+		{
+			"ImportPath": "github.com/satori/go.uuid",
+			"Comment": "v1.1.0-6-gb061729",
+			"Rev": "b061729afc07e77a8aa4fad0a2fd840958f1942a"
 		},
 		{
 			"ImportPath": "github.com/tidwall/gjson",
