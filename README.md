@@ -44,7 +44,7 @@ You can pass task parameters like:
 
 ## Installation
 
-* https://github.com/goeuro/myke/releases/latest
+* [Grab the latest release](https://github.com/goeuro/myke/releases/latest)
 
 ## Examples
 
