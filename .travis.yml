@@ -22,6 +22,8 @@ deploy:
     - bin/myke_windows_amd64.exe
   on:
     repo: goeuro/myke
+    branch: none
     tags: true
+    condition: "$TRAVIS_TAG =~ ^v[0-9].+$"
 notifications:
   email: false

@@ -44,7 +44,7 @@ You can pass task parameters like:
 
 ## Installation
 
-* TODO: One-liner wget
+* https://github.com/goeuro/myke/releases/latest
 
 ## Examples
 
