@@ -4,7 +4,19 @@
 
 myke allows you to define tasks in `.yml` files and aggregates all of them. This helps you to manage multiple components in multiple projects in multiple repositories.
 
-Shell scripts are nice for tasks. But for development we frequently found ourselves needing basic templating, retrying, hooks, easily overridable envvars, better listing and documentation, etc. That is how `myke` was born. Its a thin wrapper to aggregate scripts with some useful functionality.
+Shell scripts are nice for tasks. But for development we frequently found ourselves needing basic templating, retry/waiting, cleanup hooks, easily overridable envvars, better listing and documentation, etc. That is how `myke` was born. Its a thin wrapper to aggregate scripts with some tiny extras.
+
+## Features
+
+* Define tasks in simple `.yml` files
+* Nice aggregation and discovery, suitable for large number of tasks (across repos/projects), grouping by tags, etc
+* Robust environment handling - Can be defined as keys in the YML or as dotenv files, overridden by dotenv.local files, `PATH` is always prepended, shell always takes precedence
+* Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
+* Mixin ymls to share tasks, envvars, etc
+* Runtime arguments like `myke ...task[key1=val1, key2=val2, ...]`
+* `before/after` hooks to perform cleanups, chains with mixins, etc (`error` hook in the roadmap)
+* `retry` support with max and delay for failing tasks
+* and a lot of small utilities packed in
 
 ## Usage
 
@@ -34,17 +46,6 @@ You can pass task parameters like:
 
 * `myke template/arg[from=1,to=2]`
 * `myke template/file`
-
-## Features
-
-* Define tasks in language-agnostic `.yml` files
-* Nice aggregation and discovery, suitable for large number of tasks (across repos/projects), grouping by tags, etc
-* Robust environment handling - Can be defined as keys in the YML or as dotenv files, overridden by dotenv.local files or the shell, `PATH` is always prepended, etc
-* Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
-* Mixin YMLs to share tasks, env, env files, PATH defaults, etc
-* Runtime arguments like `myke ...task[key1=val1, key2=val2, ...]`
-* `before/after/error` hooks to perform cleanups, chain with mixins, etc
-* `retry` support with max and delay for failing tasks
 
 ## Installation
 
