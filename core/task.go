@@ -13,6 +13,7 @@ type Task struct {
 	Cmd     string
 	Before  string
 	After   string
+	Shell   string
 	Retries int
 	RetryMs int
 }
@@ -32,6 +33,9 @@ func loadTaskJson(name string, json gjson.Result) Task {
 	}
 	if j := json.Get("after"); j.Exists() {
 		t.After = strings.TrimSpace(j.String())
+	}
+	if j := json.Get("shell"); j.Exists() {
+		t.Shell = strings.TrimSpace(j.String())
 	}
 	if j := json.Get("retries"); j.Exists() {
 		if retries, err := strconv.Atoi(strings.TrimSpace(j.String())); err != nil {

@@ -45,7 +45,7 @@ func (e *Execution) Execute() error {
 		err := e.executeTask()
 		if err != nil && attempt < e.Task.Retries {
 			retryMs := time.Duration(e.Task.RetryMs) * time.Millisecond
-			log.Warnf("%v: Failed, %v Retry %v/%v in %v", displayName, attempt < e.Task.Retries, attempt, e.Task.Retries, retryMs)
+			log.Debugf("%v: Failed, Retrying %v/%v in %v", displayName, attempt, e.Task.Retries, retryMs)
 			time.Sleep(retryMs)
 		}
 		return attempt < e.Task.Retries, err
@@ -81,7 +81,13 @@ func (e *Execution) executeCmd(cmd string) error {
 		return err
 	}
 
-	proc := exec.Command("sh", "-exc", cmd)
+	shell := []string{"sh", "-exc",}
+	if len(e.Task.Shell) > 0 {
+		shell = strings.Split(strings.TrimSpace(e.Task.Shell), " ")
+	}
+	shell = append(shell, cmd)
+
+	proc := exec.Command(shell[0], shell[1:]...)
 	proc.Dir = e.Project.Cwd
 	proc.Env = e.EnvList()
 	proc.Stdin = os.Stdin
