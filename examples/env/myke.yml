@@ -19,6 +19,15 @@ env:
   # PATH is always prepended, not overwritten
   PATH: path_from_yml
 tasks:
-  env:
-    cmd: env
-    desc: run as myke env (or) env/env
+  yml:
+    cmd: echo envvar from yml is $KEY_YML
+  file_default:
+    cmd: echo envvar from myke.env is $KEY_MYKE
+  file_default_local:
+    cmd: echo envvar from myke.env.local is $KEY_MYKE_LOCAL
+  file_custom:
+    cmd: echo envvar from test.env is $KEY_ENVFILE
+  file_custom_local:
+    cmd: echo envvar from test.env.local is $KEY_ENVFILE_LOCAL
+  path:
+    cmd: echo PATH is $PATH

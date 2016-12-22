@@ -7,9 +7,8 @@ install:
 - go get -u -v github.com/mitchellh/gox
 - go get -u -v github.com/jteeuwen/go-bindata/...
 - godep restore -v
-- godep get -v github.com/onsi/ginkgo/ginkgo
 script:
-- ginkgo -r -v --trace --keepGoing
+- go test ./...
 - bin/cross-compile.sh "$TRAVIS_TAG-$TRAVIS_COMMIT"
 deploy:
   provider: releases

@@ -2,6 +2,7 @@ package core
 
 import (
 	"github.com/apex/log"
+	"github.com/kardianos/osext"
 	"os"
 	"os/exec"
 	"time"
@@ -53,7 +54,8 @@ func (e *Execution) Execute() error {
 
 	elapsed := time.Since(start)
 	if err != nil {
-		log.WithError(err).Fatalf("%v: Failed, Took: %v", displayName, elapsed)
+		log.Errorf("%v/%v: Failed, Took: %v", e.Project.Name, e.Task.Name, elapsed)
+		return err
 	} else {
 		log.Infof("%v: Completed, Took: %v", displayName, elapsed)
 	}
@@ -97,7 +99,9 @@ func (e *Execution) executeCmd(cmd string) error {
 }
 
 func (e *Execution) Env() map[string]string {
+	myke, _ := osext.Executable()
 	extraEnv := map[string]string{
+		"myke": myke,
 		"MYKE_PROJECT": e.Project.Name,
 		"MYKE_TASK": e.Task.Name,
 		"MYKE_CWD": e.Project.Cwd,

@@ -15,3 +15,5 @@ tasks:
     cmd: echo child says $KEY_2
   task3:
     cmd: echo child says $KEY_3
+  path:
+    cmd: echo PATH is $PATH

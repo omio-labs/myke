@@ -7,7 +7,5 @@ env:
 tasks:
   task1:
     cmd: echo parent says $KEY_1
-    desc: run as myke task1 (or) extends/task1
   task2:
-    cmd: echo parent says $KEY_2
-    desc: run as myke task2 (or) extends/task2
+    before: echo parent says $KEY_2

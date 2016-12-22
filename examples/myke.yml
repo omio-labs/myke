@@ -3,12 +3,8 @@ project: example
 desc: example project suite
 discover:
   - env
-  - tag/tags1.yml
-  - tag/tags2.yml
   - hooks
-  - template
   - mixin
-tasks:
-  build:
-    cmd: echo example build
-    desc: run as `myke build` or `myke example/build`
+  - retry
+  - tag
+  - template

@@ -10,10 +10,5 @@ tasks:
     cmd: echo running after
   before_after:
     cmd: echo running cmd
-    desc: depends on before and after
-    before: myke before
-    after: myke after
-  itself:
-    cmd: echo hook itself
-    desc: depends on itself and will cause recursion
-    before: myke itself
+    before: $myke before
+    after: $myke after

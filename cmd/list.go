@@ -3,14 +3,12 @@ package cmd
 import (
 	"gopkg.in/urfave/cli.v1"
 	"github.com/olekukonko/tablewriter"
-
-	"os"
 	"strings"
 )
 
 func List(c *cli.Context) error {
 	w := loadWorkspace(c.String("file"))
-	table := tablewriter.NewWriter(os.Stdout)
+	table := tablewriter.NewWriter(c.App.Writer)
 	table.SetBorder(false)
 	table.SetHeader([]string{"project", "tags", "tasks"})
 
