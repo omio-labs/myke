@@ -36,11 +36,13 @@ You can pass task parameters like:
 ## Features
 
 * Define tasks in language-agnostic `.yml` files
-* Environment variables can be defined in the yml or included from dotenv files, and can be overridden from the shell
-* Runtime parameters like `myke ...task[key1=val1, key2=val2, ...]`
-* One YML can mixin another YML, acquiring all tasks, env, env files, PATH defaults, etc, and can override all of them
+* Nice aggregation and discovery, suitable for large number of tasks (across repos/projects), grouping by tags, etc
+* Robust environment handling - Can be defined as keys in the YML or as dotenv files, overridden by dotenv.local files or the shell, `PATH` is always prepended, etc
 * Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
-* Other commands can run other tasks in `before/after` hooks, and they are chained with mixins
+* Mixin YMLs to share tasks, env, env files, PATH defaults, etc
+* Runtime arguments like `myke ...task[key1=val1, key2=val2, ...]`
+* `before/after/error` hooks to perform cleanups, chain with mixins, etc
+* `retry` support with max and delay for failing tasks
 
 ## Installation
 

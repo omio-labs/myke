@@ -93,3 +93,14 @@ func normalizeFilePath(cwd string, path string) string {
 		return filepath.Join(cwd, path)
 	}
 }
+
+func retry(f func(attempt int) (retry bool, err error)) error {
+	attempt := 1
+	for {
+		cont, err := f(attempt)
+		if err == nil || !cont {
+			return err
+		}
+		attempt++
+	}
+}

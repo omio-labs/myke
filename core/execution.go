@@ -38,27 +38,40 @@ func ExecuteQuery(w *Workspace, q Query) error {
 
 func (e *Execution) Execute() error {
 	start := time.Now()
-	log.Infof("%v/%v: Running", e.Project.Name, e.Task.Name)
+	displayName := e.Project.Name + "/" + e.Task.Name
+	log.Infof("%v: Running", displayName)
 
-	err := e.ExecuteCmd(e.Task.Before)
-	if err == nil {
-		err = e.ExecuteCmd(e.Task.Cmd)
-		if err == nil {
-			err = e.ExecuteCmd(e.Task.After)
+	err := retry(func(attempt int) (bool, error) {
+		err := e.executeTask()
+		if err != nil && attempt < e.Task.Retries {
+			retryMs := time.Duration(e.Task.RetryMs) * time.Millisecond
+			log.Warnf("%v: Failed, %v Retry %v/%v in %v", displayName, attempt < e.Task.Retries, attempt, e.Task.Retries, retryMs)
+			time.Sleep(retryMs)
 		}
-	}
+		return attempt < e.Task.Retries, err
+	})
 
 	elapsed := time.Since(start)
 	if err != nil {
-		log.WithError(err).Fatalf("%v/%v: Failed, Took: %v", e.Project.Name, e.Task.Name, elapsed)
+		log.WithError(err).Fatalf("%v: Failed, Took: %v", displayName, elapsed)
 	} else {
-		log.Infof("%v/%v: Completed, Took: %v", e.Project.Name, e.Task.Name, elapsed)
+		log.Infof("%v: Completed, Took: %v", displayName, elapsed)
 	}
-
 	return err
 }
 
-func (e *Execution) ExecuteCmd(cmd string) error {
+func (e *Execution) executeTask() error {
+	err := e.executeCmd(e.Task.Before)
+	if err == nil {
+		err = e.executeCmd(e.Task.Cmd)
+		if err == nil {
+			err = e.executeCmd(e.Task.After)
+		}
+	}
+	return err
+}
+
+func (e *Execution) executeCmd(cmd string) error {
 	if len(strings.TrimSpace(cmd)) == 0 {
 		return nil
 	}
