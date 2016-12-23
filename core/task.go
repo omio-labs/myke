@@ -5,21 +5,24 @@ import (
 	"github.com/apex/log"
 	"strings"
 	"strconv"
+	"time"
 )
 
 type Task struct {
-	Name    string
-	Desc    string
-	Cmd     string
-	Before  string
-	After   string
-	Shell   string
-	Retries int
-	RetryMs int
+	Name       string
+	Desc       string
+	Cmd        string
+	Before     string
+	After      string
+	Shell      string
+	Retry      int
+	RetryDelay time.Duration
 }
 
+const default_delay = time.Duration(1) * time.Second
+
 func loadTaskJson(name string, json gjson.Result) Task {
-	t := Task{Retries:0,RetryMs:1000,}
+	t := Task{Retry:0, RetryDelay:default_delay,}
 	t.Name = name
 
 	if j := json.Get("desc"); j.Exists() {
@@ -37,18 +40,18 @@ func loadTaskJson(name string, json gjson.Result) Task {
 	if j := json.Get("shell"); j.Exists() {
 		t.Shell = strings.TrimSpace(j.String())
 	}
-	if j := json.Get("retries"); j.Exists() {
-		if retries, err := strconv.Atoi(strings.TrimSpace(j.String())); err != nil {
-			log.WithError(err).Warnf("invalid retries in task %s", name)
+	if j := json.Get("retry"); j.Exists() {
+		if retry, err := strconv.Atoi(strings.TrimSpace(j.String())); err != nil {
+			log.WithError(err).Warnf("invalid retry in task %s", name)
 		} else {
-			t.Retries = retries
+			t.Retry = retry
 		}
 	}
-	if j := json.Get("retry_ms"); j.Exists() {
-		if retryMs, err := strconv.Atoi(strings.TrimSpace(j.String())); err != nil {
-			log.WithError(err).Warnf("invalid retry_ms in task %s", name)
+	if j := json.Get("retry_delay"); j.Exists() {
+		if delay, err := time.ParseDuration(strings.TrimSpace(j.String())); err != nil {
+			log.WithError(err).Warnf("invalid retry_delay in task %s", name)
 		} else {
-			t.RetryMs = retryMs
+			t.RetryDelay = delay
 		}
 	}
 	return t

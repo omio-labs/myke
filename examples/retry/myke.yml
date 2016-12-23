@@ -4,5 +4,6 @@ desc: demonstrates use of templates and parameters in command
 tasks:
   retry:
     cmd: "false"
-    retries: 5
-    retry_ms: 10
+    retry: 5
+    # retry_delay defaults to 1s
+    retry_delay: 10ms
