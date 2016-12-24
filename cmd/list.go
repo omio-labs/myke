@@ -2,16 +2,13 @@ package cmd
 
 import (
 	"gopkg.in/urfave/cli.v1"
-	"github.com/olekukonko/tablewriter"
 	"strings"
 )
 
 func List(c *cli.Context) error {
 	w := loadWorkspace(c.String("file"))
-	table := tablewriter.NewWriter(c.App.Writer)
-	table.SetBorder(false)
-	table.SetHeader([]string{"project", "tags", "tasks"})
-
+	t := new(ElasticTable)
+	t.Init([]string{"PROJECT", "TAGS", "TASKS"})
 	for _, p := range w.Projects {
 		tasks := []string{}
 		for t := range p.Tasks {
@@ -20,10 +17,10 @@ func List(c *cli.Context) error {
 			}
 		}
 		if len(tasks) > 0 {
-			table.Append([]string{p.Name, strings.Join(p.Tags, ", "), strings.Join(tasks, ", ")})
+			t.AddRow([]string{p.Name, strings.Join(p.Tags, ", "), strings.Join(tasks, ", ")})
 		}
 	}
 
-	table.Render()
+	t.Render(c.App.Writer)
 	return nil
 }

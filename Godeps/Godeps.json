@@ -43,13 +43,8 @@
 			"Rev": "c2c54e542fb797ad986b31721e1baedf214ca413"
 		},
 		{
-			"ImportPath": "github.com/mattn/go-runewidth",
-			"Comment": "v0.0.1-10-g737072b",
-			"Rev": "737072b4e32b7a5018b4a7125da8d12de90e8045"
-		},
-		{
-			"ImportPath": "github.com/olekukonko/tablewriter",
-			"Rev": "bdcc175572fd7abece6c831e643891b9331bc9e7"
+			"ImportPath": "github.com/olekukonko/ts",
+			"Rev": "ecf753e7c962639ab5a1fb46f7da627d4c0a04b8"
 		},
 		{
 			"ImportPath": "github.com/pkg/errors",
@@ -70,6 +65,10 @@
 			"ImportPath": "github.com/stretchr/testify/assert",
 			"Comment": "v1.1.4-25-g2402e8e",
 			"Rev": "2402e8e7a02fc811447d11f881aa9746cdc57983"
+		},
+		{
+			"ImportPath": "github.com/tgulacsi/wrap",
+			"Rev": "972bd931cfd19b139c8c034927b3ccb7fae8fa0b"
 		},
 		{
 			"ImportPath": "github.com/tidwall/gjson",
