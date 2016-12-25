@@ -43,6 +43,11 @@
 			"Rev": "c2c54e542fb797ad986b31721e1baedf214ca413"
 		},
 		{
+			"ImportPath": "github.com/mattn/go-runewidth",
+			"Comment": "v0.0.1-10-g737072b",
+			"Rev": "737072b4e32b7a5018b4a7125da8d12de90e8045"
+		},
+		{
 			"ImportPath": "github.com/olekukonko/ts",
 			"Rev": "ecf753e7c962639ab5a1fb46f7da627d4c0a04b8"
 		},
@@ -58,7 +63,7 @@
 		},
 		{
 			"ImportPath": "github.com/rdsubhas/go-elastictable",
-			"Rev": "70dac0c75221fdbb02eb43f0ed92690bb8ed8560"
+			"Rev": "91a8b3eb72afe13382935845e1052dfe000087f4"
 		},
 		{
 			"ImportPath": "github.com/satori/go.uuid",
