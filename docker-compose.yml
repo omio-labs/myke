@@ -1,4 +1,4 @@
-myke:
+default:
   build: .
   volumes:
     - ".:/go/src/github.com/goeuro/myke"
