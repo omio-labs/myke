@@ -35,4 +35,5 @@ go-bindata -o core/bindata.go -nometadata -pkg core tmp/
 # Cross compile
 gox \
 	-osarch="darwin/amd64 linux/amd64 windows/amd64" \
+	-ldflags="-s -w" \
 	-output="bin/{{.Dir}}_{{.OS}}_{{.Arch}}"
