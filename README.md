@@ -1,10 +1,10 @@
 # myke [![Build Status](https://travis-ci.org/goeuro/myke.svg?branch=travis-ci)](https://travis-ci.org/goeuro/myke) [![Latest Release](https://img.shields.io/github/tag/goeuro/myke.svg)](https://github.com/goeuro/myke/releases/latest)
 
-> A higher order task aggregator with cascading configuration, suitable as a wrapper over existing task runners.
+> myke makes it easy to write development tasks
 
-myke allows you to define tasks in `.yml` files and aggregates all of them. This helps you to manage multiple components in multiple projects in multiple repositories.
+Development scripts usually begin as a simple shell wrapper with switch cases (`service.sh start|stop|etc`), and then aggregate multiple scripts, add arguments, discovery/listing, environment variable handling, then easy overriding and defaults, and soon manipulating files based on these variables, `sed|awk|envsubst`, then proceed to python/ruby/etc with some real templating, then start adding dependencies, then become projects themselves with a checkout/setup process :trollface:
 
-Shell scripts are nice for tasks. But for development we frequently found ourselves needing basic templating, retry/waiting, cleanup hooks, easily overridable envvars, better listing and documentation, etc. That is how `myke` was born. Its a thin wrapper to aggregate scripts with some tiny extras.
+myke solves all these problems in a single tiny binary, to avoid reinventing the same stuff over and over again.
 
 ## Features
 
