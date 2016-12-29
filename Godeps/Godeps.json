@@ -8,7 +8,7 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/Masterminds/sprig",
-			"Comment": "2.7.0-4-g69011c0",
+			"Comment": "2.8.0",
 			"Rev": "69011c0cd9b4d2e0733c4d9e2c8e2a5a0d0a2f2f"
 		},
 		{
@@ -31,12 +31,12 @@
 		},
 		{
 			"ImportPath": "github.com/ghodss/yaml",
-			"Rev": "bea76d6a4713e18b7f5321a2b020738552def3ea"
+			"Rev": "04f313413ffd65ce25f2541bfd2b2ceec5c0908c"
 		},
 		{
 			"ImportPath": "github.com/joho/godotenv",
-			"Comment": "v1-10-g4ed1339",
-			"Rev": "4ed13390c0acd2ff4e371e64d8b97c8954138243"
+			"Comment": "v1-13-g726cc8b",
+			"Rev": "726cc8b906e3d31c70a9671c90a13716a8d3f50d"
 		},
 		{
 			"ImportPath": "github.com/kardianos/osext",
@@ -63,7 +63,7 @@
 		},
 		{
 			"ImportPath": "github.com/rdsubhas/go-elastictable",
-			"Rev": "91a8b3eb72afe13382935845e1052dfe000087f4"
+			"Rev": "460b83b7e9bcf9edf17842e92c262e0419a0aa5e"
 		},
 		{
 			"ImportPath": "github.com/satori/go.uuid",
@@ -81,7 +81,7 @@
 		},
 		{
 			"ImportPath": "github.com/tidwall/gjson",
-			"Rev": "7afd24f7a27574c6a07a012c2bdbdb80b494dc20"
+			"Rev": "e3f249f4fdf33c278edeb770426a6f83c954ae64"
 		},
 		{
 			"ImportPath": "github.com/tidwall/match",

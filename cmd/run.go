@@ -21,7 +21,7 @@ func Run(c *cli.Context) error {
 	for _, q := range queries {
 		err := core.ExecuteQuery(&w, q)
 		if err != nil {
-			return errors.Wrap(err, "error parsing command")
+			return errors.Wrap(err, "error running command")
 		}
 	}
 
