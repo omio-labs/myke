@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"sort"
 )
 
 type Project struct {
@@ -105,6 +106,7 @@ func loadProjectJson(json gjson.Result) Project {
 		for _, s := range j.Array() {
 			p.Tags = append(p.Tags, s.String())
 		}
+		sort.Strings(p.Tags)
 	}
 	p.Tasks = make(map[string]Task)
 	if j := json.Get("tasks"); j.Exists() {
@@ -125,6 +127,7 @@ func mixinProject(child Project, path string) (Project, error) {
 	child.Discover = mergeTags(parent.Discover, child.Discover)
 	child.EnvFiles = mergeTags(parent.EnvFiles, child.EnvFiles)
 	child.Env = mergeEnv(parent.Env, child.Env)
+	sort.Strings(child.Tags)
 
 	for taskName, parentTask := range parent.Tasks {
 		child.Tasks[taskName] = mixinTask(taskName, child.Tasks[taskName], parentTask)

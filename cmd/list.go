@@ -4,6 +4,7 @@ import (
 	"gopkg.in/urfave/cli.v1"
 	"github.com/rdsubhas/go-elastictable"
 	"strings"
+	"sort"
 )
 
 var headers = []string{"PROJECT", "TAGS", "TASKS"}
@@ -19,6 +20,7 @@ func List(c *cli.Context) error {
 			}
 		}
 		if len(tasks) > 0 {
+			sort.Strings(tasks)
 			t.AddRow([]string{p.Name, strings.Join(p.Tags, ", "), strings.Join(tasks, ", ")})
 		}
 	}
