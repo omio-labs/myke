@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var tests = []TestTable {
+var tests = []TestTable{
 	{`heading`, ``, `PROJECT\s*\|\s*TAGS\s*\|\s*TASKS`},
 	// TODO: tasks are not sorted
 	// {`env`, ``, `env\s*\|\s*\|\s*env`},

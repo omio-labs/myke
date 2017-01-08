@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const PathSep = string(os.PathListSeparator)
+const pathSep = string(os.PathListSeparator)
 
 func mergeTags(first []string, next []string) []string {
 	for _, v := range next {
@@ -29,13 +29,14 @@ func containsTag(s []string, e string) bool {
 }
 
 func loadEnvFile(path string) map[string]string {
-	if env, err := godotenv.Read(path); err != nil {
+	env, err := godotenv.Read(path)
+	if err != nil {
 		return make(map[string]string)
-	} else {
-		return env
 	}
+	return env
 }
 
+// OsEnv returns current process environment as a map
 func OsEnv() map[string]string {
 	env := make(map[string]string)
 	for _, e := range os.Environ() {
@@ -51,7 +52,7 @@ func OsEnv() map[string]string {
 func mergeEnv(first map[string]string, next map[string]string) map[string]string {
 	for k, v := range next {
 		if k == "PATH" {
-			first[k] = v + PathSep + string(first[k])
+			first[k] = v + pathSep + string(first[k])
 		} else {
 			first[k] = v
 		}
@@ -72,7 +73,7 @@ func union(first map[string]string, next map[string]string) map[string]string {
 
 func normalizeEnvPaths(cwd string, paths string) string {
 	newPaths := []string{}
-	for _, path := range strings.Split(strings.TrimSpace(paths), PathSep) {
+	for _, path := range strings.Split(strings.TrimSpace(paths), pathSep) {
 		if len(path) > 0 {
 			if !filepath.IsAbs(path) {
 				path = filepath.Clean(filepath.Join(cwd, path))
@@ -82,16 +83,15 @@ func normalizeEnvPaths(cwd string, paths string) string {
 	}
 
 	newPaths = append(newPaths, filepath.Join(cwd, "bin"))
-	return strings.Trim(strings.Join(newPaths, PathSep), PathSep)
+	return strings.Trim(strings.Join(newPaths, pathSep), pathSep)
 }
 
 // Feature TODO: envvar interpolation
 func normalizeFilePath(cwd string, path string) string {
 	if filepath.IsAbs(path) {
 		return path
-	} else {
-		return filepath.Join(cwd, path)
 	}
+	return filepath.Join(cwd, path)
 }
 
 func retry(f func(attempt int) (retry bool, err error)) error {

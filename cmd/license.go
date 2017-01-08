@@ -1,12 +1,13 @@
 package cmd
 
 import (
-	"gopkg.in/urfave/cli.v1"
+	"fmt"
 	"github.com/goeuro/myke/core"
 	"github.com/pkg/errors"
-	"fmt"
+	"gopkg.in/urfave/cli.v1"
 )
 
+// License prints all open source licenses
 func License(c *cli.Context) error {
 	data, err := core.Asset("tmp/LICENSES")
 	if err != nil {

@@ -1,13 +1,14 @@
 package cmd
 
 import (
-	"gopkg.in/urfave/cli.v1"
+	"fmt"
 	"github.com/goeuro/myke/core"
 	"github.com/pkg/errors"
-	"fmt"
+	"gopkg.in/urfave/cli.v1"
 	"io/ioutil"
 )
 
+// Template renders the given template file
 func Template(c *cli.Context) error {
 	bytes, err := ioutil.ReadFile(c.String("template"))
 	if err != nil {

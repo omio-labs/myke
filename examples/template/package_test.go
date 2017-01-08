@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var tests = []TestTable {
+var tests = []TestTable{
 	{`args_from_to`, `args[from=a,to=b]`, `from=a to=b`},
 	{`args_from`, `args[from=a]`, `from=a to=something_to`},
 	{`args`, `args`, `(?s)template/args: Failed`},

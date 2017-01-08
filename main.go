@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/goeuro/myke/cmd"
 	"github.com/apex/log"
+	"github.com/goeuro/myke/cmd"
 	"os"
 )
 

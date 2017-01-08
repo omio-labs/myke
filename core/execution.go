@@ -1,15 +1,16 @@
 package core
 
 import (
+	"errors"
 	"github.com/apex/log"
 	"github.com/kardianos/osext"
 	"os"
 	"os/exec"
-	"time"
 	"strings"
-	"errors"
+	"time"
 )
 
+// Execution represents a task and context being invoked
 type Execution struct {
 	Workspace *Workspace
 	Query     *Query
@@ -17,8 +18,9 @@ type Execution struct {
 	Task      *Task
 }
 
+// ExecuteQuery executes the given query in the workspace
 func ExecuteQuery(w *Workspace, q Query) error {
-	matches := q.Search(w)
+	matches := q.search(w)
 	if len(matches) == 0 {
 		return errors.New("no task matched: " + q.Raw)
 	}
@@ -37,6 +39,7 @@ func ExecuteQuery(w *Workspace, q Query) error {
 	return nil
 }
 
+// Execute executes the current task
 func (e *Execution) Execute() error {
 	start := time.Now()
 	displayName := e.Project.Name + "/" + e.Task.Name
@@ -54,7 +57,6 @@ func (e *Execution) Execute() error {
 	elapsed := time.Since(start)
 	if err != nil {
 		log.Errorf("%v/%v: Failed, Took: %v", e.Project.Name, e.Task.Name, elapsed)
-		return err
 	} else {
 		log.Infof("%v: Completed, Took: %v", displayName, elapsed)
 	}
@@ -82,7 +84,7 @@ func (e *Execution) executeCmd(cmd string) error {
 		return err
 	}
 
-	shell := []string{"sh", "-exc",}
+	shell := []string{"sh", "-exc"}
 	if len(e.Task.Shell) > 0 {
 		shell = strings.Split(strings.TrimSpace(e.Task.Shell), " ")
 	}
@@ -90,31 +92,31 @@ func (e *Execution) executeCmd(cmd string) error {
 
 	proc := exec.Command(shell[0], shell[1:]...)
 	proc.Dir = e.Project.Cwd
-	proc.Env = e.EnvList()
+	proc.Env = e.envList()
 	proc.Stdin = os.Stdin
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
 	return proc.Run()
 }
 
-func (e *Execution) Env() map[string]string {
+func (e *Execution) env() map[string]string {
 	myke, _ := osext.Executable()
 	extraEnv := map[string]string{
-		"myke": myke,
+		"myke":         myke,
 		"MYKE_PROJECT": e.Project.Name,
-		"MYKE_TASK": e.Task.Name,
-		"MYKE_CWD": e.Project.Cwd,
+		"MYKE_TASK":    e.Task.Name,
+		"MYKE_CWD":     e.Project.Cwd,
 	}
 	env := mergeEnv(mergeEnv(e.Project.Env, extraEnv), OsEnv())
-	env["PATH"] = strings.Join([]string{ env["PATH"], os.Getenv("PATH") }, PathSep)
+	env["PATH"] = strings.Join([]string{env["PATH"], os.Getenv("PATH")}, pathSep)
 	return env
 }
 
-func (e *Execution) EnvList() []string {
-	env := e.Env()
-	envList := make([]string, len(env))
+func (e *Execution) envList() []string {
+	env := e.env()
+	list := make([]string, len(env))
 	for k, v := range env {
-		envList = append(envList, k+"="+v)
+		list = append(list, k+"="+v)
 	}
-	return envList
+	return list
 }

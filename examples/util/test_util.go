@@ -3,22 +3,24 @@
 package util
 
 import (
+	"bytes"
 	"github.com/goeuro/myke/cmd"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
-	"testing"
-	"strings"
-	"os"
-	"bytes"
 	"io"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
 )
 
+// TestTable represents a table-driven test
 type TestTable struct {
 	Desc     string
 	Args     string
 	Expected string
 }
 
+// RunCliTests runs myke CLI with the given table tests
 func RunCliTests(t *testing.T, dir string, tests []TestTable) {
 	captureChdir(dir, func() {
 		for _, tt := range tests {
@@ -29,7 +31,7 @@ func RunCliTests(t *testing.T, dir string, tests []TestTable) {
 
 func runTest(t *testing.T, tt TestTable) {
 	actual, err := captureStdout(func() error {
-		args := strings.Split(strings.TrimSpace("myke " + tt.Args), " ")
+		args := strings.Split(strings.TrimSpace("myke "+tt.Args), " ")
 		return cmd.NewApp().Run(args)
 	})
 

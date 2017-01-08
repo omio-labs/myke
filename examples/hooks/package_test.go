@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var tests = []TestTable {
+var tests = []TestTable{
 	{`before`, `before`, `running before`},
 	{`after`, `after`, `running after`},
 	// {`before_after`, `before_after`, `running before.+running cmd.+running after`},

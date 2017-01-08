@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var tests = []TestTable {
+var tests = []TestTable{
 	{`tagA/tag`, `tagA/tag`, `tags1 tag`},
 	{`tagA/tag`, `tagA/tag`, `(tags2){0}`},
 	{`tagB/tag`, `tagB/tag`, `tags1/tag`},

@@ -1,12 +1,12 @@
 package core
 
 import (
-	"errors"
 	"fmt"
 	"path/filepath"
 	"strings"
 )
 
+// Query reprents a task execution query
 type Query struct {
 	Raw    string
 	Task   string
@@ -14,15 +14,28 @@ type Query struct {
 	Params map[string]string
 }
 
-type QueryMatch struct {
+type queryMatch struct {
 	Project Project
 	Task    Task
 }
 
-func ParseQuery(q string) (Query, error) {
+// ParseQueries parses a query from the command line
+func ParseQueries(qs []string) ([]Query, error) {
+	queries := make([]Query, len(qs))
+	for i, q := range qs {
+		query, err := parseQuery(q)
+		if err != nil {
+			return nil, err
+		}
+		queries[i] = query
+	}
+	return queries, nil
+}
+
+func parseQuery(q string) (Query, error) {
 	tokens := strings.SplitN(strings.Trim(q, " ],/"), "[", 2)
 	if len(tokens) == 0 || len(tokens) > 2 {
-		return Query{}, errors.New(fmt.Sprintf("Bad query: %s", q))
+		return Query{}, fmt.Errorf("Bad query: %s", q)
 	}
 
 	tasks := strings.Split(strings.Trim(tokens[0], " /"), "/")
@@ -41,24 +54,12 @@ func ParseQuery(q string) (Query, error) {
 	return Query{Raw: q, Task: task, Tags: tags, Params: params}, nil
 }
 
-func ParseQueries(qs []string) ([]Query, error) {
-	queries := make([]Query, len(qs))
-	for i, q := range qs {
-		if query, err := ParseQuery(q); err != nil {
-			return nil, err
-		} else {
-			queries[i] = query
-		}
-	}
-	return queries, nil
-}
-
-func (q *Query) Search(w *Workspace) []QueryMatch {
-	matches := []QueryMatch{}
+func (q *Query) search(w *Workspace) []queryMatch {
+	matches := []queryMatch{}
 	for _, p := range w.Projects {
 		for _, t := range p.Tasks {
-			if q.Match(&p, &t) {
-				match := QueryMatch{Project: p, Task: t}
+			if q.match(&p, &t) {
+				match := queryMatch{Project: p, Task: t}
 				matches = append(matches, match)
 			}
 		}
@@ -66,7 +67,7 @@ func (q *Query) Search(w *Workspace) []QueryMatch {
 	return matches
 }
 
-func (q *Query) Match(p *Project, t *Task) bool {
+func (q *Query) match(p *Project, t *Task) bool {
 	for _, tag := range q.Tags {
 		projectMatch, _ := filepath.Match(tag, p.Name)
 		for _, projectTag := range p.Tags {

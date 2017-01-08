@@ -6,10 +6,11 @@ import (
 
 	"io/ioutil"
 	"path/filepath"
-	"strings"
 	"sort"
+	"strings"
 )
 
+// Project represents a parsed project
 type Project struct {
 	Src      string
 	Cwd      string
@@ -23,6 +24,7 @@ type Project struct {
 	Tasks    map[string]Task
 }
 
+// ParseProject parses the given project
 func ParseProject(path string) (Project, error) {
 	src, err := filepath.Abs(path)
 	if err != nil {
@@ -33,17 +35,17 @@ func ParseProject(path string) (Project, error) {
 		return ParseProject(filepath.Join(src, "myke.yml"))
 	}
 
-	p, err := loadProjectYaml(src)
+	p, err := loadProjectYAML(src)
 	if err != nil {
 		return Project{}, err
 	}
 
 	p.Src = src
 	p.Cwd = filepath.Dir(src)
-	p.EnvFiles = append(p.EnvFiles, strings.TrimSuffix(src, ".yml") + ".env")
+	p.EnvFiles = append(p.EnvFiles, strings.TrimSuffix(src, ".yml")+".env")
 	for _, epath := range p.EnvFiles {
 		p.Env = mergeEnv(p.Env, loadEnvFile(normalizeFilePath(p.Cwd, epath)))
-		p.Env = mergeEnv(p.Env, loadEnvFile(normalizeFilePath(p.Cwd, epath + ".local")))
+		p.Env = mergeEnv(p.Env, loadEnvFile(normalizeFilePath(p.Cwd, epath+".local")))
 	}
 
 	p.Env = mergeEnv(p.Env, OsEnv())
@@ -58,7 +60,7 @@ func ParseProject(path string) (Project, error) {
 	return p, nil
 }
 
-func loadProjectYaml(path string) (Project, error) {
+func loadProjectYAML(path string) (Project, error) {
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		return Project{}, err
@@ -70,10 +72,10 @@ func loadProjectYaml(path string) (Project, error) {
 	}
 
 	json := gjson.Parse(string(jsonbytes))
-	return loadProjectJson(json), nil
+	return loadProjectJSON(json), nil
 }
 
-func loadProjectJson(json gjson.Result) Project {
+func loadProjectJSON(json gjson.Result) Project {
 	p := Project{}
 	if j := json.Get("project"); j.Exists() {
 		p.Name = j.String()
@@ -111,7 +113,7 @@ func loadProjectJson(json gjson.Result) Project {
 	p.Tasks = make(map[string]Task)
 	if j := json.Get("tasks"); j.Exists() {
 		for k, v := range j.Map() {
-			p.Tasks[k] = loadTaskJson(k, v)
+			p.Tasks[k] = loadTaskJSON(k, v)
 		}
 	}
 	return p

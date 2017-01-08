@@ -4,11 +4,13 @@ import (
 	"path/filepath"
 )
 
+// Workspace represents the current myke workspace
 type Workspace struct {
 	Cwd      string
 	Projects []Project
 }
 
+// ParseWorkspace parses the current workspace
 func ParseWorkspace(cwd string) Workspace {
 	in := make(chan Project)
 	go func() {

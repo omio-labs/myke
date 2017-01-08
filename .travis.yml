@@ -3,11 +3,11 @@ go_import_path: github.com/goeuro/myke
 go:
 - 1.7
 install:
-- go get -u -v github.com/tools/godep
-- go get -u -v github.com/mitchellh/gox
-- go get -u -v github.com/jteeuwen/go-bindata/...
-- godep restore -v
+- bin/init.sh
 script:
+- gofmt -d -s -e . 2>&1 | tee -a fmt.out
+- test ! -s fmt.out
+- golint -set_exit_status .
 - go test ./...
 - bin/cross-compile.sh "$TRAVIS_TAG-$TRAVIS_COMMIT"
 deploy:

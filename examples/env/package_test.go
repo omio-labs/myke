@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var tests = []TestTable {
+var tests = []TestTable{
 	{`yml`, `yml`, `envvar from yml is value_from_yml`},
 	{`file_default`, `file_default`, `envvar from myke.env is value_from_myke.env`},
 	{`file_default_local`, `file_default_local`, `envvar from myke.env.local is value_from_myke.env.local`},
