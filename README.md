@@ -1,4 +1,4 @@
-# myke [![Build Status](https://travis-ci.org/goeuro/myke.svg?branch=travis-ci)](https://travis-ci.org/goeuro/myke) [![Latest Release](https://img.shields.io/github/tag/goeuro/myke.svg)](https://github.com/goeuro/myke/releases/latest) [![Go Report Card](https://goreportcard.com/badge/github.com/goeuro/myke)](https://goreportcard.com/report/github.com/goeuro/myke)
+# myke [![Build Status](https://travis-ci.org/goeuro/myke.svg?branch=travis-ci)](https://travis-ci.org/goeuro/myke) [![Go Report Card](https://goreportcard.com/badge/github.com/goeuro/myke)](https://goreportcard.com/report/github.com/goeuro/myke) [![Latest Release](https://img.shields.io/github/tag/goeuro/myke.svg)](https://github.com/goeuro/myke/releases/latest)
 
 > myke makes it easy to write development tasks
 
