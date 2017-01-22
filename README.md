@@ -13,7 +13,7 @@ myke solves all these problems in a single tiny binary, to avoid reinventing the
 * Robust environment handling - Can be defined as keys in the YML or as dotenv files, overridden by dotenv.local files, `PATH` is always prepended, shell always takes precedence
 * Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
 * Mixin ymls to share tasks, envvars, etc
-* Runtime arguments like `myke ...task[key1=val1, key2=val2, ...]`
+* Runtime arguments like `myke task1 --key1=val1 task2 --key2=val2 ...`
 * `before/after` hooks to perform cleanups, chains with mixins, etc (`error` hook in the roadmap)
 * `retry` support with max and delay for failing tasks
 * and a lot of small utilities packed in
@@ -35,17 +35,13 @@ Create `myke.yml` with tasks. For example, running `myke` on this folder prints:
   mixin    |            | task2, task3, task1
 ```
 
-Using the above definition, you can invoke tasks like:
+Using the above myke.yml, you can invoke tasks like:
 
 * `myke build` runs build in all projects
 * `myke <project>/build` runs build in that specific `<project>`
 * `myke <tag>/build` runs build in all projects tagged `<tag>`
 * `myke <tagA>/<tagB>/.../build` can match tasks by many tags (AND)
-
-You can pass task parameters like:
-
-* `myke template/arg[from=1,to=2]`
-* `myke template/file`
+* `myke task1 --key1=val1 task2 --key2=val2 ...` passes arguments to individual tasks
 
 ## Installation
 

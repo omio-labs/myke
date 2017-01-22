@@ -22,6 +22,7 @@ type TestTable struct {
 
 // RunCliTests runs myke CLI with the given table tests
 func RunCliTests(t *testing.T, dir string, tests []TestTable) {
+	os.Setenv("COLUMNS", "999")
 	captureChdir(dir, func() {
 		for _, tt := range tests {
 			runTest(t, tt)
@@ -31,8 +32,8 @@ func RunCliTests(t *testing.T, dir string, tests []TestTable) {
 
 func runTest(t *testing.T, tt TestTable) {
 	actual, err := captureStdout(func() error {
-		args := strings.Split(strings.TrimSpace("myke "+tt.Args), " ")
-		return cmd.NewApp().Run(args)
+		args := strings.Split(tt.Args, " ")
+		return cmd.Exec(args)
 	})
 
 	// TODO: Add error verification

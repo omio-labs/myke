@@ -34,6 +34,11 @@
 			"Rev": "04f313413ffd65ce25f2541bfd2b2ceec5c0908c"
 		},
 		{
+			"ImportPath": "github.com/jessevdk/go-flags",
+			"Comment": "v1.1-5-g4e64e4a",
+			"Rev": "4e64e4a4e2552194cf594243e23aa9baf3b4297e"
+		},
+		{
 			"ImportPath": "github.com/joho/godotenv",
 			"Comment": "v1-13-g726cc8b",
 			"Rev": "726cc8b906e3d31c70a9671c90a13716a8d3f50d"
@@ -86,11 +91,6 @@
 		{
 			"ImportPath": "github.com/tidwall/match",
 			"Rev": "173748da739a410c5b0b813b956f89ff94730b4c"
-		},
-		{
-			"ImportPath": "gopkg.in/urfave/cli.v1",
-			"Comment": "v1.18.1",
-			"Rev": "a14d7d367bc02b1f57d88de97926727f2d936387"
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v2",

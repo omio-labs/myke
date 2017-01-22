@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"github.com/goeuro/myke/core"
 	"github.com/pkg/errors"
-	"gopkg.in/urfave/cli.v1"
 	"io/ioutil"
 )
 
 // Template renders the given template file
-func Template(c *cli.Context) error {
-	bytes, err := ioutil.ReadFile(c.String("template"))
+func Template(opts *mykeOpts) error {
+	bytes, err := ioutil.ReadFile(opts.Template)
 	if err != nil {
 		return errors.Wrap(err, "error rendering template")
 	}
@@ -20,6 +19,6 @@ func Template(c *cli.Context) error {
 		return errors.Wrap(err, "error rendering template")
 	}
 
-	fmt.Fprint(c.App.Writer, rendered)
+	fmt.Fprint(opts.Writer, rendered)
 	return nil
 }

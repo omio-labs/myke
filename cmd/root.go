@@ -1,67 +1,74 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/apex/log"
-	logcli "github.com/apex/log/handlers/cli"
+	"github.com/apex/log/handlers/cli"
 	"github.com/goeuro/myke/core"
-	"gopkg.in/urfave/cli.v1"
+	"github.com/jessevdk/go-flags"
+	"io"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
-// NewApp creates a new CLI app
-func NewApp() *cli.App {
-	app := cli.NewApp()
-	app.Name = "myke"
-	app.Version = Version()
-	app.Usage = "make with yml"
-	app.Action = Action
-	app.Flags = []cli.Flag{
-		cli.StringFlag{
-			Name:  "f, file",
-			Value: "myke.yml",
-			Usage: "`yml-file` to load",
-		},
-		cli.StringFlag{
-			Name:  "template",
-			Usage: "render template `tpl-file` (will not run any command)",
-		},
-		cli.BoolFlag{
-			Name:  "license",
-			Usage: "show license",
-		},
-		cli.StringFlag{
-			Name:  "loglevel",
-			Value: "info",
-			Usage: "log level, one of debug|`info`|warn|error|fatal",
-		},
-	}
-	return app
+type mykeOpts struct {
+	Verbose  []bool `short:"v" long:"verbose" description:"show verbose logs"`
+	File     string `short:"f" long:"file" description:"yml file to load" default:"myke.yml"`
+	Version  bool   `long:"version" description:"print myke version"`
+	Template string `long:"template" description:"template file to render"`
+	License  bool   `long:"license" description:"show open source licenses"`
+	Writer   io.Writer
 }
 
-// Action is the CLI entrypoint
-func Action(c *cli.Context) error {
-	log.SetHandler(&logcli.Handler{Writer: os.Stdout, Padding: 0})
-	if level, err := log.ParseLevel(c.String("loglevel")); err == nil {
-		log.SetLevel(level)
+// Exec is CLI entrypoint
+func Exec(_args []string) error {
+	args := _args[:0]
+	for _, x := range _args {
+		if len(x) > 0 {
+			args = append(args, x)
+		}
 	}
 
-	if len(c.String("template")) > 0 {
-		return Template(c)
-	} else if c.Bool("license") {
-		return License(c)
-	} else if c.NArg() > 0 {
-		return Run(c)
-	}
+	var mykeOpts mykeOpts
+	mykeOpts.Writer = os.Stdout
+	parser := flags.NewNamedParser("myke", flags.IgnoreUnknown|flags.HelpFlag|flags.PassAfterNonOption)
+	parser.AddGroup("myke options", "myke options", &mykeOpts)
+	parser.Usage = "[--myke-options] [tag/]task [--task-options] ..."
+	tasks, err := parser.ParseArgs(args)
 
-	return List(c)
+	if err != nil {
+		if flagsErr, ok := err.(*flags.Error); ok && flagsErr.Type == flags.ErrHelp {
+			fmt.Fprintln(mykeOpts.Writer, flagsErr.Message)
+			return nil
+		} else {
+			return err
+		}
+	} else {
+		return Action(&mykeOpts, tasks)
+	}
 }
 
-// Version prints myke version
-func Version() string {
-	version, _ := core.Asset("tmp/version")
-	return strings.TrimSpace(string(version))
+// Action runs using parsed args
+func Action(opts *mykeOpts, tasks []string) error {
+	log.SetHandler(&cli.Handler{Writer: opts.Writer, Padding: 0})
+	switch len(opts.Verbose) {
+	case 0:
+		log.SetLevel(log.InfoLevel)
+	default:
+		log.SetLevel(log.DebugLevel)
+	}
+
+	if opts.Version {
+		return Version(opts)
+	} else if opts.License {
+		return License(opts)
+	} else if len(opts.Template) > 0 {
+		return Template(opts)
+	} else if len(tasks) > 0 {
+		return Run(opts, tasks)
+	}
+
+	return List(opts)
 }
 
 func loadWorkspace(path string) core.Workspace {

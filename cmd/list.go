@@ -2,16 +2,15 @@ package cmd
 
 import (
 	"github.com/rdsubhas/go-elastictable"
-	"gopkg.in/urfave/cli.v1"
 	"sort"
 	"strings"
 )
 
 var headers = []string{"PROJECT", "TAGS", "TASKS"}
 
-// List lists tasks
-func List(c *cli.Context) error {
-	w := loadWorkspace(c.String("file"))
+// List tasks
+func List(opts *mykeOpts) error {
+	w := loadWorkspace(opts.File)
 	t := elastictable.NewElasticTable(headers)
 	for _, p := range w.Projects {
 		tasks := []string{}
@@ -26,6 +25,6 @@ func List(c *cli.Context) error {
 		}
 	}
 
-	t.Render(c.App.Writer)
+	t.Render(opts.Writer)
 	return nil
 }
