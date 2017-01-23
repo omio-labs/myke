@@ -14,6 +14,7 @@ import (
 type mykeOpts struct {
 	Verbose  []bool `short:"v" long:"verbose" description:"show verbose logs"`
 	File     string `short:"f" long:"file" description:"yml file to load" default:"myke.yml"`
+	DryRun   bool   `short:"n" long:"dry-run" description:"print tasks without running them"`
 	Version  bool   `long:"version" description:"print myke version"`
 	Template string `long:"template" description:"template file to render"`
 	License  bool   `long:"license" description:"show open source licenses"`

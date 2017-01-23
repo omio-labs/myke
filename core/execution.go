@@ -16,10 +16,11 @@ type Execution struct {
 	Query     *Query
 	Project   *Project
 	Task      *Task
+	DryRun    bool
 }
 
 // ExecuteQuery executes the given query in the workspace
-func ExecuteQuery(w *Workspace, q Query) error {
+func ExecuteQuery(w *Workspace, q Query, dryRun bool) error {
 	matches := q.search(w)
 	if len(matches) == 0 {
 		return errors.New("no task matched: " + q.Raw)
@@ -30,6 +31,7 @@ func ExecuteQuery(w *Workspace, q Query) error {
 			Query:     &q,
 			Project:   &match.Project,
 			Task:      &match.Task,
+			DryRun:    dryRun,
 		}
 		err := e.Execute()
 		if err != nil {
@@ -43,6 +45,10 @@ func ExecuteQuery(w *Workspace, q Query) error {
 func (e *Execution) Execute() error {
 	start := time.Now()
 	displayName := e.Project.Name + "/" + e.Task.Name
+	if e.DryRun {
+		log.Infof("%v: Will run", displayName)
+		return nil
+	}
 	log.Infof("%v: Running", displayName)
 
 	err := retry(func(attempt int) (bool, error) {
