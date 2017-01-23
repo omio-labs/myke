@@ -77,6 +77,10 @@ func (e *Execution) executeTask() error {
 			err = e.executeCmd(e.Task.After)
 		}
 	}
+
+	if err != nil && len(e.Task.Error) > 0 {
+		e.executeCmd(e.Task.Error)
+	}
 	return err
 }
 

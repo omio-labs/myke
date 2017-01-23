@@ -6,15 +6,15 @@ import (
 )
 
 var tests = []TestTable{
-	{`tag`, `tag`, `tags1/tag`},
-	{`tag`, `tag`, `tags2/tag`},
-	{`tag`, `--dry-run tag`, `(?s)tags1/tag: Will run.*tags2/tag: Will run`},
-	{`tagA/tag`, `tagA/tag`, `tags1 tag`},
-	{`tagA/tag`, `tagA/tag`, `(tags2){0}`},
-	{`tagB/tag`, `tagB/tag`, `tags1/tag`},
-	{`tagB/tag`, `tagB/tag`, `tags2/tag`},
-	{`tagC/tag`, `tagC/tag`, `(tags1){0}`},
-	{`tagC/tag`, `tagC/tag`, `tags2 tag`},
+	{Arg: `tag`, Out: `tags1/tag`},
+	{Arg: `tag`, Out: `tags2/tag`},
+	{Arg: `--dry-run tag`, Out: `(?s)tags1/tag: Will run.*tags2/tag: Will run`},
+	{Arg: `tagA/tag`, Out: `tags1 tag`},
+	{Arg: `tagA/tag`, Out: `(tags2){0}`},
+	{Arg: `tagB/tag`, Out: `tags1/tag`},
+	{Arg: `tagB/tag`, Out: `tags2/tag`},
+	{Arg: `tagC/tag`, Out: `(tags1){0}`},
+	{Arg: `tagC/tag`, Out: `tags2 tag`},
 }
 
 func Test(t *testing.T) {

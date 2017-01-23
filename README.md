@@ -14,7 +14,7 @@ myke solves all these problems in a single tiny binary, to avoid reinventing the
 * Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
 * Mixin ymls to share tasks, envvars, etc
 * Runtime arguments like `myke task1 --key1=val1 task2 --key2=val2 ...`
-* `before/after` hooks to perform cleanups, chains with mixins, etc (`error` hook in the roadmap)
+* `before/after/error` hooks to perform cleanups, chains with mixins, etc
 * `retry` support with max and delay for failing tasks
 * and a lot of small utilities packed in
 

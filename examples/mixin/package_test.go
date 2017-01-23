@@ -6,10 +6,10 @@ import (
 )
 
 var tests = []TestTable{
-	{`task1`, `task1`, `parent says value_parent_1`},
-	{`task2`, `task2`, `(?s)parent says value_child_2.*?child says value_child_2`},
-	{`task3`, `task3`, `child says value_child_3`},
-	{`path`, `path`, `PATH is [^:]+mixin/path_child:[^:]+mixin/bin:[^:]+mixin/parent/path_parent:[^:]+mixin/parent/bin`},
+	{Arg: `task1`, Out: `parent says value_parent_1`},
+	{Arg: `task2`, Out: `(?s)parent says value_child_2.*?child says value_child_2`},
+	{Arg: `task3`, Out: `child says value_child_3`},
+	{Arg: `path`, Out: `PATH is [^:]+mixin/path_child:[^:]+mixin/bin:[^:]+mixin/parent/path_parent:[^:]+mixin/parent/bin`},
 }
 
 func Test(t *testing.T) {

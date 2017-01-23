@@ -6,9 +6,9 @@ import (
 )
 
 var tests = []TestTable{
-	{`before`, `before`, `running before`},
-	{`after`, `after`, `running after`},
-	// {`before_after`, `before_after`, `running before.+running cmd.+running after`},
+	{Arg: `before`, Out: `running before`},
+	{Arg: `after`, Out: `running after`},
+	{Arg: `error`, Out: `(?s)foobar.*there was an error`, Err: true},
 }
 
 func Test(t *testing.T) {

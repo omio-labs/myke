@@ -8,7 +8,6 @@ tasks:
     cmd: echo running before
   after:
     cmd: echo running after
-  before_after:
-    cmd: echo running cmd
-    before: $myke before
-    after: $myke after
+  error:
+    cmd: foobar
+    error: echo there was an error

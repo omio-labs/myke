@@ -15,6 +15,7 @@ type Task struct {
 	Cmd        string
 	Before     string
 	After      string
+	Error      string
 	Shell      string
 	Retry      int
 	RetryDelay time.Duration
@@ -37,6 +38,9 @@ func loadTaskJSON(name string, json gjson.Result) Task {
 	}
 	if j := json.Get("after"); j.Exists() {
 		t.After = strings.TrimSpace(j.String())
+	}
+	if j := json.Get("error"); j.Exists() {
+		t.Error = strings.TrimSpace(j.String())
 	}
 	if j := json.Get("shell"); j.Exists() {
 		t.Shell = strings.TrimSpace(j.String())
@@ -68,5 +72,6 @@ func mixinTask(taskName string, child Task, parent Task) Task {
 	}
 	child.Before = strings.TrimSpace(child.Before + "\n" + parent.Before)
 	child.After = strings.TrimSpace(child.After + "\n" + parent.After)
+	child.Error = strings.TrimSpace(child.Error + "\n" + parent.Error)
 	return child
 }
