@@ -4,6 +4,7 @@ package util
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/goeuro/myke/cmd"
 	"github.com/stretchr/testify/assert"
 	"io"
@@ -36,7 +37,10 @@ func runTest(t *testing.T, tt TestTable) {
 		return cmd.Exec(args)
 	})
 
-	if tt.Err == (err != nil) && assert.Regexp(t, tt.Out, actual) {
+	expectedOut := strings.Replace(tt.Out, "$PS$", fmt.Sprintf("\\%c", os.PathSeparator), -1)
+	expectedOut = strings.Replace(expectedOut, "$PLS$", fmt.Sprintf("\\%c", os.PathListSeparator), -1)
+
+	if tt.Err == (err != nil) && assert.Regexp(t, expectedOut, actual) {
 		t.Logf("myke(%s): passed", tt.Arg)
 	} else {
 		t.Errorf("myke(%s): failed %s", tt.Arg, err)

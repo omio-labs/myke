@@ -8,6 +8,9 @@ tasks:
   args:
     cmd: echo from={{.from|required}} to={{.to|default "something_to"}}
     desc: run as myke template/args[from=...,to=...]
+  envs:
+    cmd: echo PARAM1={{.PARAM2|required}} PARAM2={{.PARAM2|required}}
+    desc: run as myke template/envs
   file:
     cmd: myke --template template.tpl
     desc: run as myke template/file

@@ -9,7 +9,7 @@ var tests = []TestTable{
 	{Arg: `task1`, Out: `parent says value_parent_1`},
 	{Arg: `task2`, Out: `(?s)parent says value_child_2.*?child says value_child_2`},
 	{Arg: `task3`, Out: `child says value_child_3`},
-	{Arg: `path`, Out: `PATH is [^:]+mixin/path_child:[^:]+mixin/bin:[^:]+mixin/parent/path_parent:[^:]+mixin/parent/bin`},
+	{Arg: `path`, Out: `PATH is [^$PLS$]+mixin$PS$path_child$PLS$[^$PLS$]+mixin$PS$bin$PLS$[^$PLS$]+mixin$PS$parent$PS$path_parent$PLS$[^$PLS$]+mixin$PS$parent$PS$bin`},
 }
 
 func Test(t *testing.T) {

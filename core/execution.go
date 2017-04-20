@@ -89,12 +89,18 @@ func (e *Execution) executeCmd(cmd string) error {
 		return nil
 	}
 
+	env := e.env()
 	cmd, err := RenderTemplate(cmd, e.Project.Env, e.Query.Params)
 	if err != nil {
 		return err
 	}
+	cmd = os.Expand(cmd, func(key string) string {
+		return env[key]
+	})
 
-	shell := []string{"sh", "-exc"}
+	e.beforeExecuteCmd(cmd, env)
+
+	shell := executionShell()
 	if len(e.Task.Shell) > 0 {
 		shell = strings.Split(strings.TrimSpace(e.Task.Shell), " ")
 	}
@@ -102,7 +108,7 @@ func (e *Execution) executeCmd(cmd string) error {
 
 	proc := exec.Command(shell[0], shell[1:]...)
 	proc.Dir = e.Project.Cwd
-	proc.Env = e.envList()
+	proc.Env = mapToSlice(env)
 	proc.Stdin = os.Stdin
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
@@ -120,13 +126,4 @@ func (e *Execution) env() map[string]string {
 	env := mergeEnv(mergeEnv(e.Project.Env, extraEnv), OsEnv())
 	env["PATH"] = strings.Join([]string{env["PATH"], os.Getenv("PATH")}, pathSep)
 	return env
-}
-
-func (e *Execution) envList() []string {
-	env := e.env()
-	list := make([]string, len(env))
-	for k, v := range env {
-		list = append(list, k+"="+v)
-	}
-	return list
 }
