@@ -36,6 +36,7 @@ func runTest(t *testing.T, tt TestTable) {
 		args := strings.Split(tt.Arg, " ")
 		return cmd.Exec(args)
 	})
+	actual = fmt.Sprintf("%v %v", actual, err)
 
 	expectedOut := strings.Replace(tt.Out, "$PS$", fmt.Sprintf("\\%c", os.PathSeparator), -1)
 	expectedOut = strings.Replace(expectedOut, "$PLS$", fmt.Sprintf("\\%c", os.PathListSeparator), -1)

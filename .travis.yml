@@ -8,7 +8,7 @@ script:
 - gofmt -d -s -e . 2>&1 | tee -a fmt.out
 - test ! -s fmt.out
 - golint -set_exit_status .
-- go test ./...
+- go test -v ./...
 - bin/cross-compile.sh "$TRAVIS_TAG-$TRAVIS_COMMIT"
 deploy:
   provider: releases

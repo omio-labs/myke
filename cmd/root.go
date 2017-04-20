@@ -72,7 +72,7 @@ func Action(opts *mykeOpts, tasks []string) error {
 	return List(opts)
 }
 
-func loadWorkspace(path string) core.Workspace {
+func loadWorkspace(path string) (core.Workspace, error) {
 	if !filepath.IsAbs(path) {
 		cwd, _ := os.Getwd()
 		path = filepath.Join(cwd, path)

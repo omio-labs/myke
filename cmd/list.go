@@ -10,7 +10,11 @@ var headers = []string{"PROJECT", "TAGS", "TASKS"}
 
 // List tasks
 func List(opts *mykeOpts) error {
-	w := loadWorkspace(opts.File)
+	w, err := loadWorkspace(opts.File)
+	if err != nil {
+		return err
+	}
+
 	t := elastictable.NewElasticTable(headers)
 	for _, p := range w.Projects {
 		tasks := []string{}

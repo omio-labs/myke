@@ -12,7 +12,11 @@ func Run(opts *mykeOpts, tasks []string) error {
 		return errors.Wrap(err, "error parsing command")
 	}
 
-	w := loadWorkspace(opts.File)
+	w, err := loadWorkspace(opts.File)
+	if err != nil {
+		return err
+	}
+
 	for _, q := range queries {
 		err := core.ExecuteQuery(&w, q, opts.DryRun)
 		if err != nil {

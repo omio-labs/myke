@@ -1,0 +1,5 @@
+---
+project: example-error
+desc: discover some non-existent files
+discover:
+  - foobar/

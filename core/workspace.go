@@ -10,9 +10,14 @@ type Workspace struct {
 	Projects []Project
 }
 
+type parseResult struct {
+	p   Project
+	err error
+}
+
 // ParseWorkspace parses the current workspace
-func ParseWorkspace(cwd string) Workspace {
-	in := make(chan Project)
+func ParseWorkspace(cwd string) (Workspace, error) {
+	in := make(chan parseResult)
 	go func() {
 		parseWorkspaceNested(cwd, "", in)
 		close(in)
@@ -20,16 +25,25 @@ func ParseWorkspace(cwd string) Workspace {
 
 	w := Workspace{Cwd: cwd}
 	for p := range in {
-		w.Projects = append(w.Projects, p)
+		if p.err != nil {
+			return w, p.err
+		} else {
+			w.Projects = append(w.Projects, p.p)
+		}
 	}
 
-	return w
+	return w, nil
 }
 
-func parseWorkspaceNested(cwd string, path string, in chan Project) {
-	p, _ := ParseProject(filepath.Join(cwd, path))
-	in <- p
-	for _, includePath := range p.Discover {
-		parseWorkspaceNested(p.Cwd, includePath, in)
+func parseWorkspaceNested(cwd string, path string, in chan parseResult) {
+	file := filepath.Join(cwd, path)
+	p, err := ParseProject(file)
+	if err != nil {
+		in <- parseResult{p, err}
+	} else {
+		in <- parseResult{p, nil}
+		for _, includePath := range p.Discover {
+			parseWorkspaceNested(p.Cwd, includePath, in)
+		}
 	}
 }

@@ -1,0 +1,8 @@
+---
+project: mixin-error
+desc: A non-existent mixin
+mixin:
+  - foobar/
+tasks:
+  test:
+    cmd: env
