@@ -9,13 +9,14 @@ myke solves all these problems in a single tiny binary, to avoid reinventing the
 ## Features
 
 * Define tasks in simple `.yml` files
-* Nice aggregation and discovery, suitable for large number of tasks (across repos/projects), grouping by tags, etc
+* Nice aggregation and discovery with tag-based grouping, suitable for few and many tasks, organizing into subfolders/submodules/repos/projects
 * Robust environment handling - Can be defined as keys in the YML or as dotenv files, overridden by dotenv.local files, `PATH` is always prepended, shell always takes precedence
 * Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
 * Mixin ymls to share tasks, envvars, etc
 * Runtime arguments like `myke task1 --key1=val1 task2 --key2=val2 ...`
 * `before/after/error` hooks to perform cleanups, chains with mixins, etc
 * `retry` support with max and delay for failing tasks
+* Tiny, cross-platform binaries
 * and a lot of small utilities packed in
 
 ## Usage
