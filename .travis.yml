@@ -1,7 +1,7 @@
 language: go
 go_import_path: github.com/goeuro/myke
 go:
-- 1.7
+- 1.8
 install:
 - bin/init.sh
 script:
