@@ -162,3 +162,4 @@ vendor/
 
 tmp/
 bin/myke*
+**/*.coverprofile
