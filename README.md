@@ -9,6 +9,7 @@ myke solves all these problems in a single tiny binary, to avoid reinventing the
 ## Features
 
 * Define tasks in simple `.yml` files
+* Tasks execute in a predictable environment irrespective of which folder they are invoked from
 * Nice aggregation and discovery with tag-based grouping, suitable for few and many tasks, organizing into subfolders/submodules/repos/projects
 * Robust environment handling - Can be defined as keys in the YML or as dotenv files, overridden by dotenv.local files, `PATH` is always prepended, shell always takes precedence
 * Built-in templating using golang text/template and 50+ functions provided by [sprig](https://github.com/Masterminds/sprig)
@@ -54,20 +55,20 @@ Explore the self documenting `examples` folder.
 
 ## Task Execution Environment
 
-* `cwd` is set to the YML file base folder
-* `cwd/bin` is added to `PATH`
+* tasks always run with `cwd` set to the folder where the task is defined
+* `cwd/bin` is always added to `PATH`
 * environment variables are loaded from:
   * `env` property in yml
   * dotenv files from `env_files`
-  * for every dotenv file, the corresponding dotenv `.local` file is also loaded
+  * for every dotenv file, the corresponding dotenv `.local` file is also loaded if present
 * same is done for every mixin that the yml uses
   * So, if you mixin `<some-other-folder>/myke.yml`, then that yml's `cwd/bin` is also added to the PATH, that yml's env/env_files/env_files.local are also loaded, and so on
 * shell exported environment variables take precedence
-* additional variables: `$MYKE_PROJECT`, `$MYKE_TASK`, `$MYKE_CWD`
+* additional variables: `$MYKE_PROJECT`, `$MYKE_TASK`, `$MYKE_CWD` are always set
   * `$myke` is set to full path of myke itself to easily nest myke calls (e.g. `$myke do_something` will become `myke.exe do_something` in windows)
 * command is templated using golang text/template and sprig
   * environment and task arguments are passed in as variables
-* command is run using `sh -exc`
+* command is run using `sh -exc` in Linux/OSX, and `cmd.exe /C` in Windows
 
 ## FAQs
 
