@@ -17,10 +17,11 @@ type Execution struct {
 	Project   *Project
 	Task      *Task
 	DryRun    bool
+	Verbose   int
 }
 
 // ExecuteQuery executes the given query in the workspace
-func ExecuteQuery(w *Workspace, q Query, dryRun bool) error {
+func ExecuteQuery(w *Workspace, q Query, dryRun bool, verbose int) error {
 	matches := q.search(w)
 	if len(matches) == 0 {
 		return errors.New("no task matched: " + q.Raw)
@@ -32,6 +33,7 @@ func ExecuteQuery(w *Workspace, q Query, dryRun bool) error {
 			Project:   &match.Project,
 			Task:      &match.Task,
 			DryRun:    dryRun,
+			Verbose:   verbose,
 		}
 		err := e.Execute()
 		if err != nil {
@@ -95,7 +97,10 @@ func (e *Execution) executeCmd(cmd string) error {
 		return err
 	}
 
-	shell := []string{"sh", "-exc"}
+	shell := []string{"sh", "-ec"}
+	if e.Verbose > 0 {
+		shell = []string{"sh", "-exc"}
+	}
 	if len(e.Task.Shell) > 0 {
 		shell = strings.Split(strings.TrimSpace(e.Task.Shell), " ")
 	}

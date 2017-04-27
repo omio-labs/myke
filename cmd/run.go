@@ -18,7 +18,7 @@ func Run(opts *mykeOpts, tasks []string) error {
 	}
 
 	for _, q := range queries {
-		err := core.ExecuteQuery(&w, q, opts.DryRun)
+		err := core.ExecuteQuery(&w, q, opts.DryRun, opts.Verbose)
 		if err != nil {
 			return errors.Wrap(err, "error running command")
 		}

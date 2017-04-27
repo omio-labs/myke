@@ -12,7 +12,7 @@ import (
 )
 
 type mykeOpts struct {
-	Verbose  int    `short:"v" long:"verbose" description:"verbosity level, 3=info, <0=nothing, >5=everything" default:"3"`
+	Verbose  int    `short:"v" long:"verbose" description:"verbosity level, <=0 nothing, =3 info, >=5 everything" default:"3"`
 	File     string `short:"f" long:"file" description:"yml file to load" default:"myke.yml"`
 	DryRun   bool   `short:"n" long:"dry-run" description:"print tasks without running them"`
 	Version  bool   `long:"version" description:"print myke version"`

@@ -2,5 +2,11 @@
 project: shell
 desc: test shell-related functionality
 tasks:
+  shell:
+    cmd: echo
   subshell:
     cmd: echo $(echo subshell works)
+  error:
+    cmd: foobar
+  echo:
+    cmd: echo
