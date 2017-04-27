@@ -1,9 +1,9 @@
 package core
 
 import (
-	"errors"
 	"github.com/apex/log"
 	"github.com/kardianos/osext"
+	"github.com/pkg/errors"
 	"os"
 	"os/exec"
 	"strings"
@@ -64,11 +64,11 @@ func (e *Execution) Execute() error {
 
 	elapsed := time.Since(start)
 	if err != nil {
-		log.Errorf("%v/%v: Failed, Took: %v", e.Project.Name, e.Task.Name, elapsed)
+		log.Infof("%v: Failed, Took: %v", displayName, elapsed)
 	} else {
 		log.Infof("%v: Completed, Took: %v", displayName, elapsed)
 	}
-	return err
+	return errors.Wrap(err, displayName)
 }
 
 func (e *Execution) executeTask() error {
