@@ -36,7 +36,11 @@ func runTest(t *testing.T, tt TestTable) {
 		args := strings.Split(tt.Arg, " ")
 		return cmd.Exec(args)
 	})
-	actual = fmt.Sprintf("%v %v", actual, err)
+
+	if err != nil {
+		// add error message to output for validating error messages
+		actual = fmt.Sprintf("%v %v", actual, err)
+	}
 
 	expectedOut := strings.Replace(tt.Out, "$PS$", "/", -1)
 	expectedOut = strings.Replace(expectedOut, "$PLS$", ":", -1)

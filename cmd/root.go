@@ -12,7 +12,7 @@ import (
 )
 
 type mykeOpts struct {
-	Verbose  []bool `short:"v" long:"verbose" description:"show verbose logs"`
+	Verbose  int    `short:"v" long:"verbose" description:"verbosity level, 3=info, <0=nothing, >5=everything" default:"3"`
 	File     string `short:"f" long:"file" description:"yml file to load" default:"myke.yml"`
 	DryRun   bool   `short:"n" long:"dry-run" description:"print tasks without running them"`
 	Version  bool   `long:"version" description:"print myke version"`
@@ -52,10 +52,15 @@ func Exec(_args []string) error {
 // Action runs using parsed args
 func Action(opts *mykeOpts, tasks []string) error {
 	log.SetHandler(&cli.Handler{Writer: opts.Writer, Padding: 0})
-	switch len(opts.Verbose) {
-	case 0:
+	if opts.Verbose <= 0 {
+		log.SetLevel(log.FatalLevel)
+	} else if opts.Verbose == 1 {
+		log.SetLevel(log.ErrorLevel)
+	} else if opts.Verbose == 2 {
+		log.SetLevel(log.WarnLevel)
+	} else if opts.Verbose == 3 {
 		log.SetLevel(log.InfoLevel)
-	default:
+	} else {
 		log.SetLevel(log.DebugLevel)
 	}
 

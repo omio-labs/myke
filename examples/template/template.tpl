@@ -1,3 +1,4 @@
 I am a template
-PARAM1={{.PARAM1}}
-PARAM2={{.PARAM2}}
+TEST={{ "test" | upper }}
+PARAM1={{ .PARAM1 }}
+PARAM2={{ .PARAM2 }}
