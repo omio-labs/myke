@@ -38,8 +38,8 @@ func runTest(t *testing.T, tt TestTable) {
 	})
 	actual = fmt.Sprintf("%v %v", actual, err)
 
-	expectedOut := strings.Replace(tt.Out, "$PS$", fmt.Sprintf("\\%c", os.PathSeparator), -1)
-	expectedOut = strings.Replace(expectedOut, "$PLS$", fmt.Sprintf("\\%c", os.PathListSeparator), -1)
+	expectedOut := strings.Replace(tt.Out, "$PS$", "/", -1)
+	expectedOut = strings.Replace(expectedOut, "$PLS$", ":", -1)
 
 	if tt.Err == (err != nil) && assert.Regexp(t, expectedOut, actual) {
 		t.Logf("myke(%s): passed", tt.Arg)

@@ -8,3 +8,4 @@ discover:
   - retry
   - tag
   - template
+  - shell

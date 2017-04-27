@@ -1,0 +1,6 @@
+---
+project: shell
+desc: test shell-related functionality
+tasks:
+  subshell:
+    cmd: echo $(echo subshell works)

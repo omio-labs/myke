@@ -68,7 +68,7 @@ Explore the self documenting `examples` folder.
   * `$myke` is set to full path of myke itself to easily nest myke calls (e.g. `$myke do_something` will become `myke.exe do_something` in windows)
 * command is templated using golang text/template and sprig
   * environment and task arguments are passed in as variables
-* command is run using `sh -exc` in Linux/OSX, and `cmd.exe /C` in Windows
+* command is run using `sh -exc`
 
 ## FAQs
 
