@@ -27,9 +27,8 @@ func ParseWorkspace(cwd string) (Workspace, error) {
 	for p := range in {
 		if p.err != nil {
 			return w, p.err
-		} else {
-			w.Projects = append(w.Projects, p.p)
 		}
+		w.Projects = append(w.Projects, p.p)
 	}
 
 	return w, nil

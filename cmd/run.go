@@ -7,11 +7,7 @@ import (
 
 // Run runs the given tasks
 func Run(opts *mykeOpts, tasks []string) error {
-	queries, err := core.ParseQueries(tasks)
-	if err != nil {
-		return errors.Wrap(err, "error parsing command")
-	}
-
+	queries := core.ParseQueries(tasks)
 	w, err := loadWorkspace(opts.File)
 	if err != nil {
 		return err

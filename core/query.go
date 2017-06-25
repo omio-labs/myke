@@ -19,16 +19,13 @@ type queryMatch struct {
 }
 
 // ParseQueries parses a query from the command line
-func ParseQueries(qs []string) ([]Query, error) {
+func ParseQueries(qs []string) []Query {
 	queries := make([]Query, 0)
 	for _, q := range splitQueries(qs) {
-		query, err := parseQuery(q)
-		if err != nil {
-			return nil, err
-		}
+		query := parseQuery(q)
 		queries = append(queries, query)
 	}
-	return queries, nil
+	return queries
 }
 
 func splitQueries(qs []string) [][]string {
@@ -49,7 +46,7 @@ func splitQueries(qs []string) [][]string {
 	return res
 }
 
-func parseQuery(tokens []string) (Query, error) {
+func parseQuery(tokens []string) Query {
 	tasks := strings.Split(strings.Trim(tokens[0], " /"), "/")
 	task, tags := tasks[len(tasks)-1], tasks[:len(tasks)-1]
 
@@ -63,7 +60,7 @@ func parseQuery(tokens []string) (Query, error) {
 		}
 	}
 
-	return Query{Raw: strings.Join(tokens, " "), Task: task, Tags: tags, Params: params}, nil
+	return Query{Raw: strings.Join(tokens, " "), Task: task, Tags: tags, Params: params}
 }
 
 func (q *Query) search(w *Workspace) []queryMatch {

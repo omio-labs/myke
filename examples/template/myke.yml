@@ -3,7 +3,6 @@ project: template
 desc: demonstrates use of templates and parameters in command
 env:
   PARAM1: value1
-  PARAM2: value2
 tasks:
   args:
     cmd: echo from={{.from|required}} to={{.to|default "something_to"}}

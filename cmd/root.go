@@ -41,9 +41,8 @@ func Exec(_args []string) error {
 		if flagsErr, ok := err.(*flags.Error); ok && flagsErr.Type == flags.ErrHelp {
 			fmt.Fprintln(mykeOpts.Writer, flagsErr.Message)
 			return nil
-		} else {
-			return err
 		}
+		return err
 	} else {
 		return Action(&mykeOpts, tasks)
 	}

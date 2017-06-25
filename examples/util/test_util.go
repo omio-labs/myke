@@ -60,18 +60,24 @@ func captureChdir(dir string, f func()) {
 }
 
 func captureStdout(f func() error) (string, error) {
+	// Initialize
+	var err error
 	oldStdout := os.Stdout
 	oldStderr := os.Stderr
 	r, w, _ := os.Pipe()
-
 	os.Stdout = w
 	os.Stderr = w
-	err := f()
-	os.Stdout = oldStdout
-	os.Stderr = oldStderr
 
-	w.Close()
+	// Execute command
+	go func() {
+		err = f()
+		w.Close()
+	}()
+
+	// Capture stdout concurrently
 	var buf bytes.Buffer
 	io.Copy(&buf, r)
+	os.Stdout = oldStdout
+	os.Stderr = oldStderr
 	return buf.String(), err
 }
