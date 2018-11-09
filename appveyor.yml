@@ -9,18 +9,18 @@ branches:
 
 environment:
   GOPATH: C:\gopath
+  GO111MODULE: "on"
   matrix:
     - environment:
-      GOVERSION: 1.8
+      GOVERSION: 1.11
 
 install:
 - set PATH=%GOPATH%\bin;C:\go\bin;%WINDIR%;%WINDIR%\System32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin
 - go version
 - go env
-- sh c:\gopath\src\github.com\goeuro\myke\bin\init.sh
 
 build_script:
 - gofmt -d -s -e . 2>&1 | tee -a fmt.out
 - test ! -s fmt.out
-- golint -set_exit_status .
+- go run github.com/golang/lint/golint -set_exit_status .
 - go test -timeout 10s -v ./...

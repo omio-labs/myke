@@ -1,17 +1,16 @@
 language: go
 go_import_path: github.com/goeuro/myke
 go:
-  - 1.8
-install:
-  - bin/init.sh
+  - 1.11
+env:
+  - GO111MODULE=on
 script:
   - gofmt -d -s -e . 2>&1 | tee -a fmt.out
   - test ! -s fmt.out
-  - golint -set_exit_status .
-  - overalls -project=github.com/goeuro/myke -covermode=atomic -- -coverpkg=github.com/goeuro/myke/core,github.com/goeuro/myke/cmd
+  - go run github.com/golang/lint/golint -set_exit_status .
+  - go test -coverprofile=coverage.txt -coverpkg=github.com/goeuro/myke/core,github.com/goeuro/myke/cmd -covermode=atomic -timeout 10s -v ./...
   - bin/cross-compile.sh "$TRAVIS_TAG-$TRAVIS_COMMIT"
 after_success:
-  - mv overalls.coverprofile coverage.txt
   - bash <(curl -s https://codecov.io/bash) -t 5dfb580c-fad8-49bc-93eb-bf758daaca64
 deploy:
   provider: releases
