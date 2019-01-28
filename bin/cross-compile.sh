@@ -35,6 +35,7 @@ go run github.com/omeid/go-resources/cmd/resources \
 	-declare -var=FS -output core/bindata.go -package core tmp/*
 
 # Cross compile
+export CGO_ENABLED=0
 go run github.com/mitchellh/gox \
 	-osarch="darwin/amd64 linux/amd64 windows/amd64" \
 	-ldflags="-s -w" \

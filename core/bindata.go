@@ -10546,7 +10546,7 @@ func init() {
 				fi: FileInfo{
 					name:    "LICENSES",
 					size:    124825,
-					modTime: time.Unix(0, 1541645459197293414),
+					modTime: time.Unix(0, 1548683678287010268),
 					isDir:   false,
 				},
 			}, "/tmp/version": {
@@ -10556,7 +10556,7 @@ func init() {
 				fi: FileInfo{
 					name:    "version",
 					size:    7,
-					modTime: time.Unix(0, 1541645457738699903),
+					modTime: time.Unix(0, 1548683676553929667),
 					isDir:   false,
 				},
 			},
