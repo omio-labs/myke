@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/apex/log"
-	"github.com/goeuro/myke/cmd"
+	"github.com/omio-labs/myke/cmd"
 	"os"
 )
 

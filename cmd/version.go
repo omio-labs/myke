@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goeuro/myke/core"
+	"github.com/omio-labs/myke/core"
 )
 
 // Version prints myke version

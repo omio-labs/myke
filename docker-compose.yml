@@ -1,4 +1,4 @@
 default:
   build: .
   volumes:
-    - ".:/go/src/github.com/goeuro/myke"
+    - ".:/go/src/github.com/omio-labs/myke"

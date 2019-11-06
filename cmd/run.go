@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/goeuro/myke/core"
+	"github.com/omio-labs/myke/core"
 	"github.com/pkg/errors"
 )
 

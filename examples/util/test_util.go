@@ -5,7 +5,7 @@ package util
 import (
 	"bytes"
 	"fmt"
-	"github.com/goeuro/myke/cmd"
+	"github.com/omio-labs/myke/cmd"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"os"

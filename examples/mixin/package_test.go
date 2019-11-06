@@ -1,7 +1,7 @@
 package test
 
 import (
-	. "github.com/goeuro/myke/examples/util"
+	. "github.com/omio-labs/myke/examples/util"
 	"testing"
 )
 

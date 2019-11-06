@@ -1,4 +1,4 @@
-# myke [![Latest Release](https://img.shields.io/github/release/goeuro/myke.svg)](https://github.com/goeuro/myke/releases/latest) [![Build Status](https://travis-ci.org/goeuro/myke.svg?branch=travis-ci)](https://travis-ci.org/goeuro/myke) [![Go Report Card](https://goreportcard.com/badge/github.com/goeuro/myke)](https://goreportcard.com/report/github.com/goeuro/myke) [![codecov](https://codecov.io/gh/goeuro/myke/branch/master/graph/badge.svg)](https://codecov.io/gh/goeuro/myke)
+# myke [![Latest Release](https://img.shields.io/github/release/omio-labs/myke.svg)](https://github.com/omio-labs/myke/releases/latest) [![Build Status](https://travis-ci.org/omio-labs/myke.svg?branch=travis-ci)](https://travis-ci.org/omio-labs/myke) [![Go Report Card](https://goreportcard.com/badge/github.com/omio-labs/myke)](https://goreportcard.com/report/github.com/omio-labs/myke) [![codecov](https://codecov.io/gh/omio-labs/myke/branch/master/graph/badge.svg)](https://codecov.io/gh/omio-labs/myke)
 
 > myke makes it easy to write development tasks
 
@@ -47,7 +47,7 @@ Using the above myke.yml, you can invoke tasks like:
 
 ## Installation
 
-* [Grab the latest release](https://github.com/goeuro/myke/releases/latest)
+* [Grab the latest release](https://github.com/omio-labs/myke/releases/latest)
 
 ## Examples
 

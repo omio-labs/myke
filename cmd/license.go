@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/goeuro/myke/core"
+	"github.com/omio-labs/myke/core"
 )
 
 // License prints all open source licenses

@@ -12,7 +12,7 @@ echo $version >> "tmp/version"
 
 # Generate license notices
 go mod vendor
-deps="github.com/goeuro/myke $(go list -f '{{ join .Deps "\n"}}' ./... | grep -v 'goeuro/myke')"
+deps="github.com/omio-labs/myke $(go list -f '{{ join .Deps "\n"}}' ./... | grep -v 'omio-labs/myke')"
 out="tmp/LICENSES"
 echo -e "OPEN SOURCE LICENSES\n" > $out
 

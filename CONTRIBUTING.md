@@ -1,7 +1,7 @@
 # Contributing
 
 We love pull requests from everyone. By participating in this project, you
-agree to abide by the [code of conduct](https://github.com/goeuro/myke/blob/master/CODE_OF_CONDUCT.md).
+agree to abide by the [code of conduct](https://github.com/omio-labs/myke/blob/master/CODE_OF_CONDUCT.md).
 
 ## Contribution Guide
 
@@ -16,6 +16,6 @@ agree to abide by the [code of conduct](https://github.com/goeuro/myke/blob/mast
   * We prefer testing-by-example, every package inside `examples/` folder has its own `package_test.go` in testing table style
 * Run new tests again: `go test ./...`
 * Run and test the program: `go run main.go`
-* Push to your fork and [submit a pull request](https://github.com/goeuro/myke/compare)
+* Push to your fork and [submit a pull request](https://github.com/omio-labs/myke/compare)
 * Make sure tests pass in the CI
-* Make sure you sign the [Contributor License Agreement](https://cla-assistant.io/goeuro/myke)
+* Make sure you sign the [Developer Certificate of Origin](https://developercertificate.org/)
