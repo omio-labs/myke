@@ -31,7 +31,7 @@ for dep in $deps; do
 done
 
 # Compile resources
-go run github.com/omeid/go-resources/cmd/resources \
+go run -mod=mod github.com/omeid/go-resources/cmd/resources \
 	-declare -var=FS -output core/bindata.go -package core tmp/*
 
 # Cross compile
