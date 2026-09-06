@@ -12,7 +12,7 @@ environment:
   GO111MODULE: "on"
   matrix:
     - environment:
-      GOVERSION: 1.13
+      GOVERSION: 1.26
 
 install:
 - set PATH=%GOPATH%\bin;C:\go\bin;%WINDIR%;%WINDIR%\System32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin

@@ -1,4 +1,4 @@
-FROM golang:1.11
+FROM golang:1.26
 
 WORKDIR /go/src/github.com/omio-labs/myke
 COPY . /go/src/github.com/omio-labs/myke
