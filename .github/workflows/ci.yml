@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+      - name: Check formatting
+        run: |
+          gofmt -d -s -e . | tee fmt.out
+          test ! -s fmt.out
+      - name: Vet
+        run: go vet ./...
+      - name: Test
+        run: go test -coverprofile=coverage.txt -coverpkg=github.com/omio-labs/myke/core,github.com/omio-labs/myke/cmd -covermode=atomic -timeout 10s -v ./...
